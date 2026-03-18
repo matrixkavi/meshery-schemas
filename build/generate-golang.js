@@ -120,6 +120,58 @@ function chooseImportAlias(importPath, preferredAliases, usedAliases) {
   return buildReadableImportAlias(importPath, usedAliases);
 }
 
+function schemaNodeToGoType(schemaNode) {
+  if (!schemaNode || typeof schemaNode !== "object") {
+    return null;
+  }
+
+  if (typeof schemaNode["x-go-type"] === "string" && schemaNode["x-go-type"].length > 0) {
+    return rewriteGoTypeAlias(schemaNode["x-go-type"], schemaNode["x-go-type-import"]);
+  }
+
+  if (typeof schemaNode.type === "string") {
+    switch (schemaNode.type) {
+      case "boolean":
+        return "bool";
+      case "integer":
+        return "int";
+      case "number":
+        return "float64";
+      case "string":
+        return "string";
+      default:
+        return null;
+    }
+  }
+
+  return null;
+}
+
+function resolveParameterAliasType(parameterDefinition, options) {
+  if (!parameterDefinition || typeof parameterDefinition !== "object") {
+    return null;
+  }
+
+  if (typeof parameterDefinition.$ref === "string") {
+    const resolvedParameter = resolveSchemaRef(parameterDefinition.$ref, options);
+    return resolveParameterAliasType(resolvedParameter, {
+      ...options,
+      seenRefs: new Set([...(options.seenRefs || []), parameterDefinition.$ref]),
+    });
+  }
+
+  if (parameterDefinition.schema && typeof parameterDefinition.schema === "object") {
+    if (typeof parameterDefinition.schema.$ref === "string") {
+      const resolvedSchema = resolveSchemaRef(parameterDefinition.schema.$ref, options);
+      return schemaNodeToGoType(resolvedSchema);
+    }
+
+    return schemaNodeToGoType(parameterDefinition.schema);
+  }
+
+  return null;
+}
+
 function rewriteExternalRefAliases(filePath, inputPath) {
   let content = fs.readFileSync(filePath, "utf-8");
   const importBlockMatch = content.match(/import \(([^]*?)\n\)/m);
@@ -148,6 +200,7 @@ function rewriteExternalRefAliases(filePath, inputPath) {
     const reservedAlias = explicitAlias || sanitizeGoIdentifier(path.basename(importPath));
     if (reservedAlias && !/^externalRef\d+$/.test(reservedAlias)) {
       usedAliases.add(reservedAlias);
+      aliasByImportPath.set(importPath, reservedAlias);
     }
   }
 
@@ -591,6 +644,8 @@ function addSchemaExtraTags(filePath, inputPath) {
 
 function addCompatibilityParameterAliases(filePath, inputPath) {
   const document = loadYamlFile(inputPath) || {};
+  const inputDir = path.dirname(inputPath);
+  const resolvedSchemaCache = new Map();
   const parameterNames = Object.keys(document.components?.parameters || {});
   if (parameterNames.length === 0) {
     return;
@@ -606,7 +661,15 @@ function addCompatibilityParameterAliases(filePath, inputPath) {
       continue;
     }
 
-    const typeExpression = aliasMatch[3];
+    const schemaTypeExpression = resolveParameterAliasType(document.components.parameters[parameterName], {
+      document,
+      inputDir,
+      inputPath,
+      resolvedSchemaCache,
+      seenRefs: new Set(),
+      missingFile: "throw",
+    });
+    const typeExpression = schemaTypeExpression || aliasMatch[3];
     const directAliasPattern = new RegExp(
       `(^// ${exportedName} defines model for ${parameterName}\\.\\n)?^type ${exportedName} = .+$`,
       "m",

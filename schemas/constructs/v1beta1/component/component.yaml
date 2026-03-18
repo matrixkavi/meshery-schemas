@@ -294,6 +294,5 @@ required:
   - configuration
   - metadata
   - model
-  - modelId
   - modelReference
   - component
