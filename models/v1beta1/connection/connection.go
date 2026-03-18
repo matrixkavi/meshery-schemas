@@ -36,14 +36,25 @@ const (
 
 // Defines values for ConnectionStatusValue.
 const (
-	Connected    ConnectionStatusValue = "connected"
-	Deleted      ConnectionStatusValue = "deleted"
-	Disconnected ConnectionStatusValue = "disconnected"
-	Discovered   ConnectionStatusValue = "discovered"
-	Ignored      ConnectionStatusValue = "ignored"
-	Maintenance  ConnectionStatusValue = "maintenance"
-	NotFound     ConnectionStatusValue = "not found"
-	Registered   ConnectionStatusValue = "registered"
+	// Legacy, namespaced constant names preserved for backwards compatibility.
+	ConnectionStatusValueConnected    ConnectionStatusValue = "connected"
+	ConnectionStatusValueDeleted      ConnectionStatusValue = "deleted"
+	ConnectionStatusValueDisconnected ConnectionStatusValue = "disconnected"
+	ConnectionStatusValueDiscovered   ConnectionStatusValue = "discovered"
+	ConnectionStatusValueIgnored      ConnectionStatusValue = "ignored"
+	ConnectionStatusValueMaintenance  ConnectionStatusValue = "maintenance"
+	ConnectionStatusValueNotFound     ConnectionStatusValue = "not found"
+	ConnectionStatusValueRegistered   ConnectionStatusValue = "registered"
+
+	// Current, shorter constant names.
+	Connected    ConnectionStatusValue = ConnectionStatusValueConnected
+	Deleted      ConnectionStatusValue = ConnectionStatusValueDeleted
+	Disconnected ConnectionStatusValue = ConnectionStatusValueDisconnected
+	Discovered   ConnectionStatusValue = ConnectionStatusValueDiscovered
+	Ignored      ConnectionStatusValue = ConnectionStatusValueIgnored
+	Maintenance  ConnectionStatusValue = ConnectionStatusValueMaintenance
+	NotFound     ConnectionStatusValue = ConnectionStatusValueNotFound
+	Registered   ConnectionStatusValue = ConnectionStatusValueRegistered
 )
 
 // Connection Meshery Connections are managed and unmanaged resources that either through discovery or manual entry are tracked by Meshery. Learn more at https://docs.meshery.io/concepts/logical/connections
