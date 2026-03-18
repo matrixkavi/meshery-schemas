@@ -41,15 +41,18 @@ Detailed reference for how the build scripts consume OpenAPI schemas and produce
 
 **Script**: `build/generate-golang.js`
 **Dependency**: `oapi-codegen` v2.5.1
-**Prerequisite**: `bundle-openapi.js` must run first
+**Prerequisite**: none beyond the source schemas themselves; `make build` still runs bundling as part of the full pipeline
 
 ### What it does
 
-1. Reads bundled JSON from `_openapi_build/constructs/`
-2. Collects `x-oapi-codegen-extra-tags` from all schemas
-3. Builds import mappings from external `$ref` targets (so cross-package references resolve)
-4. Generates Go structs via `oapi-codegen` with both JSON and YAML struct tags
-5. Applies extra tags (gorm, db, etc.) post-generation
+1. Discovers schema packages directly from `schemas/constructs/**/api.yml`
+2. Stages temporary package-local specs from the source schemas and reachable refs
+3. Rewrites cross-package subschema refs so reuse points at package `api.yml` component refs
+4. Builds import mappings from reachable external `$ref` targets
+5. Collects `x-oapi-codegen-extra-tags`, `x-go-name`, and `x-go-type` metadata across direct `$ref` and `allOf` composition
+6. Generates Go structs via `oapi-codegen` with both JSON and YAML struct tags
+7. Rewrites external import aliases to readable names and preserves explicit `x-go-type-import.name` aliases
+8. Applies extra tags and field-name/type overrides post-generation
 
 ### Output location
 
@@ -60,6 +63,8 @@ Detailed reference for how the build scripts consume OpenAPI schemas and produce
 - **YAML tag mirroring**: After `oapi-codegen` runs, `build/generate-golang.js` runs a regex-based `addYamlTags()` pass that scans for `json:"fieldName,omitempty"` struct tags and appends matching `yaml:"fieldName,omitempty"` tags. This is a text-only transform that mirrors the JSON tag value verbatim and may miss unconventional or hand-edited tag layouts.
 - **Extra tags**: `x-oapi-codegen-extra-tags` values are injected as additional struct tags
 - **Import mappings**: External `$ref` targets are mapped to Go import paths so cross-package types compile
+- **Composed-schema inheritance**: Property metadata is collected through both direct `$ref` and `allOf`, so composed object schemas inherit field tags and overrides
+- **Explicit alias preservation**: When `x-go-type-import.name` is set, the generator rewrites imported aliases to match that exact name
 - **Union types**: `oneOf` schemas generate union types using `json.RawMessage` + helper methods
 - **Package naming**: Directory name becomes Go package name (with overrides, e.g., `design` → `pattern`)
 
@@ -72,6 +77,7 @@ Detailed reference for how the build scripts consume OpenAPI schemas and produce
 | `x-go-type-import` | Adds the specified import |
 | `x-go-type-skip-optional-pointer` | Skips `*` prefix on optional fields |
 | `x-oapi-codegen-extra-tags` | Adds custom struct tags |
+| `allOf` | Inherits property tags and overrides from composed subschemas during post-processing |
 | `oneOf` / `anyOf` | Union type with RawMessage |
 | `$ref` to external schema | Import from the referenced package |
 | `nullable: true` | Pointer type |
@@ -158,8 +164,10 @@ Usually means invalid `$ref` path. Check:
 ### Go compilation errors after generation
 
 - Missing imports: add `x-go-type-import` to the schema field
+- Alias mismatch after generation: set `x-go-type-import.name` and make the alias prefix in `x-go-type` match it exactly
 - Type conflicts: two schemas might define the same type name — use `x-go-type` to disambiguate
-- Extra tags not appearing: ensure `x-oapi-codegen-extra-tags` is at the property level, not the schema level
+- Extra tags not appearing: ensure `x-oapi-codegen-extra-tags` is at the property level, or intentionally use a single-entry `allOf` wrapper for a reusable alias schema component
+- Unsure about `allOf`: use it for schema composition, reusable alias wrappers, or the known PR `#629` design array-item compatibility case; otherwise keep a direct property `$ref`
 
 ### TypeScript build errors
 
