@@ -131,6 +131,26 @@ function rewriteExternalRefAliases(filePath, inputPath) {
   const aliasMappings = [];
   const aliasByImportPath = new Map();
   const preferredAliases = collectPreferredImportAliases(inputPath);
+  const originalImportBlock = importBlockMatch[1];
+
+  for (const line of originalImportBlock.split("\n")) {
+    const trimmedLine = line.trim();
+    if (!trimmedLine) {
+      continue;
+    }
+
+    const importMatch = trimmedLine.match(/^(?:(\w+)\s+)?"([^"]+)"$/);
+    if (!importMatch) {
+      continue;
+    }
+
+    const [, explicitAlias, importPath] = importMatch;
+    const reservedAlias = explicitAlias || sanitizeGoIdentifier(path.basename(importPath));
+    if (reservedAlias && !/^externalRef\d+$/.test(reservedAlias)) {
+      usedAliases.add(reservedAlias);
+    }
+  }
+
   const importBlock = importBlockMatch[1].replace(
     /^(\s*)(externalRef\d+)\s+"([^"]+)"$/gm,
     (_, indent, alias, importPath) => {
@@ -625,24 +645,26 @@ function validateGeneratedDbTags(filePath, inputPath) {
 
     for (const entry of propertyTags) {
       const { propertyName, candidateJsonNames, extraTags } = entry;
-      if (!Object.prototype.hasOwnProperty.call(extraTags, "db")) {
-        continue;
-      }
-
-      const expectedDbTag = `db:"${String(extraTags.db).replace(/"/g, '\\"')}"`;
       const generatedField = candidateJsonNames
         .map((candidateName) => generatedPropertyTags.get(candidateName))
         .find(Boolean);
 
-      if (!generatedField || !generatedField.rawTags.includes(expectedDbTag)) {
-        failures.push(
-          `${structName}.${propertyName} expected ${expectedDbTag} in generated tags`,
-        );
+      if (Object.prototype.hasOwnProperty.call(extraTags, "db")) {
+        const expectedDbTag = `db:"${String(extraTags.db).replace(/"/g, '\\"')}"`;
+        if (!generatedField || !generatedField.rawTags.includes(expectedDbTag)) {
+          failures.push(
+            `${structName}.${propertyName} expected ${expectedDbTag} in generated tags`,
+          );
+        }
       }
 
       if (entry.goName && generatedField && generatedField.fieldName !== entry.goName) {
         failures.push(
           `${structName}.${propertyName} expected field name ${entry.goName} but generated ${generatedField.fieldName}`,
+        );
+      } else if (entry.goName && !generatedField) {
+        failures.push(
+          `${structName}.${propertyName} expected field name ${entry.goName} but no generated field was found`,
         );
       }
     }
@@ -650,7 +672,7 @@ function validateGeneratedDbTags(filePath, inputPath) {
 
   if (failures.length > 0) {
     throw new Error(
-      "Generated Go structs are missing schema-declared db tags:\n" +
+      "Generated Go structs do not match schema-declared tags or field names:\n" +
         failures.map((failure) => `  - ${failure}`).join("\n"),
     );
   }

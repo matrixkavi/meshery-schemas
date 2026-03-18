@@ -42,7 +42,11 @@ func (c *ComponentDefinition) GetEntityDetail() string {
 }
 
 func (c *ComponentDefinition) Create(db *database.Handler, hostID uuid.UUID) (uuid.UUID, error) {
-	c.ID, _ = c.GenerateID()
+	generatedID, err := c.GenerateID()
+	if err != nil {
+		return uuid.Nil, err
+	}
+	c.ID = generatedID
 
 	isAnnotation := c.Metadata.IsAnnotation
 
@@ -52,7 +56,7 @@ func (c *ComponentDefinition) Create(db *database.Handler, hostID uuid.UUID) (uu
 	}
 
 	if c.Model == nil {
-		return uuid.Nil, fmt.Errorf("component model is nil")
+		return uuid.Nil, fmt.Errorf("component model is nil for component %q (%s %s)", c.DisplayName, c.Component.Kind, c.Version)
 	}
 
 	mid, err := c.Model.Create(db, hostID)

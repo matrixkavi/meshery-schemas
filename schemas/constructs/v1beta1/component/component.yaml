@@ -63,8 +63,8 @@ properties:
     description: Reference to the specific registered model to which the component belongs and from which model version, category, and other properties may be referenced. Learn more at https://docs.meshery.io/concepts/models
     x-oapi-codegen-extra-tags:
       gorm: foreignKey:ModelId;references:ID
-      json: model,omitempty
-      yaml: model,omitempty
+      json: model
+      yaml: model
   modelReference:
     $ref: ../model/api.yml#/components/schemas/ModelReference
     x-go-type: modelv1beta1.ModelReference
