@@ -110,6 +110,42 @@ function rewriteGoTypeAlias(goType, importInfo) {
   );
 }
 
+function parseOptionalPointerOverride(value) {
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  if (value === "true") {
+    return true;
+  }
+
+  if (value === "false") {
+    return false;
+  }
+
+  return null;
+}
+
+function applyGoTypeOverride(currentFieldType, desiredGoType, optionalPointerOverride) {
+  if (typeof desiredGoType !== "string" || desiredGoType.length === 0) {
+    return currentFieldType;
+  }
+
+  if (desiredGoType.startsWith("*")) {
+    return desiredGoType;
+  }
+
+  if (optionalPointerOverride === true) {
+    return desiredGoType;
+  }
+
+  if (optionalPointerOverride === false || currentFieldType.startsWith("*")) {
+    return `*${desiredGoType}`;
+  }
+
+  return desiredGoType;
+}
+
 function chooseImportAlias(importPath, preferredAliases, usedAliases) {
   const preferredAlias = preferredAliases.get(importPath);
   if (preferredAlias && !usedAliases.has(preferredAlias)) {
@@ -357,8 +393,16 @@ function collectSchemaExtraTags(inputPath) {
         : propertyName === "id"
           ? "ID"
           : null;
+    const optionalPointerOverride = parseOptionalPointerOverride(
+      propertyDefinition["x-go-type-skip-optional-pointer"],
+    );
 
-    if (Object.keys(normalizedExtraTags).length === 0 && !goName && !goType) {
+    if (
+      Object.keys(normalizedExtraTags).length === 0 &&
+      !goName &&
+      !goType &&
+      optionalPointerOverride === null
+    ) {
       return null;
     }
 
@@ -374,6 +418,7 @@ function collectSchemaExtraTags(inputPath) {
       extraTags: normalizedExtraTags,
       goName,
       goType,
+      optionalPointerOverride,
     };
   }
 
@@ -610,8 +655,16 @@ function addSchemaExtraTags(filePath, inputPath) {
 
             if (propertyTags.goType) {
               const fieldTypeMatch = updatedLine.match(/^(\s*\w+\s+)(\S+)(\s+`[^`]*`.*)$/);
-              if (fieldTypeMatch && fieldTypeMatch[2] !== propertyTags.goType) {
-                updatedLine = `${fieldTypeMatch[1]}${propertyTags.goType}${fieldTypeMatch[3]}`;
+              if (fieldTypeMatch) {
+                const nextFieldType = applyGoTypeOverride(
+                  fieldTypeMatch[2],
+                  propertyTags.goType,
+                  propertyTags.optionalPointerOverride,
+                );
+
+                if (fieldTypeMatch[2] !== nextFieldType) {
+                  updatedLine = `${fieldTypeMatch[1]}${nextFieldType}${fieldTypeMatch[3]}`;
+                }
               }
             }
 
