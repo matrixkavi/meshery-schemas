@@ -115,7 +115,7 @@ version:
   $ref: ../../v1alpha1/core/api.yml#/components/schemas/versionString
 
 # Semver
-version:
+semver:
   $ref: ../../v1alpha1/core/api.yml#/components/schemas/semverString
 ```
 
