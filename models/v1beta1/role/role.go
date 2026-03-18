@@ -4,7 +4,7 @@
 package role
 
 import (
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
@@ -20,7 +20,7 @@ type Preference struct {
 // Role Role definition for Layer5 Cloud (Meshery).
 type Role struct {
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id *externalRef0.Uuid `db:"id" json:"id,omitempty" yaml:"id,omitempty"`
+	Id *corev1alpha1.Uuid `db:"id" json:"id,omitempty" yaml:"id,omitempty"`
 
 	// RoleName Unique name of the role.
 	RoleName string `db:"role_name" json:"role_name" yaml:"role_name"`
@@ -29,13 +29,13 @@ type Role struct {
 	Description string `db:"description" json:"description" yaml:"description"`
 
 	// CreatedAt Timestamp when the resource was created.
-	CreatedAt externalRef0.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// UpdatedAt Timestamp when the resource was updated.
-	UpdatedAt externalRef0.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	UpdatedAt corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt externalRef0.NullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	DeletedAt corev1alpha1.NullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
 }
 
 // RoleHolderRequest Request body for assigning a role to a user.
@@ -50,22 +50,22 @@ type RoleHolderRequest struct {
 // RolesKeychainsMapping Mapping between a role and a keychain.
 type RolesKeychainsMapping struct {
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id externalRef0.Uuid `db:"id" json:"id" yaml:"id"`
+	Id corev1alpha1.Uuid `db:"id" json:"id" yaml:"id"`
 
 	// KeychainId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	KeychainId externalRef0.Uuid `db:"keychain_id" json:"keychain_id" yaml:"keychain_id"`
+	KeychainId corev1alpha1.Uuid `db:"keychain_id" json:"keychain_id" yaml:"keychain_id"`
 
 	// RoleId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	RoleId externalRef0.Uuid `db:"role_id" json:"role_id" yaml:"role_id"`
+	RoleId corev1alpha1.Uuid `db:"role_id" json:"role_id" yaml:"role_id"`
 
 	// CreatedAt Timestamp when the resource was created.
-	CreatedAt externalRef0.CreatedAt `db:"created_at" json:"created_at" yaml:"created_at"`
+	CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at" yaml:"created_at"`
 
 	// UpdatedAt Timestamp when the resource was updated.
-	UpdatedAt externalRef0.UpdatedAt `db:"updated_at" json:"updated_at" yaml:"updated_at"`
+	UpdatedAt corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at" yaml:"updated_at"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt externalRef0.NullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	DeletedAt corev1alpha1.NullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
 }
 
 // RolesPage A paginated list of roles.
@@ -84,43 +84,43 @@ type RolesPage struct {
 // UserRoleUpdateRequest Request to update role assignments for a user.
 type UserRoleUpdateRequest struct {
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id *externalRef0.Uuid `json:"id,omitempty" yaml:"id,omitempty"`
+	Id *corev1alpha1.Uuid `json:"id,omitempty" yaml:"id,omitempty"`
 
 	// UserId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	UserId    *externalRef0.Uuid   `json:"user_id,omitempty" yaml:"user_id,omitempty"`
+	UserId    *corev1alpha1.Uuid   `json:"user_id,omitempty" yaml:"user_id,omitempty"`
 	Username  *string              `json:"username,omitempty" yaml:"username,omitempty"`
 	Email     *openapi_types.Email `json:"email,omitempty" yaml:"email,omitempty"`
 	FirstName *string              `json:"first_name,omitempty" yaml:"first_name,omitempty"`
 	LastName  *string              `json:"last_name,omitempty" yaml:"last_name,omitempty"`
 	Status    *string              `json:"status,omitempty" yaml:"status,omitempty"`
 	RoleNames *[]string            `json:"role_names,omitempty" yaml:"role_names,omitempty"`
-	CreatedAt externalRef0.Time    `json:"created_at,omitempty" yaml:"created_at,omitempty"`
-	UpdatedAt externalRef0.Time    `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	CreatedAt corev1alpha1.Time    `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	UpdatedAt corev1alpha1.Time    `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt externalRef0.NullTime `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	DeletedAt corev1alpha1.NullTime `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
 }
 
 // Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type Id = externalRef0.Uuid
+type Id = corev1alpha1.Uuid
 
 // KeychainID A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type KeychainID = externalRef0.Uuid
+type KeychainID = corev1alpha1.Uuid
 
-// ExternalRef0Order defines model for order.
-type ExternalRef0Order = string
+// Corev1alpha1Order defines model for order.
+type Corev1alpha1Order = string
 
 // OrgID A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type OrgID = externalRef0.Uuid
+type OrgID = corev1alpha1.Uuid
 
-// ExternalRef0Page defines model for page.
-type ExternalRef0Page = string
+// Corev1alpha1Page defines model for page.
+type Corev1alpha1Page = string
 
-// ExternalRef0Pagesize defines model for pagesize.
-type ExternalRef0Pagesize = string
+// Corev1alpha1Pagesize defines model for pagesize.
+type Corev1alpha1Pagesize = string
 
 // RoleID A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type RoleID = externalRef0.Uuid
+type RoleID = corev1alpha1.Uuid
 
-// ExternalRef0Search defines model for search.
-type ExternalRef0Search = string
+// Corev1alpha1Search defines model for search.
+type Corev1alpha1Search = string

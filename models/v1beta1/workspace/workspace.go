@@ -4,35 +4,35 @@
 package workspace
 
 import (
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // Workspace defines model for workspace.
 type Workspace struct {
-	ID        externalRef0.GeneralId `db:"id" json:"id" yaml:"id"`
-	CreatedAt externalRef0.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	ID        corev1alpha1.GeneralId `db:"id" json:"id" yaml:"id"`
+	CreatedAt corev1alpha1.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt      externalRef0.NullTime       `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
-	Description    externalRef0.Text           `json:"description,omitempty" yaml:"description,omitempty"`
-	Name           externalRef0.Text           `json:"name,omitempty" yaml:"name,omitempty"`
-	OrganizationId externalRef0.OrganizationId `db:"org_id" json:"org_id" yaml:"org_id"`
-	Owner          externalRef0.Text           `json:"owner,omitempty" yaml:"owner,omitempty"`
-	UpdatedAt      externalRef0.Time           `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	DeletedAt      corev1alpha1.NullTime       `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	Description    corev1alpha1.Text           `json:"description,omitempty" yaml:"description,omitempty"`
+	Name           corev1alpha1.Text           `json:"name,omitempty" yaml:"name,omitempty"`
+	OrganizationId corev1alpha1.OrganizationId `db:"org_id" json:"org_id" yaml:"org_id"`
+	Owner          corev1alpha1.Text           `json:"owner,omitempty" yaml:"owner,omitempty"`
+	UpdatedAt      corev1alpha1.Time           `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 }
 
 // WorkspacePage defines model for workspacePage.
 type WorkspacePage struct {
-	Page       externalRef0.Number `json:"page,omitempty" yaml:"page,omitempty"`
-	PageSize   externalRef0.Number `json:"page_size,omitempty" yaml:"page_size,omitempty"`
-	TotalCount externalRef0.Number `json:"total_count,omitempty" yaml:"total_count,omitempty"`
+	Page       corev1alpha1.Number `json:"page,omitempty" yaml:"page,omitempty"`
+	PageSize   corev1alpha1.Number `json:"page_size,omitempty" yaml:"page_size,omitempty"`
+	TotalCount corev1alpha1.Number `json:"total_count,omitempty" yaml:"total_count,omitempty"`
 	Workspaces []Workspace         `json:"workspaces,omitempty" yaml:"workspaces,omitempty"`
 }
 
 // WorkspacePayload defines model for workspacePayload.
 type WorkspacePayload struct {
-	Description externalRef0.Text `json:"description,omitempty" yaml:"description,omitempty"`
-	Name        externalRef0.Text `json:"name" yaml:"name"`
+	Description corev1alpha1.Text `json:"description,omitempty" yaml:"description,omitempty"`
+	Name        corev1alpha1.Text `json:"name" yaml:"name"`
 
 	// OrganizationID Select an organization in which you want to create this new workspace. Keep in mind that the organization cannot be changed after creation.
 	OrganizationID string `json:"organization_id" yaml:"organization_id"`
@@ -40,8 +40,8 @@ type WorkspacePayload struct {
 
 // WorkspaceUpdatePayload defines model for workspaceUpdatePayload.
 type WorkspaceUpdatePayload struct {
-	Description externalRef0.Text `json:"description,omitempty" yaml:"description,omitempty"`
-	Name        externalRef0.Text `json:"name,omitempty" yaml:"name,omitempty"`
+	Description corev1alpha1.Text `json:"description,omitempty" yaml:"description,omitempty"`
+	Name        corev1alpha1.Text `json:"name,omitempty" yaml:"name,omitempty"`
 
 	// OrganizationID Organization ID
 	OrganizationID string `json:"organization_id" yaml:"organization_id"`
@@ -49,48 +49,48 @@ type WorkspaceUpdatePayload struct {
 
 // WorkspacesDesignsMapping defines model for workspacesDesignsMapping.
 type WorkspacesDesignsMapping struct {
-	ID        externalRef0.GeneralId `db:"id" json:"id" yaml:"id"`
-	CreatedAt externalRef0.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	ID        corev1alpha1.GeneralId `db:"id" json:"id" yaml:"id"`
+	CreatedAt corev1alpha1.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt   externalRef0.NullTime    `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
-	DesignId    externalRef0.DesignId    `db:"design_id" json:"design_id" yaml:"design_id"`
-	UpdatedAt   externalRef0.Time        `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
-	WorkspaceId externalRef0.WorkspaceId `db:"workspace_id" json:"workspace_id" yaml:"workspace_id"`
+	DeletedAt   corev1alpha1.NullTime    `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	DesignId    corev1alpha1.DesignId    `db:"design_id" json:"design_id" yaml:"design_id"`
+	UpdatedAt   corev1alpha1.Time        `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	WorkspaceId corev1alpha1.WorkspaceId `db:"workspace_id" json:"workspace_id" yaml:"workspace_id"`
 }
 
 // WorkspacesEnvironmentsMapping defines model for workspacesEnvironmentsMapping.
 type WorkspacesEnvironmentsMapping struct {
-	ID        externalRef0.GeneralId `db:"id" json:"id" yaml:"id"`
-	CreatedAt externalRef0.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	ID        corev1alpha1.GeneralId `db:"id" json:"id" yaml:"id"`
+	CreatedAt corev1alpha1.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt     externalRef0.NullTime      `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
-	EnvironmentId externalRef0.EnvironmentId `db:"environment_id" json:"environment_id" yaml:"environment_id"`
-	UpdatedAt     externalRef0.Time          `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
-	WorkspaceId   externalRef0.WorkspaceId   `db:"workspace_id" json:"workspace_id" yaml:"workspace_id"`
+	DeletedAt     corev1alpha1.NullTime      `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	EnvironmentId corev1alpha1.EnvironmentId `db:"environment_id" json:"environment_id" yaml:"environment_id"`
+	UpdatedAt     corev1alpha1.Time          `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	WorkspaceId   corev1alpha1.WorkspaceId   `db:"workspace_id" json:"workspace_id" yaml:"workspace_id"`
 }
 
 // WorkspacesTeamsMapping defines model for workspacesTeamsMapping.
 type WorkspacesTeamsMapping struct {
-	ID        externalRef0.GeneralId `db:"id" json:"id" yaml:"id"`
-	CreatedAt externalRef0.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	ID        corev1alpha1.GeneralId `db:"id" json:"id" yaml:"id"`
+	CreatedAt corev1alpha1.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt   externalRef0.NullTime    `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
-	TeamId      externalRef0.TeamId      `db:"team_id" json:"team_id" yaml:"team_id"`
-	UpdatedAt   externalRef0.Time        `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
-	WorkspaceId externalRef0.WorkspaceId `db:"workspace_id" json:"workspace_id" yaml:"workspace_id"`
+	DeletedAt   corev1alpha1.NullTime    `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	TeamId      corev1alpha1.TeamId      `db:"team_id" json:"team_id" yaml:"team_id"`
+	UpdatedAt   corev1alpha1.Time        `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	WorkspaceId corev1alpha1.WorkspaceId `db:"workspace_id" json:"workspace_id" yaml:"workspace_id"`
 }
 
 // WorkspacesViewsMapping defines model for workspacesViewsMapping.
 type WorkspacesViewsMapping struct {
-	ID        externalRef0.GeneralId `db:"id" json:"id" yaml:"id"`
-	CreatedAt externalRef0.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	ID        corev1alpha1.GeneralId `db:"id" json:"id" yaml:"id"`
+	CreatedAt corev1alpha1.Time      `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt   externalRef0.NullTime    `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
-	UpdatedAt   externalRef0.Time        `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
-	ViewId      externalRef0.ViewId      `db:"view_id" json:"view_id" yaml:"view_id"`
-	WorkspaceId externalRef0.WorkspaceId `db:"workspace_id" json:"workspace_id" yaml:"workspace_id"`
+	DeletedAt   corev1alpha1.NullTime    `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	UpdatedAt   corev1alpha1.Time        `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	ViewId      corev1alpha1.ViewId      `db:"view_id" json:"view_id" yaml:"view_id"`
+	WorkspaceId corev1alpha1.WorkspaceId `db:"workspace_id" json:"workspace_id" yaml:"workspace_id"`
 }

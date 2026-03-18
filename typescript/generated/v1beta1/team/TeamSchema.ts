@@ -477,21 +477,41 @@ const TeamSchema: Record<string, unknown> = {
             "x-go-type-skip-optional-pointer": true
           },
           "user_id": {
+            "x-oapi-codegen-extra-tags": {
+              "db": "user_id",
+              "json": "user_id",
+              "yaml": "user_id"
+            },
             "type": "string",
             "description": "user's email or username",
             "x-go-type-skip-optional-pointer": true
           },
           "created_at": {
+            "x-oapi-codegen-extra-tags": {
+              "db": "created_at",
+              "json": "created_at",
+              "yaml": "created_at"
+            },
             "type": "string",
             "format": "date-time",
             "x-go-type-skip-optional-pointer": true
           },
           "updated_at": {
+            "x-oapi-codegen-extra-tags": {
+              "db": "updated_at",
+              "json": "updated_at",
+              "yaml": "updated_at"
+            },
             "type": "string",
             "format": "date-time",
             "x-go-type-skip-optional-pointer": true
           },
           "deleted_at": {
+            "x-oapi-codegen-extra-tags": {
+              "db": "deleted_at",
+              "json": "deleted_at",
+              "yaml": "deleted_at"
+            },
             "description": "SQL null Timestamp to handle null values of time.",
             "x-go-type": "sql.NullTime",
             "type": "string",
@@ -553,21 +573,41 @@ const TeamSchema: Record<string, unknown> = {
                   "x-go-type-skip-optional-pointer": true
                 },
                 "user_id": {
+                  "x-oapi-codegen-extra-tags": {
+                    "db": "user_id",
+                    "json": "user_id",
+                    "yaml": "user_id"
+                  },
                   "type": "string",
                   "description": "user's email or username",
                   "x-go-type-skip-optional-pointer": true
                 },
                 "created_at": {
+                  "x-oapi-codegen-extra-tags": {
+                    "db": "created_at",
+                    "json": "created_at",
+                    "yaml": "created_at"
+                  },
                   "type": "string",
                   "format": "date-time",
                   "x-go-type-skip-optional-pointer": true
                 },
                 "updated_at": {
+                  "x-oapi-codegen-extra-tags": {
+                    "db": "updated_at",
+                    "json": "updated_at",
+                    "yaml": "updated_at"
+                  },
                   "type": "string",
                   "format": "date-time",
                   "x-go-type-skip-optional-pointer": true
                 },
                 "deleted_at": {
+                  "x-oapi-codegen-extra-tags": {
+                    "db": "deleted_at",
+                    "json": "deleted_at",
+                    "yaml": "deleted_at"
+                  },
                   "description": "SQL null Timestamp to handle null values of time.",
                   "x-go-type": "sql.NullTime",
                   "type": "string",
@@ -1708,21 +1748,41 @@ const TeamSchema: Record<string, unknown> = {
                             "x-go-type-skip-optional-pointer": true
                           },
                           "user_id": {
+                            "x-oapi-codegen-extra-tags": {
+                              "db": "user_id",
+                              "json": "user_id",
+                              "yaml": "user_id"
+                            },
                             "type": "string",
                             "description": "user's email or username",
                             "x-go-type-skip-optional-pointer": true
                           },
                           "created_at": {
+                            "x-oapi-codegen-extra-tags": {
+                              "db": "created_at",
+                              "json": "created_at",
+                              "yaml": "created_at"
+                            },
                             "type": "string",
                             "format": "date-time",
                             "x-go-type-skip-optional-pointer": true
                           },
                           "updated_at": {
+                            "x-oapi-codegen-extra-tags": {
+                              "db": "updated_at",
+                              "json": "updated_at",
+                              "yaml": "updated_at"
+                            },
                             "type": "string",
                             "format": "date-time",
                             "x-go-type-skip-optional-pointer": true
                           },
                           "deleted_at": {
+                            "x-oapi-codegen-extra-tags": {
+                              "db": "deleted_at",
+                              "json": "deleted_at",
+                              "yaml": "deleted_at"
+                            },
                             "description": "SQL null Timestamp to handle null values of time.",
                             "x-go-type": "sql.NullTime",
                             "type": "string",
@@ -1879,21 +1939,41 @@ const TeamSchema: Record<string, unknown> = {
                       "x-go-type-skip-optional-pointer": true
                     },
                     "user_id": {
+                      "x-oapi-codegen-extra-tags": {
+                        "db": "user_id",
+                        "json": "user_id",
+                        "yaml": "user_id"
+                      },
                       "type": "string",
                       "description": "user's email or username",
                       "x-go-type-skip-optional-pointer": true
                     },
                     "created_at": {
+                      "x-oapi-codegen-extra-tags": {
+                        "db": "created_at",
+                        "json": "created_at",
+                        "yaml": "created_at"
+                      },
                       "type": "string",
                       "format": "date-time",
                       "x-go-type-skip-optional-pointer": true
                     },
                     "updated_at": {
+                      "x-oapi-codegen-extra-tags": {
+                        "db": "updated_at",
+                        "json": "updated_at",
+                        "yaml": "updated_at"
+                      },
                       "type": "string",
                       "format": "date-time",
                       "x-go-type-skip-optional-pointer": true
                     },
                     "deleted_at": {
+                      "x-oapi-codegen-extra-tags": {
+                        "db": "deleted_at",
+                        "json": "deleted_at",
+                        "yaml": "deleted_at"
+                      },
                       "description": "SQL null Timestamp to handle null values of time.",
                       "x-go-type": "sql.NullTime",
                       "type": "string",
@@ -2035,21 +2115,41 @@ const TeamSchema: Record<string, unknown> = {
                       "x-go-type-skip-optional-pointer": true
                     },
                     "user_id": {
+                      "x-oapi-codegen-extra-tags": {
+                        "db": "user_id",
+                        "json": "user_id",
+                        "yaml": "user_id"
+                      },
                       "type": "string",
                       "description": "user's email or username",
                       "x-go-type-skip-optional-pointer": true
                     },
                     "created_at": {
+                      "x-oapi-codegen-extra-tags": {
+                        "db": "created_at",
+                        "json": "created_at",
+                        "yaml": "created_at"
+                      },
                       "type": "string",
                       "format": "date-time",
                       "x-go-type-skip-optional-pointer": true
                     },
                     "updated_at": {
+                      "x-oapi-codegen-extra-tags": {
+                        "db": "updated_at",
+                        "json": "updated_at",
+                        "yaml": "updated_at"
+                      },
                       "type": "string",
                       "format": "date-time",
                       "x-go-type-skip-optional-pointer": true
                     },
                     "deleted_at": {
+                      "x-oapi-codegen-extra-tags": {
+                        "db": "deleted_at",
+                        "json": "deleted_at",
+                        "yaml": "deleted_at"
+                      },
                       "description": "SQL null Timestamp to handle null values of time.",
                       "x-go-type": "sql.NullTime",
                       "type": "string",

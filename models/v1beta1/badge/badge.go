@@ -5,13 +5,13 @@ package badge
 
 import (
 	"github.com/meshery/schemas/models/core"
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // Badge defines model for Badge.
 type Badge struct {
 	// CreatedAt Timestamp when the resource was created.
-	CreatedAt externalRef0.CreatedAt `db:"created_at" json:"created_at" yaml:"created_at"`
+	CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at" yaml:"created_at"`
 
 	// DeletedAt Timestamp when the resource was deleted, if applicable
 	DeletedAt core.NullTime `db:"deleted_at" json:"deleted_at" yaml:"deleted_at"`
@@ -20,7 +20,7 @@ type Badge struct {
 	Description string `db:"description" json:"description" yaml:"description"`
 
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id externalRef0.Uuid `db:"id" json:"id" yaml:"id"`
+	ID corev1alpha1.Uuid `db:"id" json:"id" yaml:"id"`
 
 	// ImageUrl URL to the badge image
 	ImageUrl string `db:"image_url" json:"image_url" yaml:"image_url"`
@@ -32,8 +32,8 @@ type Badge struct {
 	Name string `db:"name" json:"name" yaml:"name"`
 
 	// OrgId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	OrgId externalRef0.Uuid `db:"org_id" json:"org_id" yaml:"org_id"`
+	OrgId corev1alpha1.Uuid `db:"org_id" json:"org_id" yaml:"org_id"`
 
 	// UpdatedAt Timestamp when the resource was updated.
-	UpdatedAt externalRef0.UpdatedAt `db:"updated_at" json:"updated_at" yaml:"updated_at"`
+	UpdatedAt corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at" yaml:"updated_at"`
 }

@@ -4,17 +4,17 @@
 package event
 
 import (
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // BulkDeleteRequest defines model for BulkDeleteRequest.
 type BulkDeleteRequest struct {
-	Ids []externalRef0.Uuid `json:"ids" yaml:"ids"`
+	Ids []corev1alpha1.Uuid `json:"ids" yaml:"ids"`
 }
 
 // BulkUpdateStatusRequest defines model for BulkUpdateStatusRequest.
 type BulkUpdateStatusRequest struct {
-	Ids    []externalRef0.Uuid `json:"ids" yaml:"ids"`
+	Ids    []corev1alpha1.Uuid `json:"ids" yaml:"ids"`
 	Status string              `json:"status" yaml:"status"`
 }
 

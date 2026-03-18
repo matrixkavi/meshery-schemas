@@ -7,11 +7,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/capability"
-	externalRef1 "github.com/meshery/schemas/models/v1alpha1/core"
-	externalRef2 "github.com/meshery/schemas/models/v1beta1/category"
-	externalRef3 "github.com/meshery/schemas/models/v1beta1/connection"
-	externalRef4 "github.com/meshery/schemas/models/v1beta1/subcategory"
+	capabilityv1alpha1 "github.com/meshery/schemas/models/v1alpha1/capability"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
+	categoryv1beta1 "github.com/meshery/schemas/models/v1beta1/category"
+	connectionv1beta1 "github.com/meshery/schemas/models/v1beta1/connection"
+	subcategoryv1beta1 "github.com/meshery/schemas/models/v1beta1/subcategory"
 	"github.com/oapi-codegen/runtime"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
@@ -84,19 +84,19 @@ type ImportRequestUploadType string
 // Model Registrant-defined data associated with the model. Properties pertain to the software being managed (e.g. Kubernetes v1.31).
 type Model struct {
 	// Version Version of the model as defined by the registrant.
-	Version externalRef1.SemverString `json:"version" yaml:"version"`
+	Version corev1alpha1.SemverString `json:"version" yaml:"version"`
 }
 
 // ModelDefinition Meshery Models serve as a portable unit of packaging to define managed entities, their relationships, and capabilities.
 type ModelDefinition struct {
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id externalRef1.Uuid `json:"id" yaml:"id"`
+	Id corev1alpha1.Uuid `json:"id" yaml:"id"`
 
 	// SchemaVersion API version of the object, optionally prefixed with an API group (e.g. "group.example.io/v1beta1" or bare "v1beta1").
-	SchemaVersion externalRef1.VersionString `json:"schemaVersion" yaml:"schemaVersion"`
+	SchemaVersion corev1alpha1.VersionString `json:"schemaVersion" yaml:"schemaVersion"`
 
 	// Version A valid semantic version string between 5 and 256 characters. The pattern allows for a major.minor.patch version followed by an optional pre-release tag like '-alpha' or '-beta.2' and an optional build metadata tag like '+build.1.
-	Version externalRef1.SemverString `json:"version" yaml:"version"`
+	Version corev1alpha1.SemverString `json:"version" yaml:"version"`
 
 	// Name The unique name for the model within the scope of a registrant.
 	Name string `json:"name" yaml:"name"`
@@ -115,25 +115,25 @@ type ModelDefinition struct {
 	Status ModelDefinitionStatus `json:"status" yaml:"status"`
 
 	// CategoryId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	CategoryId externalRef1.Uuid `json:"categoryId" yaml:"categoryId"`
+	CategoryId corev1alpha1.Uuid `gorm:"categoryID" json:"categoryId" yaml:"categoryId"`
 
 	// Registrant Meshery Connections are managed and unmanaged resources that either through discovery or manual entry are tracked by Meshery. Learn more at https://docs.meshery.io/concepts/logical/connections
-	Registrant externalRef3.Connection `json:"registrant" yaml:"registrant"`
+	Registrant connectionv1beta1.Connection `gorm:"foreignKey:RegistrantId;references:ID" json:"registrant" yaml:"registrant"`
 
 	// RegistrantId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	RegistrantId externalRef1.Uuid `json:"registrantId" yaml:"registrantId"`
+	RegistrantId corev1alpha1.Uuid `gorm:"column:connection_id" json:"registrantId" yaml:"registrantId"`
 
 	// Category Category of the model.
-	Category externalRef2.CategoryDefinition `json:"category" yaml:"category"`
+	Category categoryv1beta1.CategoryDefinition `gorm:"foreignKey:CategoryId;references:Id" json:"category" yaml:"category"`
 
 	// SubCategory Sub category of the model determines the secondary grouping.
-	SubCategory externalRef4.SubCategoryDefinition `json:"subCategory" yaml:"subCategory"`
+	SubCategory subcategoryv1beta1.SubCategoryDefinition `json:"subCategory" yaml:"subCategory"`
 
 	// Metadata Metadata containing additional information associated with the model.
 	Metadata *ModelDefinition_Metadata `gorm:"type:bytes;serializer:json" json:"metadata" yaml:"metadata"`
 
 	// Model Registrant-defined data associated with the model. Properties pertain to the software being managed (e.g. Kubernetes v1.31).
-	Model Model `json:"model" yaml:"model"`
+	Model Model `gorm:"type:bytes;serializer:json" json:"model" yaml:"model"`
 
 	// ComponentsCount Number of components associated with the model.
 	ComponentsCount int `gorm:"-" json:"components_count" yaml:"components_count"`
@@ -142,10 +142,10 @@ type ModelDefinition struct {
 	RelationshipsCount int `gorm:"-" json:"relationships_count" yaml:"relationships_count"`
 
 	// CreatedAt Timestamp when the resource was created.
-	CreatedAt externalRef1.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// UpdatedAt Timestamp when the resource was updated.
-	UpdatedAt     externalRef1.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	UpdatedAt     corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 	Components    interface{}            `gorm:"-" json:"components" yaml:"components"`
 	Relationships interface{}            `gorm:"-" json:"relationships" yaml:"relationships"`
 }
@@ -160,7 +160,7 @@ type ModelDefinitionStatus string
 // ModelDefinition_Metadata Metadata containing additional information associated with the model.
 type ModelDefinition_Metadata struct {
 	// Capabilities Capabilities associated with the model
-	Capabilities *[]externalRef0.Capability `json:"capabilities,omitempty" yaml:"capabilities,omitempty"`
+	Capabilities *[]capabilityv1alpha1.Capability `json:"capabilities,omitempty" yaml:"capabilities,omitempty"`
 
 	// IsAnnotation Indicates whether the model and its entities should be treated as deployable entities or as logical representations.
 	IsAnnotation *bool `json:"isAnnotation" yaml:"isAnnotation"`
@@ -181,7 +181,7 @@ type ModelDefinition_Metadata struct {
 	SvgComplete *string `json:"svgComplete" yaml:"svgComplete"`
 
 	// Shape The shape of the node's body. Note that each shape fits within the specified width and height, and so you may have to adjust width and height if you desire an equilateral shape (i.e. width !== height for several equilateral shapes)
-	Shape                *externalRef1.Shape    `json:"shape,omitempty" yaml:"shape,omitempty"`
+	Shape                *corev1alpha1.Shape    `json:"shape,omitempty" yaml:"shape,omitempty"`
 	AdditionalProperties map[string]interface{} `json:"-" yaml:"-"`
 }
 
@@ -191,7 +191,7 @@ type ModelReference struct {
 	DisplayName string `json:"displayName" yaml:"displayName"`
 
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id externalRef1.Uuid `json:"id" yaml:"id"`
+	Id corev1alpha1.Uuid `json:"id" yaml:"id"`
 
 	// Model Registrant-defined data associated with the model. Properties pertain to the software being managed (e.g. Kubernetes v1.31).
 	Model Model `json:"model" yaml:"model"`
@@ -201,7 +201,7 @@ type ModelReference struct {
 	Registrant RegistrantReference `json:"registrant" yaml:"registrant"`
 
 	// Version A valid semantic version string between 5 and 256 characters. The pattern allows for a major.minor.patch version followed by an optional pre-release tag like '-alpha' or '-beta.2' and an optional build metadata tag like '+build.1.
-	Version externalRef1.SemverString `json:"version" yaml:"version"`
+	Version corev1alpha1.SemverString `json:"version" yaml:"version"`
 }
 
 // RegistrantReference defines model for RegistrantReference.

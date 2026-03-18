@@ -4,7 +4,7 @@
 package organization
 
 import (
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // Defines values for OrgTeamActionPayloadAction.
@@ -14,7 +14,7 @@ const (
 
 // AvailableTeam defines model for AvailableTeam.
 type AvailableTeam struct {
-	ID          externalRef0.GeneralId `db:"id" json:"id" yaml:"id"`
+	ID          corev1alpha1.GeneralId `db:"id" json:"id" yaml:"id"`
 	CreatedAt   Time                   `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 	DeletedAt   NullableTime           `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
 	Description Text                   `json:"description,omitempty" yaml:"description,omitempty"`
@@ -42,10 +42,10 @@ type Logo struct {
 }
 
 // MapObject defines model for MapObject.
-type MapObject = externalRef0.MapObject
+type MapObject = corev1alpha1.MapObject
 
 // NullableTime defines model for NullableTime.
-type NullableTime = externalRef0.SqlNullTime
+type NullableTime = corev1alpha1.SqlNullTime
 
 // OrgMetadata defines model for OrgMetadata.
 type OrgMetadata struct {
@@ -89,11 +89,11 @@ type Preferences struct {
 
 // TeamsOrganizationsMapping defines model for TeamsOrganizationsMapping.
 type TeamsOrganizationsMapping struct {
-	ID        externalRef0.GeneralId      `db:"id" json:"id" yaml:"id"`
+	ID        corev1alpha1.GeneralId      `db:"id" json:"id" yaml:"id"`
 	CreatedAt Time                        `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 	DeletedAt NullableTime                `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
-	OrgId     externalRef0.OrganizationId `db:"org_id" json:"org_id" yaml:"org_id"`
-	TeamId    externalRef0.TeamId         `db:"team_id" json:"team_id" yaml:"team_id"`
+	OrgId     corev1alpha1.OrganizationId `db:"org_id" json:"org_id" yaml:"org_id"`
+	TeamId    corev1alpha1.TeamId         `db:"team_id" json:"team_id" yaml:"team_id"`
 	UpdatedAt Time                        `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 }
 
@@ -114,7 +114,7 @@ type TeamsPage struct {
 }
 
 // Text defines model for Text.
-type Text = externalRef0.Text
+type Text = corev1alpha1.Text
 
 // Theme defines model for Theme.
 type Theme struct {
@@ -124,13 +124,13 @@ type Theme struct {
 }
 
 // Time defines model for Time.
-type Time = externalRef0.Time
+type Time = corev1alpha1.Time
 
 // UUID A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type UUID = externalRef0.Uuid
+type UUID = corev1alpha1.Uuid
 
 // OrgID defines model for orgID.
-type OrgID = externalRef0.OrganizationId
+type OrgID = corev1alpha1.OrganizationId
 
 // TeamId defines model for teamId.
-type TeamId = externalRef0.TeamId
+type TeamId = corev1alpha1.TeamId

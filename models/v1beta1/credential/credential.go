@@ -5,19 +5,19 @@ package credential
 
 import (
 	"github.com/meshery/schemas/models/core"
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // Credential Meshery Credentials store sensitive information such as API keys, tokens, and passwords used by connections to external systems.
 type Credential struct {
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id *externalRef0.Uuid `db:"id" json:"id,omitempty" yaml:"id,omitempty"`
+	Id *corev1alpha1.Uuid `db:"id" json:"id,omitempty" yaml:"id,omitempty"`
 
 	// Name Human-readable name for the credential.
 	Name string `db:"name" json:"name" yaml:"name"`
 
 	// UserId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	UserId *externalRef0.Uuid `db:"user_id" json:"user_id,omitempty" yaml:"user_id,omitempty"`
+	UserId *corev1alpha1.Uuid `db:"user_id" json:"user_id,omitempty" yaml:"user_id,omitempty"`
 
 	// Type Credential type (e.g. token, basic, AWS).
 	Type string `db:"type" json:"type" yaml:"type"`
@@ -26,13 +26,13 @@ type Credential struct {
 	Secret *core.Map `db:"secret" json:"secret,omitempty" yaml:"secret,omitempty"`
 
 	// CreatedAt Timestamp when the resource was created.
-	CreatedAt externalRef0.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// UpdatedAt Timestamp when the resource was updated.
-	UpdatedAt externalRef0.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	UpdatedAt corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt externalRef0.NullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	DeletedAt corev1alpha1.NullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
 }
 
 // CredentialPage A paginated list of credentials.
@@ -50,16 +50,16 @@ type CredentialPage struct {
 }
 
 // Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type Id = externalRef0.Uuid
+type Id = corev1alpha1.Uuid
 
-// ExternalRef0Order defines model for order.
-type ExternalRef0Order = string
+// Corev1alpha1Order defines model for order.
+type Corev1alpha1Order = string
 
-// ExternalRef0Page defines model for page.
-type ExternalRef0Page = string
+// Corev1alpha1Page defines model for page.
+type Corev1alpha1Page = string
 
-// ExternalRef0Pagesize defines model for pagesize.
-type ExternalRef0Pagesize = string
+// Corev1alpha1Pagesize defines model for pagesize.
+type Corev1alpha1Pagesize = string
 
-// ExternalRef0Search defines model for search.
-type ExternalRef0Search = string
+// Corev1alpha1Search defines model for search.
+type Corev1alpha1Search = string

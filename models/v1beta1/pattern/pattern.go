@@ -8,10 +8,9 @@ import (
 	"fmt"
 
 	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
-	externalRef1 "github.com/meshery/schemas/models/v1alpha2/catalog"
-	externalRef2 "github.com/meshery/schemas/models/v1alpha3/relationship"
-	externalRef3 "github.com/meshery/schemas/models/v1beta1/component"
+	catalogv1alpha2 "github.com/meshery/schemas/models/v1alpha2/catalog"
+	relationshipv1alpha3 "github.com/meshery/schemas/models/v1alpha3/relationship"
+	componentv1beta1 "github.com/meshery/schemas/models/v1beta1/component"
 )
 
 // DesignPreferences Design-level preferences
@@ -22,23 +21,23 @@ type DesignPreferences struct {
 
 // DeletePatternModel defines model for DeletePatternModel.
 type DeletePatternModel struct {
-	Id   externalRef0.Id   `json:"id,omitempty" yaml:"id,omitempty"`
-	Name externalRef0.Text `json:"name,omitempty" yaml:"name,omitempty"`
+	Id   corev1alpha1.Id   `json:"id,omitempty" yaml:"id,omitempty"`
+	Name corev1alpha1.Text `json:"name,omitempty" yaml:"name,omitempty"`
 }
 
 // MesheryPattern defines model for MesheryPattern.
 type MesheryPattern struct {
-	CatalogData *externalRef1.CatalogData `json:"catalog_data,omitempty" yaml:"catalog_data,omitempty"`
-	CreatedAt   externalRef0.Time         `json:"created_at,omitempty" yaml:"created_at,omitempty"`
-	Id          externalRef0.Id           `json:"id,omitempty" yaml:"id,omitempty"`
-	Location    externalRef0.MapObject    `json:"location,omitempty" yaml:"location,omitempty"`
-	Name        externalRef0.Text         `json:"name,omitempty" yaml:"name,omitempty"`
+	CatalogData *catalogv1alpha2.CatalogData `json:"catalog_data,omitempty" yaml:"catalog_data,omitempty"`
+	CreatedAt   corev1alpha1.Time         `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	Id          corev1alpha1.Id           `json:"id,omitempty" yaml:"id,omitempty"`
+	Location    corev1alpha1.MapObject    `json:"location,omitempty" yaml:"location,omitempty"`
+	Name        corev1alpha1.Text         `json:"name,omitempty" yaml:"name,omitempty"`
 
 	// PatternFile Designs are your primary tool for collaborative authorship of your infrastructure, workflow, and processes.
 	PatternFile *PatternFile      `json:"pattern_file,omitempty" yaml:"pattern_file,omitempty"`
-	UpdatedAt   externalRef0.Time `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
-	UserId      externalRef0.Id   `json:"user_id,omitempty" yaml:"user_id,omitempty"`
-	Visibility  externalRef0.Text `json:"visibility,omitempty" yaml:"visibility,omitempty"`
+	UpdatedAt   corev1alpha1.Time `json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	UserId      corev1alpha1.Id   `json:"user_id,omitempty" yaml:"user_id,omitempty"`
+	Visibility  corev1alpha1.Text `json:"visibility,omitempty" yaml:"visibility,omitempty"`
 }
 
 // MesheryPatternDeleteRequestBody defines model for MesheryPatternDeleteRequestBody.
@@ -73,35 +72,35 @@ type MesheryPatternPage struct {
 // MesheryPatternRequestBody defines model for MesheryPatternRequestBody.
 type MesheryPatternRequestBody struct {
 	Name        *string               `json:"name,omitempty" yaml:"name,omitempty"`
-	Path        externalRef0.Text     `json:"path,omitempty" yaml:"path,omitempty"`
+	Path        corev1alpha1.Text     `json:"path,omitempty" yaml:"path,omitempty"`
 	PatternData *MesheryPattern       `json:"pattern_data,omitempty" yaml:"pattern_data,omitempty"`
 	Save        *bool                 `json:"save,omitempty" yaml:"save,omitempty"`
-	Url         externalRef0.Endpoint `json:"url,omitempty" yaml:"url,omitempty"`
+	Url         corev1alpha1.Endpoint `json:"url,omitempty" yaml:"url,omitempty"`
 }
 
 // PatternFile Designs are your primary tool for collaborative authorship of your infrastructure, workflow, and processes.
 type PatternFile struct {
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id externalRef0.Uuid `json:"id" yaml:"id"`
+	Id corev1alpha1.Uuid `json:"id" yaml:"id"`
 
 	// Name Name of the design; a descriptive, but concise title for the design document.
 	Name string `json:"name" yaml:"name"`
 
 	// SchemaVersion API version of the object, optionally prefixed with an API group (e.g. "group.example.io/v1beta1" or bare "v1beta1").
-	SchemaVersion externalRef0.VersionString `json:"schemaVersion" yaml:"schemaVersion"`
+	SchemaVersion corev1alpha1.VersionString `json:"schemaVersion" yaml:"schemaVersion"`
 
 	// Version A valid semantic version string between 5 and 256 characters. The pattern allows for a major.minor.patch version followed by an optional pre-release tag like '-alpha' or '-beta.2' and an optional build metadata tag like '+build.1.
-	Version  externalRef0.SemverString `json:"version" yaml:"version"`
+	Version  corev1alpha1.SemverString `json:"version" yaml:"version"`
 	Metadata *PatternFile_Metadata     `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
 	// Components A list of one or more component declarations.
-	Components []externalRef3.ComponentDefinition `json:"components" yaml:"components"`
+	Components []componentv1beta1.ComponentDefinition `json:"components" yaml:"components"`
 
 	// Preferences Design-level preferences
 	Preferences *DesignPreferences `json:"preferences,omitempty" yaml:"preferences,omitempty"`
 
 	// Relationships List of relationships between components
-	Relationships []externalRef2.RelationshipDefinition `json:"relationships" yaml:"relationships"`
+	Relationships []relationshipv1alpha3.RelationshipDefinition `json:"relationships" yaml:"relationships"`
 }
 
 // PatternFile_Metadata defines model for PatternFile.Metadata.
@@ -112,19 +111,19 @@ type PatternFile_Metadata struct {
 }
 
 // Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type Id = externalRef0.Uuid
+type Id = corev1alpha1.Uuid
 
-// ExternalRef0Order defines model for order.
-type ExternalRef0Order = string
+// Corev1alpha1Order defines model for order.
+type Corev1alpha1Order = string
 
-// ExternalRef0Page defines model for page.
-type ExternalRef0Page = string
+// Corev1alpha1Page defines model for page.
+type Corev1alpha1Page = string
 
-// ExternalRef0Pagesize defines model for pagesize.
-type ExternalRef0Pagesize = string
+// Corev1alpha1Pagesize defines model for pagesize.
+type Corev1alpha1Pagesize = string
 
-// ExternalRef0Search defines model for search.
-type ExternalRef0Search = string
+// Corev1alpha1Search defines model for search.
+type Corev1alpha1Search = string
 
 // Getter for additional properties for PatternFile_Metadata. Returns the specified
 // element and whether it was found

@@ -4,70 +4,70 @@
 package keychain
 
 import (
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // Keychain Represents a collection of keys.
 type Keychain struct {
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id externalRef0.Uuid `json:"id" yaml:"id"`
+	ID corev1alpha1.Uuid `db:"id" json:"id" yaml:"id"`
 
 	// Name Name of the keychain.
 	Name string `db:"name" json:"name" yaml:"name"`
 
 	// Owner A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Owner externalRef0.Uuid `json:"owner" yaml:"owner"`
+	Owner corev1alpha1.Uuid `db:"owner" json:"owner" yaml:"owner"`
 
 	// CreatedAt Timestamp when the resource was created.
-	CreatedAt externalRef0.CreatedAt `db:"created_at" json:"created_at" yaml:"created_at"`
+	CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at" yaml:"created_at"`
 
 	// UpdatedAt Timestamp when the resource was updated.
-	UpdatedAt externalRef0.UpdatedAt `db:"updated_at" json:"updated_at" yaml:"updated_at"`
+	UpdatedAt corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at" yaml:"updated_at"`
 
 	// DeletedAt SQL null Timestamp to handle null values of time.
-	DeletedAt externalRef0.NullTime `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	DeletedAt corev1alpha1.NullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
 }
 
 // KeychainPage defines model for KeychainPage.
 type KeychainPage struct {
-	Page       externalRef0.Number `json:"page" yaml:"page"`
-	PageSize   externalRef0.Number `json:"page_size" yaml:"page_size"`
-	TotalCount externalRef0.Number `json:"total_count" yaml:"total_count"`
+	Page       corev1alpha1.Number `json:"page" yaml:"page"`
+	PageSize   corev1alpha1.Number `json:"page_size" yaml:"page_size"`
+	TotalCount corev1alpha1.Number `json:"total_count" yaml:"total_count"`
 	Keychains  []struct {
 		// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-		Id externalRef0.Uuid `json:"id" yaml:"id"`
+		Id corev1alpha1.Uuid `json:"id" yaml:"id"`
 
 		// Name Name of the keychain.
 		Name string `db:"name" json:"name" yaml:"name"`
 
 		// Owner A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-		Owner externalRef0.Uuid `json:"owner" yaml:"owner"`
+		Owner corev1alpha1.Uuid `json:"owner" yaml:"owner"`
 
 		// CreatedAt Timestamp when the resource was created.
-		CreatedAt externalRef0.CreatedAt `db:"created_at" json:"created_at" yaml:"created_at"`
+		CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at" yaml:"created_at"`
 
 		// UpdatedAt Timestamp when the resource was updated.
-		UpdatedAt externalRef0.UpdatedAt `db:"updated_at" json:"updated_at" yaml:"updated_at"`
+		UpdatedAt corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at" yaml:"updated_at"`
 
 		// DeletedAt SQL null Timestamp to handle null values of time.
-		DeletedAt externalRef0.NullTime `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+		DeletedAt corev1alpha1.NullTime `json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
 	} `json:"keychains" yaml:"keychains"`
 }
 
 // KeyId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type KeyId = externalRef0.Uuid
+type KeyId = corev1alpha1.Uuid
 
 // KeychainId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type KeychainId = externalRef0.Uuid
+type KeychainId = corev1alpha1.Uuid
 
-// ExternalRef0Order defines model for order.
-type ExternalRef0Order = string
+// Corev1alpha1Order defines model for order.
+type Corev1alpha1Order = string
 
-// ExternalRef0Page defines model for page.
-type ExternalRef0Page = string
+// Corev1alpha1Page defines model for page.
+type Corev1alpha1Page = string
 
-// ExternalRef0Pagesize defines model for pagesize.
-type ExternalRef0Pagesize = string
+// Corev1alpha1Pagesize defines model for pagesize.
+type Corev1alpha1Pagesize = string
 
-// ExternalRef0Search defines model for search.
-type ExternalRef0Search = string
+// Corev1alpha1Search defines model for search.
+type Corev1alpha1Search = string

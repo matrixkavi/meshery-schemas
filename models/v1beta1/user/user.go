@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/meshery/schemas/models/core"
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
@@ -44,7 +44,7 @@ type Adapter = map[string]interface{}
 
 // GetUserResponse defines model for GetUserResponse.
 type GetUserResponse struct {
-	AcceptedTermsAt externalRef0.Time `json:"accepted_terms_at,omitempty" yaml:"accepted_terms_at,omitempty"`
+	AcceptedTermsAt corev1alpha1.Time `json:"accepted_terms_at,omitempty" yaml:"accepted_terms_at,omitempty"`
 
 	// AvatarUrl URL to user's avatar image
 	AvatarUrl *string `db:"avatar_url" json:"avatar_url" yaml:"avatar_url"`
@@ -54,21 +54,21 @@ type GetUserResponse struct {
 
 	// Country User's country information stored as JSONB
 	Country   *core.Map         `db:"country" json:"country" yaml:"country"`
-	CreatedAt externalRef0.Time `json:"created_at" yaml:"created_at"`
+	CreatedAt corev1alpha1.Time `json:"created_at" yaml:"created_at"`
 
 	// DeletedAt Timestamp when the user record was soft-deleted (null if not deleted)
 	DeletedAt *core.NullTime `db:"deleted_at" json:"deleted_at" yaml:"deleted_at"`
 
 	// Email User's email address
 	Email          openapi_types.Email `db:"email" json:"email" yaml:"email"`
-	FirstLoginTime externalRef0.Time   `json:"first_login_time,omitempty" yaml:"first_login_time,omitempty"`
+	FirstLoginTime corev1alpha1.Time   `json:"first_login_time,omitempty" yaml:"first_login_time,omitempty"`
 
 	// FirstName User's first name
 	FirstName string `db:"first_name" json:"first_name" yaml:"first_name"`
 
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id            externalRef0.Uuid `json:"id" yaml:"id"`
-	LastLoginTime externalRef0.Time `json:"last_login_time" yaml:"last_login_time"`
+	Id            corev1alpha1.Uuid `json:"id" yaml:"id"`
+	LastLoginTime corev1alpha1.Time `json:"last_login_time" yaml:"last_login_time"`
 
 	// LastName User's last name
 	LastName string `db:"last_name" json:"last_name" yaml:"last_name"`
@@ -100,7 +100,7 @@ type GetUserResponse struct {
 		TeamsWithRoles *[]map[string]interface{} `db:"teams_with_roles" json:"teams_with_roles" yaml:"teams_with_roles"`
 		TotalCount     *int                      `db:"total_count" json:"total_count" yaml:"total_count"`
 	} `db:"teams" json:"teams" yaml:"teams"`
-	UpdatedAt externalRef0.Time `json:"updated_at" yaml:"updated_at"`
+	UpdatedAt corev1alpha1.Time `json:"updated_at" yaml:"updated_at"`
 
 	// UserId User identifier (username or external ID)
 	UserId string `db:"user_id" json:"user_id" yaml:"user_id"`
@@ -178,7 +178,7 @@ type Social struct {
 
 // User Represents a user in Layer5 Cloud (Meshery)
 type User struct {
-	AcceptedTermsAt externalRef0.Time `db:"accepted_terms_at" json:"accepted_terms_at,omitempty" yaml:"accepted_terms_at,omitempty"`
+	AcceptedTermsAt corev1alpha1.Time `db:"accepted_terms_at" json:"accepted_terms_at,omitempty" yaml:"accepted_terms_at,omitempty"`
 
 	// AvatarUrl URL to user's avatar image
 	AvatarUrl *string `db:"avatar_url" json:"avatar_url" yaml:"avatar_url"`
@@ -188,21 +188,21 @@ type User struct {
 
 	// Country User's country information stored as JSONB
 	Country   *core.Map         `db:"country" json:"country" yaml:"country"`
-	CreatedAt externalRef0.Time `db:"created_at" json:"created_at" yaml:"created_at"`
+	CreatedAt corev1alpha1.Time `db:"created_at" json:"created_at" yaml:"created_at"`
 
 	// DeletedAt Timestamp when the user record was soft-deleted (null if not deleted)
 	DeletedAt *core.NullTime `db:"deleted_at" json:"deleted_at" yaml:"deleted_at"`
 
 	// Email User's email address
 	Email          openapi_types.Email `db:"email" json:"email" yaml:"email"`
-	FirstLoginTime externalRef0.Time   `db:"first_login_time" json:"first_login_time,omitempty" yaml:"first_login_time,omitempty"`
+	FirstLoginTime corev1alpha1.Time   `db:"first_login_time" json:"first_login_time,omitempty" yaml:"first_login_time,omitempty"`
 
 	// FirstName User's first name
 	FirstName string `db:"first_name" json:"first_name" yaml:"first_name"`
 
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id            externalRef0.Uuid `db:"id" json:"id" yaml:"id"`
-	LastLoginTime externalRef0.Time `db:"last_login_time" json:"last_login_time" yaml:"last_login_time"`
+	ID            corev1alpha1.Uuid `db:"id" json:"id" yaml:"id"`
+	LastLoginTime corev1alpha1.Time `db:"last_login_time" json:"last_login_time" yaml:"last_login_time"`
 
 	// LastName User's last name
 	LastName    string      `db:"last_name" json:"last_name" yaml:"last_name"`
@@ -219,7 +219,7 @@ type User struct {
 
 	// Status User account status
 	Status    UserStatus        `db:"status" json:"status" yaml:"status"`
-	UpdatedAt externalRef0.Time `db:"updated_at" json:"updated_at" yaml:"updated_at"`
+	UpdatedAt corev1alpha1.Time `db:"updated_at" json:"updated_at" yaml:"updated_at"`
 
 	// UserId User identifier (username or external ID)
 	UserId string `db:"user_id" json:"user_id" yaml:"user_id"`

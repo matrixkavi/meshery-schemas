@@ -53,18 +53,116 @@ function addYamlTags(filePath) {
   fs.writeFileSync(filePath, content, "utf-8");
 }
 
+function sanitizeGoIdentifier(value) {
+  const sanitized = value.replace(/[^A-Za-z0-9_]/g, "");
+  if (!sanitized) {
+    return "ref";
+  }
+
+  if (/^[0-9]/.test(sanitized)) {
+    return `ref${sanitized}`;
+  }
+
+  return sanitized;
+}
+
+function exportGoIdentifier(value) {
+  const sanitized = sanitizeGoIdentifier(value);
+  return sanitized.charAt(0).toUpperCase() + sanitized.slice(1);
+}
+
+function buildReadableImportAlias(importPath, usedAliases) {
+  const match = importPath.match(/\/models\/(v[^/]+)\/([^/]+)$/);
+  let candidate;
+
+  if (match) {
+    const [, version, packageName] = match;
+    candidate = `${sanitizeGoIdentifier(packageName)}${sanitizeGoIdentifier(version)}`;
+  } else {
+    const baseName = importPath.split("/").pop() || "ref";
+    candidate = sanitizeGoIdentifier(baseName);
+  }
+
+  let alias = candidate;
+  let suffix = 2;
+  while (usedAliases.has(alias)) {
+    alias = `${candidate}${suffix}`;
+    suffix += 1;
+  }
+
+  usedAliases.add(alias);
+  return alias;
+}
+
+function rewriteExternalRefAliases(filePath) {
+  let content = fs.readFileSync(filePath, "utf-8");
+  const importBlockMatch = content.match(/import \(([^]*?)\n\)/m);
+  if (!importBlockMatch) {
+    return;
+  }
+
+  const usedAliases = new Set();
+  const aliasMappings = [];
+  const aliasByImportPath = new Map();
+  const importBlock = importBlockMatch[1].replace(
+    /^(\s*)(externalRef\d+)\s+"([^"]+)"$/gm,
+    (_, indent, alias, importPath) => {
+      const readableAlias = aliasByImportPath.get(importPath) || buildReadableImportAlias(importPath, usedAliases);
+      aliasByImportPath.set(importPath, readableAlias);
+      aliasMappings.push({ alias, readableAlias });
+      return `${indent}${readableAlias} "${importPath}"`;
+    },
+  );
+
+  if (aliasMappings.length === 0) {
+    return;
+  }
+
+  const seenImportPaths = new Set();
+  const normalizedImportBlock = importBlock
+    .split("\n")
+    .filter((line) => {
+      const importPathMatch = line.match(/"([^"]+)"/);
+      if (!importPathMatch) {
+        return true;
+      }
+
+      const importPath = importPathMatch[1];
+      if (seenImportPaths.has(importPath)) {
+        return false;
+      }
+
+      seenImportPaths.add(importPath);
+      return true;
+    })
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/^\n+/, "\n")
+    .replace(/\n+$/, "");
+
+  content = content.replace(importBlockMatch[0], `import (${normalizedImportBlock}\n)`);
+
+  for (const { alias, readableAlias } of aliasMappings) {
+    content = content.replace(new RegExp(`\\b${alias}\\b`, "g"), readableAlias);
+    content = content.replace(
+      new RegExp(`\\b${exportGoIdentifier(alias)}(?=[A-Z])`, "g"),
+      exportGoIdentifier(readableAlias),
+    );
+  }
+
+  fs.writeFileSync(filePath, content, "utf-8");
+}
+
 function collectSchemaExtraTags(inputPath) {
-  const document = loadYamlFile(inputPath) || {};
-  const componentSchemas = document.components?.schemas || {};
   const extraTagsByStruct = new Map();
 
-  for (const [schemaName, schemaDefinition] of Object.entries(componentSchemas)) {
+  function appendPropertyTags(structName, schemaDefinition) {
     if (!schemaDefinition || typeof schemaDefinition !== "object") {
-      continue;
+      return;
     }
 
     if (schemaDefinition.type !== "object" || !schemaDefinition.properties) {
-      continue;
+      return;
     }
 
     const propertyTags = [];
@@ -90,12 +188,56 @@ function collectSchemaExtraTags(inputPath) {
         propertyName,
         candidateJsonNames: [...candidateJsonNames],
         extraTags: { ...extraTags },
+        goName:
+          typeof propertyDefinition["x-go-name"] === "string" &&
+          propertyDefinition["x-go-name"].length > 0
+            ? propertyDefinition["x-go-name"]
+            : null,
       });
     }
 
     if (propertyTags.length > 0) {
-      extraTagsByStruct.set(schemaName, propertyTags);
+      extraTagsByStruct.set(structName, propertyTags);
     }
+  }
+
+  function toGeneratedStructName(schemaName) {
+    if (!schemaName) {
+      return schemaName;
+    }
+
+    return schemaName.charAt(0).toUpperCase() + schemaName.slice(1);
+  }
+
+  const document = loadYamlFile(inputPath) || {};
+  const componentSchemas = document.components?.schemas || {};
+  const inputDir = path.dirname(inputPath);
+
+  for (const [schemaName, schemaDefinition] of Object.entries(componentSchemas)) {
+    if (!schemaDefinition || typeof schemaDefinition !== "object") {
+      continue;
+    }
+
+    appendPropertyTags(schemaName, schemaDefinition);
+    appendPropertyTags(toGeneratedStructName(schemaName), schemaDefinition);
+
+    if (typeof schemaDefinition.$ref !== "string" || schemaDefinition.$ref.startsWith("#")) {
+      continue;
+    }
+
+    const { refPath } = splitRef(schemaDefinition.$ref);
+    if (!refPath || /^https?:\/\//.test(refPath)) {
+      continue;
+    }
+
+    const resolvedRefPath = path.resolve(inputDir, refPath);
+    if (!fs.existsSync(resolvedRefPath)) {
+      continue;
+    }
+
+    const referencedSchema = loadYamlFile(resolvedRefPath);
+    appendPropertyTags(schemaName, referencedSchema);
+    appendPropertyTags(toGeneratedStructName(schemaName), referencedSchema);
   }
 
   return extraTagsByStruct;
@@ -130,7 +272,10 @@ function collectGeneratedStructTags(filePath) {
         if (jsonMatch) {
           generatedTagsByStruct
             .get(currentStructName)
-            .set(jsonMatch[1], rawTags);
+            .set(jsonMatch[1], {
+              rawTags,
+              fieldName: line.trim().split(/\s+/, 2)[0],
+            });
         }
       }
     }
@@ -182,7 +327,15 @@ function addSchemaExtraTags(filePath, inputPath) {
             ?.find((entry) => entry.candidateJsonNames.includes(jsonMatch[1]));
 
           if (propertyTags) {
+            let updatedLine = line;
             let updatedTags = rawTags;
+
+            if (propertyTags.goName) {
+              const fieldNameMatch = updatedLine.match(/^(\s*)(\w+)(\s+.+`[^`]*`)$/);
+              if (fieldNameMatch && fieldNameMatch[2] !== propertyTags.goName) {
+                updatedLine = `${fieldNameMatch[1]}${propertyTags.goName}${fieldNameMatch[3]}`;
+              }
+            }
 
             for (const [tagName, tagValue] of Object.entries(propertyTags.extraTags)) {
               if (updatedTags.includes(`${tagName}:"`)) {
@@ -194,8 +347,10 @@ function addSchemaExtraTags(filePath, inputPath) {
             }
 
             if (updatedTags !== rawTags) {
-              lines[index] = line.replace(`\`${rawTags}\``, `\`${updatedTags}\``);
+              updatedLine = updatedLine.replace(`\`${rawTags}\``, `\`${updatedTags}\``);
             }
+
+            lines[index] = updatedLine;
           }
         }
       }
@@ -232,13 +387,19 @@ function validateGeneratedDbTags(filePath, inputPath) {
       }
 
       const expectedDbTag = `db:"${String(extraTags.db).replace(/"/g, '\\"')}"`;
-      const generatedTags = candidateJsonNames
+      const generatedField = candidateJsonNames
         .map((candidateName) => generatedPropertyTags.get(candidateName))
         .find(Boolean);
 
-      if (!generatedTags || !generatedTags.includes(expectedDbTag)) {
+      if (!generatedField || !generatedField.rawTags.includes(expectedDbTag)) {
         failures.push(
           `${structName}.${propertyName} expected ${expectedDbTag} in generated tags`,
+        );
+      }
+
+      if (entry.goName && generatedField && generatedField.fieldName !== entry.goName) {
+        failures.push(
+          `${structName}.${propertyName} expected field name ${entry.goName} but generated ${generatedField.fieldName}`,
         );
       }
     }
@@ -649,6 +810,7 @@ async function generateGoModels(pkg) {
     // oapi-codegen omits for referenced object fields.
     addYamlTags(outputPath);
     addSchemaExtraTags(outputPath, inputPath);
+    rewriteExternalRefAliases(outputPath);
     validateGeneratedDbTags(outputPath, inputPath);
 
     logger.success(`Generated: ${paths.relativePath(outputPath)}`);

@@ -8,7 +8,7 @@ import (
 
 	"github.com/lib/pq"
 	"github.com/meshery/schemas/models/core"
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // Defines values for InvitationStatus.
@@ -36,7 +36,7 @@ type Invitation struct {
 	ExpiresAt *time.Time `db:"expires_at" json:"expires_at" yaml:"expires_at"`
 
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	Id externalRef0.Uuid `json:"id" yaml:"id"`
+	Id corev1alpha1.Uuid `json:"id" yaml:"id"`
 
 	// IsDefault Indicates whether the invitation is a default invitation (open invite), which can be used to assign users when signing up from fqdn or custom domain, a organization can only have one default invitation
 	IsDefault *bool `db:"is_default" json:"is_default" yaml:"is_default"`
@@ -48,7 +48,7 @@ type Invitation struct {
 	OrgId string `db:"org_id" json:"org_id" yaml:"org_id"`
 
 	// OwnerId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	OwnerId externalRef0.Uuid `db:"owner_id" json:"owner_id" yaml:"owner_id"`
+	OwnerId corev1alpha1.Uuid `db:"owner_id" json:"owner_id" yaml:"owner_id"`
 
 	// Quota Quota for the invitation, which can be used to limit the number of users that can accept the invitation, null or empty string means the invitation does not have a quota
 	Quota *int           `json:"quota,omitempty" yaml:"quota,omitempty"`
@@ -75,7 +75,7 @@ type InvitationsPage struct {
 }
 
 // Uuid A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type Uuid = externalRef0.Uuid
+type Uuid = corev1alpha1.Uuid
 
 // InvitationId defines model for invitation_id.
 type InvitationId = string

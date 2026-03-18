@@ -4,8 +4,8 @@
 package subscription
 
 import (
-	externalRef0 "github.com/meshery/schemas/models/v1alpha1/core"
-	externalRef1 "github.com/meshery/schemas/models/v1beta1/plan"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
+	planv1beta1 "github.com/meshery/schemas/models/v1beta1/plan"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
@@ -69,26 +69,26 @@ type PaymentProcessor string
 // Subscription defines model for Subscription.
 type Subscription struct {
 	// ID A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	ID externalRef0.Uuid `db:"id" json:"ID" yaml:"ID"`
+	ID corev1alpha1.Uuid `db:"id" json:"ID" yaml:"ID"`
 
 	// BillingId Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe
 	BillingId string                   `db:"billing_id" json:"billing_id" yaml:"billing_id"`
-	CreatedAt externalRef0.Time        `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
-	DeletedAt externalRef0.SqlNullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
-	EndDate   externalRef0.Time        `db:"end_date" json:"end_date,omitempty" yaml:"end_date,omitempty"`
+	CreatedAt corev1alpha1.Time        `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	DeletedAt corev1alpha1.SqlNullTime `db:"deleted_at" json:"deleted_at,omitempty" yaml:"deleted_at,omitempty"`
+	EndDate   corev1alpha1.Time        `db:"end_date" json:"end_date,omitempty" yaml:"end_date,omitempty"`
 
 	// OrgId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	OrgId externalRef0.Uuid  `db:"org_id" json:"org_id" yaml:"org_id"`
-	Plan  *externalRef1.Plan `fk_id:"PlanId" belongs_to:"plans" json:"plan,omitempty" yaml:"plan,omitempty"`
+	OrgId corev1alpha1.Uuid  `db:"org_id" json:"org_id" yaml:"org_id"`
+	Plan  *planv1beta1.Plan `fk_id:"PlanId" belongs_to:"plans" json:"plan,omitempty" yaml:"plan,omitempty"`
 
 	// PlanId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	PlanId    externalRef0.Uuid `db:"plan_id" json:"plan_id" yaml:"plan_id"`
+	PlanId    corev1alpha1.Uuid `db:"plan_id" json:"plan_id" yaml:"plan_id"`
 	Quantity  int               `db:"quantity" json:"quantity" yaml:"quantity"`
-	StartDate externalRef0.Time `db:"start_date" json:"start_date,omitempty" yaml:"start_date,omitempty"`
+	StartDate corev1alpha1.Time `db:"start_date" json:"start_date,omitempty" yaml:"start_date,omitempty"`
 
 	// Status Possible statuses of a Stripe subscription.
 	Status    SubscriptionStatus `db:"status" json:"status" yaml:"status"`
-	UpdatedAt externalRef0.Time  `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	UpdatedAt corev1alpha1.Time  `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 }
 
 // SubscriptionPage defines model for SubscriptionPage.
@@ -111,26 +111,26 @@ type UpdateUsersRequest struct {
 // UpgradeSubscriptionRequest defines model for UpgradeSubscriptionRequest.
 type UpgradeSubscriptionRequest struct {
 	// NewPlanId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	NewPlanId *externalRef0.Uuid `json:"new_plan_id,omitempty" yaml:"new_plan_id,omitempty"`
+	NewPlanId *corev1alpha1.Uuid `json:"new_plan_id,omitempty" yaml:"new_plan_id,omitempty"`
 
 	// OldPlanId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	OldPlanId *externalRef0.Uuid `json:"old_plan_id,omitempty" yaml:"old_plan_id,omitempty"`
+	OldPlanId *corev1alpha1.Uuid `json:"old_plan_id,omitempty" yaml:"old_plan_id,omitempty"`
 }
 
 // WebhookEvent Payload for webhook events from payment processors
 type WebhookEvent = map[string]interface{}
 
-// ExternalRef0Order defines model for order.
-type ExternalRef0Order = string
+// Corev1alpha1Order defines model for order.
+type Corev1alpha1Order = string
 
-// ExternalRef0Page defines model for page.
-type ExternalRef0Page = string
+// Corev1alpha1Page defines model for page.
+type Corev1alpha1Page = string
 
-// ExternalRef0Pagesize defines model for pagesize.
-type ExternalRef0Pagesize = string
+// Corev1alpha1Pagesize defines model for pagesize.
+type Corev1alpha1Pagesize = string
 
-// ExternalRef0PagesizeWithAll defines model for pagesizeWithAll.
-type ExternalRef0PagesizeWithAll = string
+// Corev1alpha1PagesizeWithAll defines model for pagesizeWithAll.
+type Corev1alpha1PagesizeWithAll = string
 
 // SubscriptionId defines model for subscriptionId.
 type SubscriptionId = string

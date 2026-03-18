@@ -6,7 +6,7 @@ package evaluation
 import (
 	"time"
 
-	externalRef0 "github.com/meshery/schemas/models/v1beta1/pattern"
+	patternv1beta1 "github.com/meshery/schemas/models/v1beta1/pattern"
 )
 
 // Defines values for ActionOp.
@@ -126,7 +126,7 @@ type DeleteRelationshipOpOp string
 // EvaluationRequest defines model for EvaluationRequest.
 type EvaluationRequest struct {
 	// Design Designs are your primary tool for collaborative authorship of your infrastructure, workflow, and processes.
-	Design  externalRef0.PatternFile `json:"design" yaml:"design"`
+	Design  patternv1beta1.PatternFile `json:"design" yaml:"design"`
 	Options *struct {
 		// EnableTrace If true, include detailed trace information in the response
 		EnableTrace *bool `json:"enableTrace,omitempty" yaml:"enableTrace,omitempty"`
@@ -141,7 +141,7 @@ type EvaluationResponse struct {
 	Actions []interface{} `json:"actions" yaml:"actions"`
 
 	// Design Designs are your primary tool for collaborative authorship of your infrastructure, workflow, and processes.
-	Design externalRef0.PatternFile `json:"design" yaml:"design"`
+	Design patternv1beta1.PatternFile `json:"design" yaml:"design"`
 
 	// EvaluationHash Hash of the input parameters and configuration used for this evaluation. Useful for identifying duplicate evaluations or caching results.
 	EvaluationHash *string `json:"evaluationHash,omitempty" yaml:"evaluationHash,omitempty"`
