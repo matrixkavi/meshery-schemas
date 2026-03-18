@@ -1,9 +1,5 @@
 package subscription
 
-func (*Subscription) EventCategory() string {
-	return "subscription"
-}
-
 // Deprecated aliases for PaymentProcessor constants — kept for backwards compatibility
 // after the generator-driven rename (PaymentProcessorX → X).
 

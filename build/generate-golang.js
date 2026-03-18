@@ -35,6 +35,7 @@ const logger = require("./lib/logger");
 const config = require("./lib/config");
 const paths = require("./lib/paths");
 const { commandExists } = require("./lib/exec");
+const { writeGeneratedHelperFile } = require("./lib/generated-go-helpers");
 
 /**
  * Add YAML struct tags alongside JSON ones in generated Go file
@@ -946,6 +947,7 @@ function createGeneratorConfig(pkg, inputPath, tempDir) {
  */
 async function generateGoModels(pkg) {
   const outputPath = paths.fromRoot(config.getGoOutputPath(pkg));
+  const outputDir = path.dirname(outputPath);
   const sourceInputPath = resolveGoInputSchemaPath(pkg);
 
   // Verify input exists
@@ -983,6 +985,7 @@ async function generateGoModels(pkg) {
     addSchemaExtraTags(outputPath, inputPath);
     rewriteExternalRefAliases(outputPath);
     validateGeneratedDbTags(outputPath, inputPath);
+    writeGeneratedHelperFile(pkg, outputDir);
 
     logger.success(`Generated: ${paths.relativePath(outputPath)}`);
   } catch (err) {

@@ -54,10 +54,6 @@ func (h *Connection) Create(db *database.Handler) (uuid.UUID, error) {
 	return connection.ID, nil
 }
 
-func (c *Connection) EventCategory() string {
-	return "connection"
-}
-
 // Deprecated aliases for ConnectionStatusValue constants.
 // These preserve the older exported names for downstream callers.
 const (
@@ -119,8 +115,4 @@ func MeshsyncDeploymentModeFromMetadata(metadata core.Map) MeshsyncDeploymentMod
 
 func SetMeshsyncDeploymentModeToMetadata(metadata core.Map, value MeshsyncDeploymentMode) {
 	metadata[MeshsyncDeploymentModeMetadataKey] = value
-}
-
-func (*MesheryInstance) EventCategory() string {
-	return "connection"
 }

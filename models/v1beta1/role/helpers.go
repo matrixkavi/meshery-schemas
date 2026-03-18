@@ -5,10 +5,6 @@ import (
 	"fmt"
 )
 
-func (*Role) EventCategory() string {
-	return "role"
-}
-
 // String returns a JSON representation of the Role.
 func (r Role) String() string {
 	ja, err := json.Marshal(r)
