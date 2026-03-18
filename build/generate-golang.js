@@ -254,7 +254,10 @@ function resolveSchemaRef(ref, options) {
   let resolvedNode;
   try {
     resolvedNode = getNodeByFragment(targetDocument, fragment, ref);
-  } catch (_err) {
+  } catch (err) {
+    if (missingFile === "throw") {
+      throw err;
+    }
     return null;
   }
 
