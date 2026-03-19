@@ -16,17 +16,18 @@ Meshery defines its data model as OpenAPI 3.0 YAML schemas under `schemas/constr
 ### Build pipeline overview
 
 ```
-schemas/constructs/**/*.y{a,}ml  (you write these)
-        │
-        ▼
+schemas/constructs/**/*.{yaml,yml}  (you write these)
+    │
+    ▼
   bundle-openapi.js           (bundles + dereferences via swagger-cli)
-        │
-        ▼
+    │
+    ▼
   _openapi_build/**/*.json    (intermediate bundled JSON)
-        │
-        ├──▶ generate-golang.js    → models/**/*.go         (oapi-codegen)
-        ├──▶ generate-typescript.js → typescript/generated/  (openapi-typescript)
-        └──▶ generate-rtk.js       → typescript/rtk/        (RTK Query hooks)
+    │
+    ├──▶ generate-golang.js     (reads source api.yml packages + reachable refs)
+    │      └──▶ models/**/*.go  (oapi-codegen)
+    ├──▶ generate-typescript.js → typescript/generated/  (openapi-typescript)
+    └──▶ generate-rtk.js        → typescript/rtk/        (RTK Query hooks)
 ```
 
 Note: `generate-golang.js` reads source `api.yml` files directly (not the bundled JSON), but the standard build (`make build`) still runs `bundle-openapi` first because Go generation depends on it in both the Makefile and `build/index.js`.
@@ -42,6 +43,7 @@ Understanding this pipeline matters because schema design decisions directly aff
 - Collects `x-oapi-codegen-extra-tags`, `x-go-name`, and `x-go-type` metadata across direct `$ref` and `allOf` composition
 - Builds import mappings from external `$ref` targets so cross-package types resolve correctly
 - Rewrites external import aliases using explicit `x-go-type-import.name` values when provided
+- Derives repetitive Go helper methods from generated package/type structure instead of relying on a hand-maintained package manifest
 - Uses `oapi-codegen` v2.x (pinned via `tool` directive in `go.mod`) under the hood
 
 **TypeScript generator** (`build/generate-typescript.js`):
@@ -157,10 +159,10 @@ plan:
 Use a single-entry wrapper only for reusable alias components that need local metadata:
 
 ```yaml
-AcademyCurriculumBadgeId:
+AcademyCurriculaBadgeId:
   allOf:
     - $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
-  description: ID of the badge awarded upon completion of this curriculum
+  description: ID of the badge awarded on completion of the curricula
   x-oapi-codegen-extra-tags:
     db: "badge_id"
     json: "badge_id"
@@ -223,6 +225,15 @@ metadata:
   x-oapi-codegen-extra-tags:
     db: "metadata"
 ```
+
+### Generated helper policy
+
+Keep helper generation implicit whenever possible.
+
+- `EventCategory` helpers should come from package/type conventions, not from a central handwritten package list.
+- `Scan` and `Value` helpers should be inferred from generated Go structs and DB-tagged local struct usage.
+- If a helper is not safely inferable, keep only that narrow exception handwritten in the package helper file and explain the exception in code or docs.
+- Do not introduce new hand-maintained generator manifests for package/type-level helper behavior unless the schema and generated type information genuinely cannot express the rule.
 
 ### String arrays (pq.StringArray for PostgreSQL)
 
@@ -376,6 +387,7 @@ When reviewing or auditing schemas, check every item on this list:
 - [ ] Fields that store JSON blobs in the database use `x-go-type: "core.Map"` with `x-go-type-skip-optional-pointer: true`
 - [ ] Array fields backed by PostgreSQL use `x-go-type: "pq.StringArray"` where appropriate
 - [ ] Nullable database fields use proper nullable markers
+- [ ] New generator behavior is inferred from schema/type conventions rather than a hand-maintained package manifest unless there is a documented exception
 
 ## What NOT to do
 
