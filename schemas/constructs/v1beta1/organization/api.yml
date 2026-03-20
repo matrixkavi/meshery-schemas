@@ -12,6 +12,48 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 
 paths:
+  /api/identity/orgs:
+    get:
+      summary: Read organizations
+      description: Returns organizations for the current user.
+      operationId: getOrgs
+      parameters:
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pagesize"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/order"
+        - $ref: "#/components/parameters/all"
+      responses:
+        "200":
+          description: Organizations response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationsPage"
+        "204":
+          description: No content
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+    post:
+      summary: Create an organization
+      description: Creates a new organization.
+      operationId: createOrg
+      requestBody:
+        $ref: "#/components/requestBodies/organizationPayload"
+      responses:
+        "201":
+          description: Organization creation response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organization"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+
   /api/identity/orgs/by-domain:
     get:
       summary: Get organization by domain
@@ -35,6 +77,86 @@ paths:
 
         "500":
           description: Internal server error
+
+  /api/identity/orgs/{orgId}:
+    get:
+      summary: Read an organization
+      description: Returns a single organization.
+      operationId: getOrg
+      parameters:
+        - $ref: "#/components/parameters/orgId"
+      responses:
+        "200":
+          description: Organization response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationsPage"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+    delete:
+      summary: Delete an organization
+      description: Deletes the organization.
+      operationId: deleteOrg
+      parameters:
+        - $ref: "#/components/parameters/orgId"
+      responses:
+        "200":
+          description: Organization deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationsPage"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+    put:
+      summary: Update an organization
+      description: Updates the organization.
+      operationId: handleUpdateOrg
+      parameters:
+        - $ref: "#/components/parameters/orgId"
+      requestBody:
+        $ref: "#/components/requestBodies/organizationPayload"
+      responses:
+        "200":
+          description: Organization updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganizationsPage"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
+
+  /api/identity/orgs/{orgId}/preferences:
+    get:
+      summary: Get organization preferences
+      description: Returns preferences for the specified organization.
+      operationId: GetOrgPreferences
+      parameters:
+        - $ref: "#/components/parameters/orgId"
+      responses:
+        "200":
+          description: Organization preferences
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Preferences"
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
 
   /api/identity/orgs/{orgID}/teams/{teamId}:
     post:
@@ -92,7 +214,24 @@ paths:
           description: Internal server error
 
 components:
+  responses:
+    400:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/400"
+    401:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/401"
+    404:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/404"
+    500:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/500"
+
   parameters:
+    orgId:
+      name: orgId
+      in: path
+      required: true
+      schema:
+        $ref: "../../v1alpha1/core/api.yml#/components/schemas/organization_id"
+
     orgID:
       name: orgID
       in: path
@@ -100,12 +239,56 @@ components:
       schema:
         $ref: "../../v1alpha1/core/api.yml#/components/schemas/organization_id"
 
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+
+    pagesize:
+      name: pagesize
+      in: query
+      required: false
+      schema:
+        type: integer
+
+    search:
+      name: search
+      in: query
+      required: false
+      schema:
+        type: string
+
+    order:
+      name: order
+      in: query
+      required: false
+      schema:
+        type: string
+
+    all:
+      name: all
+      in: query
+      required: false
+      schema:
+        type: boolean
+
     teamId:
       name: teamId
       in: path
       required: true
       schema:
         $ref: "../../v1alpha1/core/api.yml#/components/schemas/team_id"
+
+  requestBodies:
+    organizationPayload:
+      description: Body for creating or updating an organization
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrganizationPayload"
 
   schemas:
     UUID:
@@ -266,6 +449,62 @@ components:
           nullable: true
           x-oapi-codegen-extra-tags:
             db: "domain"
+
+    AvailableOrganization:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+          x-go-name: ID
+        name:
+          $ref: "#/components/schemas/Text"
+        description:
+          $ref: "#/components/schemas/Text"
+        country:
+          $ref: "#/components/schemas/Text"
+        region:
+          $ref: "#/components/schemas/Text"
+        owner:
+          $ref: "#/components/schemas/Text"
+        metadata:
+          x-go-type: "OrgMetadata"
+          $ref: "#/components/schemas/OrgMetadata"
+        created_at:
+          $ref: "#/components/schemas/Time"
+        updated_at:
+          $ref: "#/components/schemas/Time"
+        deleted_at:
+          $ref: "#/components/schemas/NullableTime"
+
+    OrganizationsPage:
+      type: object
+      properties:
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        organizations:
+          type: array
+          items:
+            $ref: "#/components/schemas/AvailableOrganization"
+
+    OrganizationPayload:
+      type: object
+      properties:
+        name:
+          $ref: "#/components/schemas/Text"
+        country:
+          $ref: "#/components/schemas/Text"
+        region:
+          $ref: "#/components/schemas/Text"
+        description:
+          $ref: "#/components/schemas/Text"
+        notify_org_update:
+          type: boolean
+        preferences:
+          $ref: "#/components/schemas/Preferences"
 
     AvailableTeam:
       type: object
