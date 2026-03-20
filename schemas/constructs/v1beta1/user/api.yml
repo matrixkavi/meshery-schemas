@@ -15,7 +15,7 @@ paths:
     get:
       tags:
         - users
-      operationId: GetUsersForOrg
+      operationId: getUsersForOrg
       summary: Get organization users
       description: Returns organization users, optionally filtered by team membership.
       parameters:
@@ -32,9 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                anyOf:
-                  - $ref: "#/components/schemas/UsersPageForAdmin"
-                  - $ref: "#/components/schemas/TeamMembersPage"
+                $ref: "#/components/schemas/UsersPageForAdmin"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -46,7 +44,7 @@ paths:
     get:
       tags:
         - users
-      operationId: GetUsers
+      operationId: getUsers
       summary: Get public users
       description: Returns publicly viewable user records.
       parameters:
@@ -73,7 +71,7 @@ paths:
     get:
       tags:
         - users
-      operationId: GetUserProfileById
+      operationId: getUserProfileById
       summary: Get user profile by ID
       parameters:
         - $ref: "#/components/parameters/id"
@@ -93,7 +91,7 @@ paths:
     get:
       tags:
         - users
-      operationId: GetUser
+      operationId: getUser
       summary: Get current user profile
       responses:
         "200":
@@ -133,35 +131,15 @@ components:
       schema:
         $ref: "../../v1alpha1/core/api.yml#/components/schemas/organization_id"
     page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/page"
     pagesize:
-      name: pagesize
-      in: query
-      required: false
-      schema:
-        type: integer
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/pagesize"
     search:
-      name: search
-      in: query
-      required: false
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/search"
     order:
-      name: order
-      in: query
-      required: false
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/order"
     filter:
-      name: filter
-      in: query
-      required: false
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/filter"
     teamID:
       name: teamID
       in: query
@@ -376,9 +354,7 @@ components:
               - organization admin
               - user
           description: List of global roles assigned to the user
-          example:
-            - ["admin", "meshmap"]
-            - ["user"]
+          example: ["admin", "meshmap"]
           x-oapi-codegen-extra-tags:
             db: "role_names"
             json: "role_names"
@@ -429,29 +405,9 @@ components:
                 yaml: "total_count"
       additionalProperties: false
 
-    GetUserResponse:
-      description: Response schema for getting user information, includes user data with roles, teams, and organizations
-      allOf:
-        - $ref: "#/components/schemas/User"
-
     UsersPageForAdmin:
       type: object
       description: Paginated list of users with organization and team role context
-      properties:
-        page:
-          type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/User"
-
-    TeamMembersPage:
-      type: object
-      description: Paginated list of team members
       properties:
         page:
           type: integer

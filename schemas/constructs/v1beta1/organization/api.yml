@@ -44,11 +44,11 @@ paths:
         $ref: "#/components/requestBodies/organizationPayload"
       responses:
         "201":
-          description: Organization creation response
+          description: Single-organization page response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Organization"
+                $ref: "#/components/schemas/OrganizationPage"
         "401":
           $ref: "#/components/responses/401"
         "500":
@@ -78,20 +78,20 @@ paths:
         "500":
           description: Internal server error
 
-  /api/identity/orgs/{orgId}:
+  /api/identity/orgs/{orgID}:
     get:
       summary: Read an organization
-      description: Returns a single organization.
+      description: Returns the organization in the single-item page wrapper currently emitted by meshery-cloud.
       operationId: getOrg
       parameters:
-        - $ref: "#/components/parameters/orgId"
+        - $ref: "#/components/parameters/orgID"
       responses:
         "200":
-          description: Organization response
+          description: Single-organization page response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationsPage"
+                $ref: "#/components/schemas/OrganizationPage"
         "401":
           $ref: "#/components/responses/401"
         "500":
@@ -101,14 +101,14 @@ paths:
       description: Deletes the organization.
       operationId: deleteOrg
       parameters:
-        - $ref: "#/components/parameters/orgId"
+        - $ref: "#/components/parameters/orgID"
       responses:
         "200":
-          description: Organization deleted
+          description: Single-organization page response for the deleted organization
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationsPage"
+                $ref: "#/components/schemas/OrganizationPage"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -122,16 +122,16 @@ paths:
       description: Updates the organization.
       operationId: handleUpdateOrg
       parameters:
-        - $ref: "#/components/parameters/orgId"
+        - $ref: "#/components/parameters/orgID"
       requestBody:
         $ref: "#/components/requestBodies/organizationPayload"
       responses:
         "200":
-          description: Organization updated
+          description: Single-organization page response for the updated organization
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/OrganizationsPage"
+                $ref: "#/components/schemas/OrganizationPage"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -139,20 +139,20 @@ paths:
         "500":
           $ref: "#/components/responses/500"
 
-  /api/identity/orgs/{orgId}/preferences:
+  /api/identity/orgs/{orgID}/preferences:
     get:
       summary: Get organization preferences
       description: Returns preferences for the specified organization.
-      operationId: GetOrgPreferences
+      operationId: getOrgPreferences
       parameters:
-        - $ref: "#/components/parameters/orgId"
+        - $ref: "#/components/parameters/orgID"
       responses:
         "200":
-          description: Organization preferences
+          description: Organization metadata, including preferences
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Preferences"
+                $ref: "#/components/schemas/OrgMetadata"
         "401":
           $ref: "#/components/responses/401"
         "500":
@@ -225,13 +225,6 @@ components:
       $ref: "../../v1alpha1/core/api.yml#/components/responses/500"
 
   parameters:
-    orgId:
-      name: orgId
-      in: path
-      required: true
-      schema:
-        $ref: "../../v1alpha1/core/api.yml#/components/schemas/organization_id"
-
     orgID:
       name: orgID
       in: path
@@ -240,39 +233,19 @@ components:
         $ref: "../../v1alpha1/core/api.yml#/components/schemas/organization_id"
 
     page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/page"
 
     pagesize:
-      name: pagesize
-      in: query
-      required: false
-      schema:
-        type: integer
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/pagesize"
 
     search:
-      name: search
-      in: query
-      required: false
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/search"
 
     order:
-      name: order
-      in: query
-      required: false
-      schema:
-        type: string
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/order"
 
     all:
-      name: all
-      in: query
-      required: false
-      schema:
-        type: boolean
+      $ref: "../../v1alpha1/core/api.yml#/components/parameters/all"
 
     teamId:
       name: teamId
@@ -487,6 +460,22 @@ components:
           type: integer
         organizations:
           type: array
+          items:
+            $ref: "#/components/schemas/AvailableOrganization"
+
+    OrganizationPage:
+      type: object
+      description: Single-organization wrapper used by current meshery-cloud organization handlers.
+      properties:
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        organizations:
+          type: array
+          maxItems: 1
           items:
             $ref: "#/components/schemas/AvailableOrganization"
 
