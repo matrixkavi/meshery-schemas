@@ -273,6 +273,106 @@ import ModelSchema from "@meshery/schemas/dist/constructs/v1beta1/model/ModelSch
 import ComponentSchema from "@meshery/schemas/dist/constructs/v1beta1/component/ComponentSchema";
 ```
 
+## The Dual-Schema Pattern (REQUIRED for all entity schemas)
+
+This is the most critical API design rule in this repo. Violations produce incorrect generated Go structs and API clients downstream in `meshery/meshery` and `layer5io/meshery-cloud`.
+
+### Rule 1 — `<construct>.yaml` is a response schema only
+
+The YAML file for an entity represents the **full server-side object** returned in API responses. It is **not** a request body schema.
+
+Every entity `<construct>.yaml` must have:
+- `additionalProperties: false` at the top level
+- All server-generated fields defined in `properties`: `id`, `created_at`, `updated_at`, `deleted_at`
+- Server-generated fields that are always present in responses listed in `required`
+
+### Rule 2 — Every writable entity needs a `*Payload` schema in `api.yml`
+
+For any entity that supports `POST` or `PUT`, define a `{Construct}Payload` schema in `api.yml`:
+- Contains **only client-settable fields** — never `created_at`, `updated_at`, `deleted_at`
+- `id` is optional with `json:"id,omitempty"` for upsert patterns, or omitted entirely for create-only
+- Referenced by all `requestBody` entries for `POST`/`PUT`
+
+### Rule 3 — `POST`/`PUT` requestBody must reference `*Payload`, never the entity schema
+
+```yaml
+# WRONG — forces clients to supply server-generated fields
+post:
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/Keychain"
+
+# CORRECT
+post:
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/KeychainPayload"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Keychain"   # full entity in response
+```
+
+### Canonical reference implementations
+
+Model new schemas on these:
+- `schemas/constructs/v1beta1/connection/` — `connection.yaml` + `ConnectionPayload`
+- `schemas/constructs/v1beta1/key/` — `key.yaml` + `KeyPayload`
+- `schemas/constructs/v1beta1/team/` — `team.yaml` + `teamPayload`/`teamUpdatePayload`
+- `schemas/constructs/v1beta1/environment/` — `environment.yaml` + `environmentPayload`
+
+---
+
+## SQL Driver (`Scan`/`Value`) Implementation Rules
+
+When manually implementing `sql.Scanner` and `driver.Valuer` for map-like types:
+
+### Rule: Always serialize — never return SQL NULL from `Value()`
+
+The established pattern in this repo (`core.Map`) always marshals to a JSON string. A nil map marshals to the JSON string `"null"`, **not** SQL NULL. New implementations must match this unless the column is explicitly nullable and nil-vs-empty distinction is required and documented.
+
+```go
+// CORRECT — matches core.Map pattern
+func (m MapObject) Value() (driver.Value, error) {
+    b, err := json.Marshal(m)
+    if err != nil {
+        return nil, err
+    }
+    return string(b), nil
+}
+
+// WRONG — writes SQL NULL, inconsistent with core.Map
+func (m MapObject) Value() (driver.Value, error) {
+    if m == nil {
+        return nil, nil   // ← do not do this
+    }
+    ...
+}
+```
+
+### Rule: `Scan` must zero the receiver on nil src
+
+When `src` is nil (SQL NULL), explicitly zero the receiver. Returning without modifying it leaves stale data if the same struct is reused across rows.
+
+```go
+// CORRECT
+case nil:
+    *m = nil
+    return nil
+
+// WRONG — leaves stale data
+case nil:
+    return nil
+```
+
+---
+
 ## Common Mistakes to Avoid
 
 1. ❌ Committing generated Go code in `models/` directory
@@ -287,12 +387,16 @@ import ComponentSchema from "@meshery/schemas/dist/constructs/v1beta1/component/
 10. ❌ Assuming schema property names are PascalCase (check actual generated `.d.ts` files)
 11. ❌ Adding `x-generate-db-helpers` on individual properties — it must be at the schema component level
 12. ❌ Using `x-generate-db-helpers` on amorphous types without a fixed schema — use `x-go-type: "core.Map"` instead
+13. ❌ Using the full entity schema as a `POST`/`PUT` `requestBody` — always use a separate `*Payload` schema
+14. ❌ Omitting `additionalProperties: false` from entity `<construct>.yaml` files
+15. ❌ Returning `(nil, nil)` from `Value()` in SQL driver implementations — always marshal, even for nil maps
+16. ❌ Returning without zeroing the receiver in `Scan()` when `src` is nil — set `*m = nil` first
 
 ## Checklist for Schema Changes
 
 - [ ] Modified only schema JSON/YAML files (not generated code)
 - [ ] Updated corresponding template files in `templates/` subdirectory with default values
-- [ ] Used non-deprecated `v1alpha1/core/api.yml` references  
+- [ ] Used non-deprecated `v1alpha1/core/api.yml` references
 - [ ] If adding new schemas, referenced them from `api.yml` (the construct index file)
 - [ ] Removed redundant tags when using schema references
 - [ ] If a schema type is stored as a JSON blob in a DB column AND has a dedicated schema definition, used `x-generate-db-helpers: true` at the schema component level (not per-property)
@@ -301,6 +405,12 @@ import ComponentSchema from "@meshery/schemas/dist/constructs/v1beta1/component/
 - [ ] Ran `npm run build` successfully
 - [ ] Verified only schema JSON/YAML files are in the commit
 - [ ] If updating `typescript/index.ts`, verified import paths are correct
+- [ ] (New entity) `<construct>.yaml` has `additionalProperties: false`
+- [ ] (New entity) `<construct>.yaml` includes all server-generated fields in `properties` and `required`
+- [ ] (New entity with writes) `api.yml` defines a `{Construct}Payload` with only client-settable fields
+- [ ] (New entity with writes) All `POST`/`PUT` `requestBody` entries reference `{Construct}Payload`, not `{Construct}`
+- [ ] (New SQL driver) `Value()` always marshals — never returns `(nil, nil)`
+- [ ] (New SQL driver) `Scan()` sets `*m = nil` when `src` is nil
 
 ## Questions?
 

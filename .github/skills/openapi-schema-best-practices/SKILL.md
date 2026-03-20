@@ -133,6 +133,155 @@ For schemas in `v1alpha3`, the relative path is shorter: `../v1alpha1/core/api.y
 
 ## Schema design patterns
 
+### The Dual-Schema Pattern (REQUIRED for all entity schemas)
+
+Every persisted entity MUST follow this pattern. Violating it causes generated Go structs and API clients in downstream repos (`meshery/meshery`, `layer5io/meshery-cloud`) to require clients to supply server-generated fields.
+
+#### Rule 1 — `<construct>.yaml` is a response schema only
+
+The YAML file is the **full server-side object** as returned in API responses. It is never a request body.
+
+Requirements:
+- `additionalProperties: false` at the top level
+- All server-generated fields (`id`, `created_at`, `updated_at`, `deleted_at`) in `properties`
+- Server-generated fields that are always present in responses listed in `required`
+
+```yaml
+# CORRECT: keychain.yaml
+type: object
+additionalProperties: false
+required:
+  - id
+  - name
+  - owner
+  - created_at
+  - updated_at
+properties:
+  id:
+    $ref: ../../v1alpha1/core/api.yml#/components/schemas/uuid
+  name:
+    type: string
+  owner:
+    $ref: ../../v1alpha1/core/api.yml#/components/schemas/uuid
+  created_at:
+    $ref: ../../v1alpha1/core/api.yml#/components/schemas/created_at
+  updated_at:
+    $ref: ../../v1alpha1/core/api.yml#/components/schemas/updated_at
+  deleted_at:
+    $ref: ../../v1alpha1/core/api.yml#/components/schemas/nullTime
+```
+
+#### Rule 2 — Define a `{Construct}Payload` in `api.yml` for every writable entity
+
+Every entity with `POST` or `PUT` operations needs a dedicated `{Construct}Payload` schema in `api.yml`:
+- Contains only client-settable fields — never `created_at`, `updated_at`, `deleted_at`
+- `id` is optional with `json:"id,omitempty"` for upsert patterns; absent entirely for create-only
+- Referenced by all `requestBody` entries for `POST`/`PUT`
+
+```yaml
+# In api.yml — components/schemas
+KeychainPayload:
+  type: object
+  description: Payload for creating or updating a keychain.
+  required:
+    - name
+  properties:
+    id:
+      $ref: ../../v1alpha1/core/api.yml#/components/schemas/uuid
+      description: Existing keychain ID for updates; omit on create.
+      x-oapi-codegen-extra-tags:
+        json: "id,omitempty"
+    name:
+      type: string
+    owner:
+      $ref: ../../v1alpha1/core/api.yml#/components/schemas/uuid
+      x-oapi-codegen-extra-tags:
+        json: "owner,omitempty"
+```
+
+#### Rule 3 — `POST`/`PUT` requestBody must reference `*Payload`, not the entity schema
+
+```yaml
+# WRONG — exposes server-generated required fields to clients
+post:
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/Keychain"
+
+# CORRECT — payload for write, full entity for response
+post:
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/KeychainPayload"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Keychain"
+```
+
+#### Canonical reference implementations
+
+| Construct | Entity schema | Payload schema |
+|-----------|--------------|----------------|
+| connection | `connection.yaml` | `ConnectionPayload` in `api.yml` |
+| key | `key.yaml` | `KeyPayload` in `api.yml` |
+| team | `team.yaml` | `teamPayload` + `teamUpdatePayload` in `api.yml` |
+| environment | `environment.yaml` | `environmentPayload` in `api.yml` |
+
+Run `make validate-schemas` to catch dual-schema violations automatically.
+
+---
+
+### SQL Driver (`Scan`/`Value`) Rules for Manual Helper Files
+
+When writing `sql.Scanner` / `driver.Valuer` implementations in manual `*_helper.go` files:
+
+#### `Value()` — always serialize, never return SQL NULL
+
+The established pattern (`core.Map`) always marshals. A nil map produces JSON `"null"` — not SQL NULL. All implementations must match this.
+
+```go
+// CORRECT — matches core.Map; nil → JSON "null", never SQL NULL
+func (m MapObject) Value() (driver.Value, error) {
+    b, err := json.Marshal(m)
+    if err != nil {
+        return nil, err
+    }
+    return string(b), nil
+}
+
+// WRONG — writes SQL NULL; inconsistent with core.Map
+func (m MapObject) Value() (driver.Value, error) {
+    if m == nil {
+        return nil, nil   // ← never do this
+    }
+    ...
+}
+```
+
+#### `Scan()` — zero the receiver when `src` is nil
+
+```go
+// CORRECT — prevents stale data when struct is reused across rows
+case nil:
+    *m = nil
+    return nil
+
+// WRONG — leaves stale data from previous row
+case nil:
+    return nil
+```
+
+Note: `x-generate-db-helpers`-generated helpers in `zz_generated.helpers.go` already follow both rules correctly. These rules apply only to **manually written** helper files.
+
+---
+
 ### `allOf` decision rule
 
 Use `allOf` only when one of these is true:
