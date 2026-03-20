@@ -2590,11 +2590,14 @@ export type GetConnectionsApiResponse = /** status 200 Paginated list of connect
       organization_id: string;
       /** Environment owner */
       owner?: string;
+      /** Timestamp when the resource was created. */
       created_at?: string;
+      /** Additional metadata associated with the environment. */
       metadata?: object;
+      /** Timestamp when the resource was updated. */
       updated_at?: string;
-      /** SQL null Timestamp to handle null values of time. */
-      deleted_at?: string;
+      /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+      deleted_at?: string | null;
     }[];
     /** Specifies the version of the schema used for the definition. */
     schemaVersion: string;
@@ -2684,11 +2687,14 @@ export type RegisterConnectionApiResponse = /** status 201 Connection registered
     organization_id: string;
     /** Environment owner */
     owner?: string;
+    /** Timestamp when the resource was created. */
     created_at?: string;
+    /** Additional metadata associated with the environment. */
     metadata?: object;
+    /** Timestamp when the resource was updated. */
     updated_at?: string;
-    /** SQL null Timestamp to handle null values of time. */
-    deleted_at?: string;
+    /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+    deleted_at?: string | null;
   }[];
   /** Specifies the version of the schema used for the definition. */
   schemaVersion: string;
@@ -2760,11 +2766,14 @@ export type GetConnectionByIdApiResponse = /** status 200 Connection details */ 
     organization_id: string;
     /** Environment owner */
     owner?: string;
+    /** Timestamp when the resource was created. */
     created_at?: string;
+    /** Additional metadata associated with the environment. */
     metadata?: object;
+    /** Timestamp when the resource was updated. */
     updated_at?: string;
-    /** SQL null Timestamp to handle null values of time. */
-    deleted_at?: string;
+    /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+    deleted_at?: string | null;
   }[];
   /** Specifies the version of the schema used for the definition. */
   schemaVersion: string;
@@ -2818,11 +2827,14 @@ export type UpdateConnectionApiResponse = /** status 200 Connection updated succ
     organization_id: string;
     /** Environment owner */
     owner?: string;
+    /** Timestamp when the resource was created. */
     created_at?: string;
+    /** Additional metadata associated with the environment. */
     metadata?: object;
+    /** Timestamp when the resource was updated. */
     updated_at?: string;
-    /** SQL null Timestamp to handle null values of time. */
-    deleted_at?: string;
+    /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+    deleted_at?: string | null;
   }[];
   /** Specifies the version of the schema used for the definition. */
   schemaVersion: string;
@@ -3162,11 +3174,14 @@ export type GetPatternsApiResponse = /** status 200 Designs fetched successfully
               organization_id: string;
               /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
               owner?: string;
+              /** Timestamp when the resource was created. */
               created_at?: string;
+              /** Additional metadata associated with the environment. */
               metadata?: object;
+              /** Timestamp when the resource was updated. */
               updated_at?: string;
-              /** SQL null Timestamp to handle null values of time. */
-              deleted_at?: string;
+              /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+              deleted_at?: string | null;
             }[];
             /** Specifies the version of the schema used for the definition. */
             schemaVersion: string;
@@ -4175,11 +4190,14 @@ export type UpsertPatternApiResponse = /** status 200 Design saved successfully 
             organization_id: string;
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             owner?: string;
+            /** Timestamp when the resource was created. */
             created_at?: string;
+            /** Additional metadata associated with the environment. */
             metadata?: object;
+            /** Timestamp when the resource was updated. */
             updated_at?: string;
-            /** SQL null Timestamp to handle null values of time. */
-            deleted_at?: string;
+            /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+            deleted_at?: string | null;
           }[];
           /** Specifies the version of the schema used for the definition. */
           schemaVersion: string;
@@ -5176,11 +5194,14 @@ export type UpsertPatternApiArg = {
                 organization_id: string;
                 /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
                 owner?: string;
+                /** Timestamp when the resource was created. */
                 created_at?: string;
+                /** Additional metadata associated with the environment. */
                 metadata?: object;
+                /** Timestamp when the resource was updated. */
                 updated_at?: string;
-                /** SQL null Timestamp to handle null values of time. */
-                deleted_at?: string;
+                /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+                deleted_at?: string | null;
               }[];
               /** Specifies the version of the schema used for the definition. */
               schemaVersion: string;
@@ -6212,11 +6233,14 @@ export type GetPatternApiResponse = /** status 200 Design fetched successfully *
             organization_id: string;
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             owner?: string;
+            /** Timestamp when the resource was created. */
             created_at?: string;
+            /** Additional metadata associated with the environment. */
             metadata?: object;
+            /** Timestamp when the resource was updated. */
             updated_at?: string;
-            /** SQL null Timestamp to handle null values of time. */
-            deleted_at?: string;
+            /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+            deleted_at?: string | null;
           }[];
           /** Specifies the version of the schema used for the definition. */
           schemaVersion: string;
@@ -7219,11 +7243,14 @@ export type ClonePatternApiResponse = /** status 200 Design cloned successfully 
             organization_id: string;
             /** A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas. */
             owner?: string;
+            /** Timestamp when the resource was created. */
             created_at?: string;
+            /** Additional metadata associated with the environment. */
             metadata?: object;
+            /** Timestamp when the resource was updated. */
             updated_at?: string;
-            /** SQL null Timestamp to handle null values of time. */
-            deleted_at?: string;
+            /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+            deleted_at?: string | null;
           }[];
           /** Specifies the version of the schema used for the definition. */
           schemaVersion: string;
@@ -8129,11 +8156,14 @@ export type CreateEnvironmentApiResponse = /** status 201 Created environment */
   organization_id: string;
   /** Environment owner */
   owner?: string;
+  /** Timestamp when the resource was created. */
   created_at?: string;
+  /** Additional metadata associated with the environment. */
   metadata?: object;
+  /** Timestamp when the resource was updated. */
   updated_at?: string;
-  /** SQL null Timestamp to handle null values of time. */
-  deleted_at?: string;
+  /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+  deleted_at?: string | null;
 };
 export type CreateEnvironmentApiArg = {
   /** Body for creating environment */
@@ -8163,11 +8193,14 @@ export type GetEnvironmentsApiResponse = /** status 200 Environments */ {
     organization_id: string;
     /** Environment owner */
     owner?: string;
+    /** Timestamp when the resource was created. */
     created_at?: string;
+    /** Additional metadata associated with the environment. */
     metadata?: object;
+    /** Timestamp when the resource was updated. */
     updated_at?: string;
-    /** SQL null Timestamp to handle null values of time. */
-    deleted_at?: string;
+    /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+    deleted_at?: string | null;
   }[];
 };
 export type GetEnvironmentsApiArg = {
@@ -10011,11 +10044,14 @@ export type GetEnvironmentsOfWorkspaceApiResponse = /** status 200 Environments 
     organization_id: string;
     /** Environment owner */
     owner?: string;
+    /** Timestamp when the resource was created. */
     created_at?: string;
+    /** Additional metadata associated with the environment. */
     metadata?: object;
+    /** Timestamp when the resource was updated. */
     updated_at?: string;
-    /** SQL null Timestamp to handle null values of time. */
-    deleted_at?: string;
+    /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+    deleted_at?: string | null;
   }[];
 };
 export type GetEnvironmentsOfWorkspaceApiArg = {
@@ -10220,11 +10256,14 @@ export type GetDesignsOfWorkspaceApiResponse = /** status 200 Designs */ {
               organization_id: string;
               /** Environment owner */
               owner?: string;
+              /** Timestamp when the resource was created. */
               created_at?: string;
+              /** Additional metadata associated with the environment. */
               metadata?: object;
+              /** Timestamp when the resource was updated. */
               updated_at?: string;
-              /** SQL null Timestamp to handle null values of time. */
-              deleted_at?: string;
+              /** Timestamp when the environment was soft deleted. Null while the environment remains active. */
+              deleted_at?: string | null;
             }[];
             /** Specifies the version of the schema used for the definition. */
             schemaVersion: string;
