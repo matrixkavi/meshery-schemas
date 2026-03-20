@@ -14,6 +14,8 @@ info:
 paths:
   /api/identity/orgs:
     get:
+      security:
+        - jwt: []
       summary: Read organizations
       description: Returns organizations for the current user.
       operationId: getOrgs
@@ -37,6 +39,8 @@ paths:
         "500":
           $ref: "#/components/responses/500"
     post:
+      security:
+        - jwt: []
       summary: Create an organization
       description: Creates a new organization.
       operationId: createOrg
@@ -79,6 +83,8 @@ paths:
           description: Internal server error
   /api/identity/orgs/{orgId}:
     get:
+      security:
+        - jwt: []
       summary: Read an organization
       description: Returns the organization in the single-item page wrapper currently emitted by meshery-cloud.
       operationId: getOrg
@@ -96,6 +102,8 @@ paths:
         "500":
           $ref: "#/components/responses/500"
     delete:
+      security:
+        - jwt: []
       summary: Delete an organization
       description: Deletes the organization.
       operationId: deleteOrg
@@ -117,6 +125,8 @@ paths:
         "500":
           $ref: "#/components/responses/500"
     put:
+      security:
+        - jwt: []
       summary: Update an organization
       description: Updates the organization.
       operationId: handleUpdateOrg
@@ -140,6 +150,8 @@ paths:
 
   /api/identity/orgs/{orgId}/preferences:
     get:
+      security:
+        - jwt: []
       summary: Get organization preferences
       description: Returns preferences for the specified organization.
       operationId: getOrgPreferences
@@ -158,6 +170,8 @@ paths:
           $ref: "#/components/responses/500"
   /api/identity/orgs/{orgId}/teams/{teamId}:
     post:
+      security:
+        - jwt: []
       summary: Add team to organization or soft delete team
       description: Adds a team to an organization. If request body contains action=delete, tombstones a team by setting its deleted_at timestamp. The team's organization mapping remains intact.
       operationId: addTeamToOrg
@@ -189,6 +203,8 @@ paths:
           description: Internal server error
 
     delete:
+      security:
+        - jwt: []
       summary: Remove team from organization
       description: Removes (unassigns) a team from an organization.
       operationId: removeTeamFromOrg
@@ -212,6 +228,12 @@ paths:
           description: Internal server error
 
 components:
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   responses:
     400:
       $ref: "../../v1alpha1/core/api.yml#/components/responses/400"
