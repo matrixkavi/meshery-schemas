@@ -174,7 +174,7 @@ paths:
         - jwt: []
       summary: Add team to organization or soft delete team
       description: Adds a team to an organization. If request body contains action=delete, tombstones a team by setting its deleted_at timestamp. The team's organization mapping remains intact.
-      operationId: AddTeamToOrg
+      operationId: addTeamToOrg
       parameters:
         - $ref: "#/components/parameters/orgId"
         - $ref: "#/components/parameters/teamId"
@@ -207,7 +207,7 @@ paths:
         - jwt: []
       summary: Remove team from organization
       description: Removes (unassigns) a team from an organization.
-      operationId: RemoveTeamFromOrg
+      operationId: removeTeamFromOrg
       parameters:
         - $ref: "#/components/parameters/orgId"
         - $ref: "#/components/parameters/teamId"
