@@ -440,12 +440,12 @@ components:
       required:
         - anonymousUsageStats
         - anonymousPerfResults
-        - updatedAt
+        - updated_at
         - dashboardPreferences
         - selectedOrganizationID
         - selectedWorkspaceForOrganizations
         - usersExtensionPreferences
-        - RemoteProviderPreferences
+        - remoteProviderPreferences
 
       properties:
         meshAdapters:

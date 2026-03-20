@@ -147,7 +147,6 @@ paths:
           $ref: "#/components/responses/401"
         "500":
           $ref: "#/components/responses/500"
-
   /api/identity/orgs/{orgId}/preferences:
     get:
       security:
@@ -168,6 +167,7 @@ paths:
           $ref: "#/components/responses/401"
         "500":
           $ref: "#/components/responses/500"
+
   /api/identity/orgs/{orgId}/teams/{teamId}:
     post:
       security:
@@ -273,7 +273,6 @@ components:
       required: true
       schema:
         $ref: "../../v1alpha1/core/api.yml#/components/schemas/team_id"
-
   requestBodies:
     organizationPayload:
       description: Body for creating or updating an organization
@@ -463,11 +462,11 @@ components:
           x-go-type: "OrgMetadata"
           $ref: "#/components/schemas/OrgMetadata"
         created_at:
-          $ref: "../../v1alpha1/core/api.yml#/components/schemas/created_at"
+          $ref: "#/components/schemas/Time"
         updated_at:
-          $ref: "../../v1alpha1/core/api.yml#/components/schemas/updated_at"
+          $ref: "#/components/schemas/Time"
         deleted_at:
-          $ref: "../../v1alpha1/core/api.yml#/components/schemas/deleted_at"
+          $ref: "#/components/schemas/NullableTime"
 
     OrganizationsPage:
       type: object
