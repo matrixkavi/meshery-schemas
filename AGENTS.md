@@ -213,7 +213,7 @@ post:
             $ref: "#/components/schemas/Keychain"   # full entity in response
 ```
 
-### Canonical reference implementations
+### Canonical reference implementations for downstream generation
 
 Model new schemas on these:
 
@@ -245,7 +245,7 @@ func (m MapObject) Value() (driver.Value, error) {
 // WRONG — writes SQL NULL, inconsistent with core.Map
 func (m MapObject) Value() (driver.Value, error) {
     if m == nil {
-        return nil, nil   // ← do not do this
+        return nil, nil   // <- do not do this
     }
     ...
 }
