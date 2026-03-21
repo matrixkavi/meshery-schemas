@@ -615,8 +615,6 @@ type KubernetesServerID = uuid.UUID
 type MesheryInstanceID = uuid.UUID
 
 // NullTime SQL null Timestamp to handle null values of time.
-// Uses the custom NullTime type that serializes to a plain JSON date string
-// instead of the sql.NullTime struct { "Time": "...", "Valid": true }.
 type NullTime = meshcore.NullTime
 
 // Number defines model for number.
