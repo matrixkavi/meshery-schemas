@@ -9,7 +9,7 @@ make build       # generate Go structs + TypeScript types + RTK clients
 npm run build    # build TypeScript distribution (dist/)
 ```
 
-Generated artifacts (`models/`, `typescript/generated/`, `dist/`) are committed by automation on `master`. Do not edit them by hand, and do not manually commit regenerated output in normal PRs unless the change explicitly requires it.
+Generated artifacts (`models/`, `typescript/generated/`) are committed by automation on `master`. The TypeScript distribution in `dist/` is produced by the npm build/publish workflow and is not committed to this repo. Do not edit generated artifacts by hand, and do not manually commit regenerated output in normal PRs unless the change explicitly requires it.
 
 ## The Dual-Schema Pattern (REQUIRED)
 
