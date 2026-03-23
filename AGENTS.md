@@ -357,7 +357,6 @@ case nil:
 - [ ] (List endpoint) GET returning arrays/pages references standard pagination params (`page`, `pagesize`)
 - [ ] (Response/requestBody) No inline schemas with 4+ properties — extract to `components/schemas`
 - [ ] (Extra tags) `db:` tags are snake_case; `json:` tag base matches property name; no manual `yaml:` tags
-- [ ] (New POST for creation) Response code is `201`, not `200`
 - [ ] (New DELETE on single resource) Response code is `204`, not `200`
 - [ ] (New schema) Not a structural duplicate of a schema in another construct — use `$ref` instead
 
@@ -439,11 +438,13 @@ This repository is the **source of truth** for three downstream projects. Schema
 
 ### Deterministic generation
 
-All code generators produce deterministic output:
+All code generators (bundler, Go/TypeScript generators) produce deterministic output:
 - `fs.readdirSync()` results are sorted alphabetically before iteration
-- `Object.entries()` iterations on schema components are sorted by key
+- `Object.entries()` iterations on schema components are sorted by key in generators
 - No `Math.random()`, no timestamp-dependent output
 - Running `make build` twice on the same input produces byte-identical generated files
+
+Note: The validator (`validate-schemas.js`) iterates paths/schemas in YAML parse order. Violation report order may vary with key ordering, but this does not affect correctness.
 
 ---
 

@@ -1072,33 +1072,23 @@ function validateSecurityScheme(filePath, doc) {
   );
   if (!hasOperations) return;
 
-  const hasTopLevelSecurity = Array.isArray(doc.security) && doc.security.length > 0;
   const hasSecuritySchemes = doc.components?.securitySchemes &&
     Object.keys(doc.components.securitySchemes).length > 0;
 
-  if (!hasTopLevelSecurity && !hasSecuritySchemes) {
-    // Check if any individual operation has security
-    let anyOpHasSecurity = false;
-    for (const pathItem of Object.values(doc.paths)) {
-      for (const method of ["get", "post", "put", "patch", "delete"]) {
-        const op = pathItem[method];
-        if (op?.security !== undefined) {
-          anyOpHasSecurity = true;
-          break;
-        }
-      }
-      if (anyOpHasSecurity) break;
-    }
+  // Top-level security must be non-empty (security: [] means explicitly public, not secured)
+  const hasTopLevelSecurity = Array.isArray(doc.security) &&
+    doc.security.length > 0 &&
+    doc.security.some((entry) => Object.keys(entry || {}).length > 0);
 
-    if (!anyOpHasSecurity) {
-      warn(
-        filePath,
-        `No security scheme declared. api.yml files with operations must define ` +
-          `either a top-level \`security\` array (e.g. \`security: [{ jwt: [] }]\`) or ` +
-          `\`components.securitySchemes\` with per-operation security. ` +
-          `Without this, endpoints ship unauthenticated by default.`,
-      );
-    }
+  if (!hasSecuritySchemes && !hasTopLevelSecurity) {
+    warn(
+      filePath,
+      `No security scheme declared. api.yml files with operations must define ` +
+        `\`components.securitySchemes\` with a non-empty scheme declaration, and either ` +
+        `a top-level \`security\` array (e.g. \`security: [{ jwt: [] }]\`) or ` +
+        `per-operation \`security\` on each endpoint. ` +
+        `Without this, endpoints ship unauthenticated by default.`,
+    );
   }
 }
 
@@ -1176,11 +1166,16 @@ function validatePaginationParams(filePath, doc) {
       }
     }
 
-    if (!paramNames.has("page") && !paramNames.has("pagesize")) {
+    const hasPage = paramNames.has("page");
+    const hasPagesize = paramNames.has("pagesize");
+    if (!hasPage || !hasPagesize) {
+      const missing = [];
+      if (!hasPage) missing.push("page");
+      if (!hasPagesize) missing.push("pagesize");
       warn(
         filePath,
         `GET ${routePath} — list endpoint (returns array or paged response) is missing ` +
-          `standard pagination parameters (page, pagesize). Reference the shared parameters ` +
+          `pagination parameter(s): ${missing.join(", ")}. Reference the shared parameters ` +
           `from v1alpha1/core/api.yml for consistent pagination across all list endpoints.`,
       );
     }
