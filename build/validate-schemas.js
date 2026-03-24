@@ -1090,7 +1090,16 @@ function validateSecurityScheme(filePath, doc) {
   const validSchemeKeys = new Set(Object.keys(securitySchemes));
 
   function validateSecurityArray(securityArray, context) {
-    if (!Array.isArray(securityArray)) return;
+    if (securityArray === undefined) return;
+    if (!Array.isArray(securityArray)) {
+      const actualType =
+        securityArray === null ? "null" : typeof securityArray;
+      warn(
+        filePath,
+        `${context} has invalid \`security\` type: expected an array but found ${actualType}.`,
+      );
+      return;
+    }
     for (const requirement of securityArray) {
       if (!requirement || typeof requirement !== "object") continue;
       for (const schemeKey of Object.keys(requirement)) {
