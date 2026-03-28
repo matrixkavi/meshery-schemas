@@ -69,10 +69,10 @@ components:
       bearerFormat: JWT
 
   schemas:
-    team:
+    Team:
       $ref: "./team.yaml"
 
-    teamPayload:
+    TeamPayload:
       type: object
       description: Payload for creating a new team
       required:
@@ -85,7 +85,7 @@ components:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/Text
           description: A detailed description of the team's purpose and responsibilities.
 
-    teamUpdatePayload:
+    TeamUpdatePayload:
       type: object
       description: Payload for updating an existing team
       properties:
@@ -96,24 +96,24 @@ components:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/Text
           description: Updated team description
 
-    teamPage:
+    TeamPage:
       type: object
       description: Paginated list of teams
       properties:
         page:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
-        page_size:
+        pageSize:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
-        total_count:
+        totalCount:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
         teams:
           type: array
           x-go-type-skip-optional-pointer: true
           items:
             x-go-type: Team
-            $ref: "#/components/schemas/team"
+            $ref: "#/components/schemas/Team"
 
-    teamsUsersMapping:
+    TeamsUsersMapping:
       type: object
       description: Mapping between teams and users
       properties:
@@ -135,40 +135,40 @@ components:
           x-oapi-codegen-extra-tags:
             db: deleted_at
 
-    teamsUsersMappingPage:
+    TeamsUsersMappingPage:
       type: object
       description: Paginated list of team-user mappings
       properties:
         page:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
-        page_size:
+        pageSize:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
-        total_count:
+        totalCount:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
-        teams_users_mapping:
+        teamsUsersMapping:
           type: array
           x-go-type-skip-optional-pointer: true
           items:
             x-go-type: TeamsUsersMapping
-            $ref: "#/components/schemas/teamsUsersMapping"
+            $ref: "#/components/schemas/TeamsUsersMapping"
 
-    teamMember:
+    TeamMember:
       type: object
       additionalProperties: true
 
-    teamMembersPage:
+    TeamMembersPage:
       type: object
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
         data:
           type: array
           items:
-            $ref: "#/components/schemas/teamMember"
+            $ref: "#/components/schemas/TeamMember"
 
   requestBodies:
     teamPayload:
@@ -177,14 +177,14 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/teamPayload"
+            $ref: "#/components/schemas/TeamPayload"
     teamUpdatePayload:
       description: Body for updating a team
       required: true
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/teamUpdatePayload"
+            $ref: "#/components/schemas/TeamUpdatePayload"
 
 paths:
   /api/identity/orgs/{orgId}/teams:
@@ -206,9 +206,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/teamPage"
+                $ref: "#/components/schemas/TeamPage"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
     post:
@@ -227,9 +229,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/team"
+                $ref: "#/components/schemas/Team"
         "400":
           $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -249,7 +255,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/team"
+                $ref: "#/components/schemas/Team"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -275,7 +281,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/team"
+                $ref: "#/components/schemas/Team"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -324,11 +330,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/teamsUsersMappingPage"
+                $ref: "#/components/schemas/TeamsUsersMappingPage"
         "400":
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -349,16 +357,18 @@ paths:
             $ref: ../../v1alpha1/core/api.yml#/components/schemas/user_id
           required: true
       responses:
-        "200":
+        "201":
           description: User added to team
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/teamsUsersMapping"
+                $ref: "#/components/schemas/TeamsUsersMapping"
         "400":
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
     delete:
@@ -377,12 +387,8 @@ paths:
             $ref: ../../v1alpha1/core/api.yml#/components/schemas/user_id
           required: true
       responses:
-        "200":
+        "204":
           description: User removed from team
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/teamsUsersMapping"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -411,10 +417,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/teamMembersPage"
+                $ref: "#/components/schemas/TeamMembersPage"
         "400":
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"

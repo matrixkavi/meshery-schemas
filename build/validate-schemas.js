@@ -44,7 +44,9 @@
  * USAGE:
  *   node build/validate-schemas.js          # exits 0 if no blocking violations found
  *   node build/validate-schemas.js --warn   # also prints non-blocking advisories and exits 0
- *   node build/validate-schemas.js --warn --no-baseline   # prints full advisory backlog
+ *   node build/validate-schemas.js --warn --no-baseline   # prints full actionable advisory backlog
+ *   node build/validate-schemas.js --warn --no-baseline --style-debt   # includes legacy style debt too
+ *   node build/validate-schemas.js --warn --no-baseline --style-debt --contract-debt   # includes all legacy debt
  *
  * DEPENDENCIES:
  *   js-yaml (already a project dependency)
@@ -93,6 +95,9 @@ const HTTP_METHODS = ["get", "post", "put", "patch", "delete"];
 
 const warnOnly = process.argv.includes("--warn");
 const noAdvisoryBaseline = process.argv.includes("--no-baseline");
+const includeLegacyStyleDebt = process.argv.includes("--style-debt") || process.argv.includes("--legacy-style");
+const includeLegacyContractDebt =
+  process.argv.includes("--contract-debt") || process.argv.includes("--compat-debt");
 const blockingViolations = [];
 const advisoryViolations = [];
 const refDocCache = new Map();
@@ -148,11 +153,21 @@ function reportStyleIssue(filePath, message) {
     return;
   }
 
+  if (!includeLegacyStyleDebt) {
+    return;
+  }
+
   advisory(filePath, message);
 }
 
 function reportDesignAdvisory(filePath, message) {
   advisory(filePath, message);
+}
+
+function reportContractAdvisory(filePath, message) {
+  if (isStrictStyleFile(filePath) || includeLegacyContractDebt) {
+    advisory(filePath, message);
+  }
 }
 
 // ─── Casing helpers ───────────────────────────────────────────────────────────
@@ -1150,9 +1165,14 @@ function validateErrorResponses(filePath, doc) {
       const responses = op.responses ?? {};
       const responseCodes = new Set(Object.keys(responses));
       const opLabel = `${method.toUpperCase()} ${routePath}`;
+      const operationSecurity = op.security;
+      const rootSecurity = doc.security;
+      const isExplicitlyPublic =
+        (Array.isArray(operationSecurity) && operationSecurity.length === 0) ||
+        (operationSecurity === undefined && Array.isArray(rootSecurity) && rootSecurity.length === 0);
 
       // All operations need 401 and 500
-      if (!responseCodes.has("401")) {
+      if (!isExplicitlyPublic && !responseCodes.has("401")) {
         reportDesignAdvisory(
           filePath,
           `${opLabel} — missing \`401\` (Unauthorized) response. ` +
@@ -1294,9 +1314,29 @@ function validatePaginationParams(filePath, doc) {
   if (!doc?.paths) return;
   const components = doc.components ?? {};
 
+  function hasArrayProperty(schemaLike) {
+    if (!schemaLike?.properties) return false;
+
+    return Object.values(schemaLike.properties).some((property) => {
+      if (!property || typeof property !== "object") return false;
+      if (property.type === "array") return true;
+      if (property.$ref) return false;
+      return false;
+    });
+  }
+
   for (const [routePath, pathItem] of Object.entries(doc.paths)) {
     const op = pathItem["get"];
     if (!op) continue;
+    if (op.operationId && !/^(get|list|search|find)/i.test(op.operationId)) {
+      continue;
+    }
+    if (/\/\{[^/]+\}$/.test(routePath) && op.operationId) {
+      const isSingularRead = /ById$/i.test(op.operationId) || /^get[A-Z][a-zA-Z0-9]*$/.test(op.operationId);
+      if (isSingularRead) {
+        continue;
+      }
+    }
 
     // Check if this is a list endpoint (returns array or page wrapper)
     const response200 = op.responses?.["200"];
@@ -1323,6 +1363,9 @@ function validatePaginationParams(filePath, doc) {
           if (resolved.properties.page !== undefined ||
               resolved.properties.total_count !== undefined ||
               resolved.properties.page_size !== undefined) {
+            if (!hasArrayProperty(resolved)) {
+              continue;
+            }
             isList = true;
             break;
           }
@@ -1334,6 +1377,9 @@ function validatePaginationParams(filePath, doc) {
         if (schema.properties.page !== undefined ||
             schema.properties.total_count !== undefined ||
             schema.properties.page_size !== undefined) {
+          if (!hasArrayProperty(schema)) {
+            continue;
+          }
           isList = true;
           break;
         }
@@ -1517,7 +1563,7 @@ function validateResponseCodeSemantics(filePath, doc) {
       if (isCreate && !isBulkDelete && !isAction) {
         const codes = new Set(Object.keys(postOp.responses));
         if (codes.has("200") && !codes.has("201")) {
-          reportDesignAdvisory(
+          reportContractAdvisory(
             filePath,
             `POST ${routePath} — operationId "${postOp.operationId}" appears to create a resource ` +
               `but uses 200 instead of 201 (Created). ` +
@@ -1534,7 +1580,7 @@ function validateResponseCodeSemantics(filePath, doc) {
       if (hasSingleResourceParam) {
         const codes = new Set(Object.keys(deleteOp.responses));
         if (codes.has("200") && !codes.has("204")) {
-          reportDesignAdvisory(
+          reportContractAdvisory(
             filePath,
             `DELETE ${routePath} — single-resource DELETE should return 204 (No Content) ` +
               `instead of 200. Use 204 when the response body is empty after deletion.`,
@@ -1596,7 +1642,7 @@ function reportDuplicateSchemas() {
 
     const locations = entries.map((e) => `${e.schemaName} (${e.file})`).join(", ");
     // Use first entry's file for the warning
-    reportDesignAdvisory(
+    reportContractAdvisory(
       path.join(ROOT, entries[0].file),
       `Duplicate schema structure detected across constructs: ${locations}. ` +
         `Consider using a cross-construct \`$ref\` to a single canonical definition ` +

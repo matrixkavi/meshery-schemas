@@ -10,6 +10,10 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+security:
+  - jwt: []
+
 paths:
   /api/identity/orgs/{orgId}/users:
     get:
@@ -25,7 +29,7 @@ paths:
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/order"
         - $ref: "#/components/parameters/filter"
-        - $ref: "#/components/parameters/teamID"
+        - $ref: "#/components/parameters/teamId"
       responses:
         "200":
           description: Paginated list of organization users
@@ -37,6 +41,8 @@ paths:
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -47,6 +53,7 @@ paths:
       operationId: getUsers
       summary: Get public users
       description: Returns publicly viewable user records.
+      security: []
       parameters:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pagesize"
@@ -84,6 +91,10 @@ paths:
                 $ref: "#/components/schemas/User"
         "400":
           $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -140,8 +151,8 @@ components:
       $ref: "../../v1alpha1/core/api.yml#/components/parameters/order"
     filter:
       $ref: "../../v1alpha1/core/api.yml#/components/parameters/filter"
-    teamID:
-      name: teamID
+    teamId:
+      name: teamId
       in: query
       required: false
       description: Optional team filter when listing organization users
@@ -163,12 +174,12 @@ components:
         - user_id
         - provider
         - email
-        - first_name
-        - last_name
+        - firstName
+        - lastName
         - status
         - created_at
         - updated_at
-        - last_login_time
+        - lastLoginTime
         - deleted_at
       properties:
         id:
@@ -205,20 +216,20 @@ components:
           x-oapi-codegen-extra-tags:
             db: "email"
             json: "email"
-        first_name:
+        firstName:
           type: string
           maxLength: 200
           description: User's first name
           x-oapi-codegen-extra-tags:
             db: "first_name"
-            json: "first_name"
-        last_name:
+            json: "firstName"
+        lastName:
           type: string
           maxLength: 300
           description: User's last name
           x-oapi-codegen-extra-tags:
             db: "last_name"
-            json: "last_name"
+            json: "lastName"
         avatar_url:
           type: string
           format: uri
@@ -278,18 +289,18 @@ components:
           x-oapi-codegen-extra-tags:
             db: "accepted_terms_at"
             json: "accepted_terms_at"
-        first_login_time:
+        firstLoginTime:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
           description: Timestamp of user's first login
           x-oapi-codegen-extra-tags:
             db: "first_login_time"
-            json: "first_login_time"
-        last_login_time:
+            json: "firstLoginTime"
+        lastLoginTime:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
           description: Timestamp of user's most recent login
           x-oapi-codegen-extra-tags:
             db: "last_login_time"
-            json: "last_login_time"
+            json: "lastLoginTime"
         created_at:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
           description: Timestamp when the user record was created
@@ -323,7 +334,7 @@ components:
           x-oapi-codegen-extra-tags:
             db: "deleted_at"
             json: "deleted_at"
-        role_names:
+        roleNames:
           type: array
           items:
             type: string
@@ -340,7 +351,7 @@ components:
           example: ["admin", "meshmap"]
           x-oapi-codegen-extra-tags:
             db: "role_names"
-            json: "role_names"
+            json: "roleNames"
         teams:
           type: object
           description: Teams the user belongs to with role information
@@ -387,9 +398,9 @@ components:
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
         data:
           type: array
@@ -402,9 +413,9 @@ components:
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
         data:
           type: array
@@ -419,7 +430,7 @@ components:
         - anonymousPerfResults
         - updated_at
         - dashboardPreferences
-        - selectedOrganizationID
+        - selectedOrganizationId
         - selectedWorkspaceForOrganizations
         - usersExtensionPreferences
         - remoteProviderPreferences
@@ -449,7 +460,7 @@ components:
         dashboardPreferences:
           type: object
           additionalProperties: true
-        selectedOrganizationID:
+        selectedOrganizationId:
           type: string
         selectedWorkspaceForOrganizations:
           type: object

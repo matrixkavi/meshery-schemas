@@ -49,8 +49,8 @@ components:
       $ref: ../../v1alpha1/core/api.yml#/components/parameters/page
     pagesize:
       $ref: ../../v1alpha1/core/api.yml#/components/parameters/pagesize
-    orgIDQuery:
-      name: orgID
+    orgIdQuery:
+      name: orgId
       in: query
       description: User's organization ID
       schema:
@@ -60,12 +60,12 @@ components:
   securitySchemes:
     jwt:
       type: http
-      scheme: Bearer
+      scheme: bearer
       bearerFormat: JWT
   schemas:
-    environment:
+    Environment:
       $ref: "./environment.yaml"
-    environmentConnectionMapping:
+    EnvironmentConnectionMapping:
       properties:
         id:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/general_id
@@ -96,7 +96,7 @@ components:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/Time
         deleted_at:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/nullTime
-    environmentPayload:
+    EnvironmentPayload:
       properties:
         name:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/Text
@@ -114,29 +114,29 @@ components:
       required:
         - name
         - organization_id
-    environmentPage:
+    EnvironmentPage:
       properties:
         page:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
-        page_size:
+        pageSize:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
-        total_count:
+        totalCount:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
         environments:
           type: array
           x-go-type-skip-optional-pointer: true
           items:
             x-go-type: Environment
-            $ref: "#/components/schemas/environment"
+            $ref: "#/components/schemas/Environment"
 
-    environmentConnectionsPage:
+    EnvironmentConnectionsPage:
       type: object
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
         connections:
           type: array
@@ -151,7 +151,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/environmentPayload"
+            $ref: "#/components/schemas/EnvironmentPayload"
 
 paths:
   /api/environments:
@@ -169,7 +169,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/environment"
+                $ref: "#/components/schemas/Environment"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -187,14 +187,14 @@ paths:
         - $ref: "#/components/parameters/order"
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/pagesize"
-        - $ref: "#/components/parameters/orgIDQuery"
+        - $ref: "#/components/parameters/orgIdQuery"
       responses:
         "200":
           description: Environments
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/environmentPage"
+                $ref: "#/components/schemas/EnvironmentPage"
         "401":
           $ref: "#/components/responses/401"
         "500":
@@ -208,14 +208,14 @@ paths:
       summary: Get environment by ID
       parameters:
         - $ref: "#/components/parameters/environmentId"
-        - $ref: "#/components/parameters/orgIDQuery"
+        - $ref: "#/components/parameters/orgIdQuery"
       responses:
         "200":
           description: Environment page
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/environmentPage"
+                $ref: "#/components/schemas/EnvironmentPage"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -239,7 +239,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/environmentPage"
+                $ref: "#/components/schemas/EnvironmentPage"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -256,12 +256,8 @@ paths:
       parameters:
         - $ref: "#/components/parameters/environmentId"
       responses:
-        "200":
-          description: Environment page
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/environmentPage"
+        "204":
+          description: Environment deleted successfully
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -294,7 +290,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/environmentConnectionsPage"
+                $ref: "#/components/schemas/EnvironmentConnectionsPage"
         "400":
           $ref: "#/components/responses/400"
         "401":

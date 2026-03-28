@@ -98,19 +98,19 @@ components:
       type: string
 
       enum:
-        - ComponentsInDesign
-        - RelationshipsInDesign
-        - DesignsInWorkspace
-        - WorkspacesInOrganization
-        - ImageSizeInDesign
-        - SizePerDesign
+        - componentsindesign
+        - relationshipsindesign
+        - designsinworkspace
+        - workspacesinorganization
+        - imagesizeindesign
+        - sizeperdesign
       description: Enumeration of possible feature types
 
     Feature:
       type: object
       required:
         - id
-        - plan_id
+        - planId
         - quantity
         - feature
       properties:
@@ -118,7 +118,7 @@ components:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           x-oapi-codegen-extra-tags:
             db: "id"
-        plan_id:
+        planId:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           x-oapi-codegen-extra-tags:
             db: "plan_id"

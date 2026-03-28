@@ -28,6 +28,8 @@ paths:
       description: Get all keys based on roles assigned to user
       parameters:
         - $ref: "#/components/parameters/orgId"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/pagesize"
       responses:
         "200":
           description: Returns user keys based on roles assigned to user
@@ -37,6 +39,8 @@ paths:
                 $ref: "#/components/schemas/KeyPage"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
   /api/auth/keys:

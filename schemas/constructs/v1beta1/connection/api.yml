@@ -230,7 +230,7 @@ paths:
         - $ref: "#/components/parameters/environmentId"
         - $ref: "#/components/parameters/connectionId"
       responses:
-        "200":
+        "201":
           description: Connection added to environment successfully
         "400":
           $ref: "#/components/responses/400"
@@ -385,12 +385,12 @@ components:
           description: Connection type
           x-oapi-codegen-extra-tags:
             json: "type"
-        sub_type:
+        subType:
           type: string
           description: Connection sub-type
           x-oapi-codegen-extra-tags:
-            json: "sub_type"
-        credential_secret:
+            json: "subType"
+        credentialSecret:
           type: object
           description: Credential secret data
           x-go-type: core.Map
@@ -398,7 +398,7 @@ components:
             path: github.com/meshery/schemas/models/core
           x-go-type-skip-optional-pointer: true
           x-oapi-codegen-extra-tags:
-            json: "credential_secret"
+            json: "credentialSecret"
         metadata:
           type: object
           description: Connection metadata
@@ -424,7 +424,7 @@ components:
         - name
         - kind
         - type
-        - sub_type
+        - subType
         - status
 
     ConnectionStatusInfo:
@@ -451,33 +451,33 @@ components:
       type: object
       description: Paginated list of connection status counts
       properties:
-        total_count:
+        totalCount:
           type: integer
           description: Total number of status entries
           x-oapi-codegen-extra-tags:
-            json: "total_count"
+            json: "totalCount"
         page:
           type: integer
           description: Current page number
           x-oapi-codegen-extra-tags:
             json: "page"
-        page_size:
+        pageSize:
           type: integer
           description: Number of items per page
           x-oapi-codegen-extra-tags:
-            json: "page_size"
-        connections_status:
+            json: "pageSize"
+        connectionsStatus:
           type: array
           description: List of status counts
           items:
             $ref: "#/components/schemas/ConnectionStatusInfo"
           x-oapi-codegen-extra-tags:
-            json: "connections_status"
+            json: "connectionsStatus"
       required:
-        - total_count
+        - totalCount
         - page
-        - page_size
-        - connections_status
+        - pageSize
+        - connectionsStatus
 
     MesheryInstance:
       type: object
@@ -495,31 +495,31 @@ components:
           x-oapi-codegen-extra-tags:
             json: "name,omitempty"
             db: "name"
-        server_id:
+        serverId:
           type: string
           description: Server ID
           x-go-name: ServerID
           x-oapi-codegen-extra-tags:
-            json: "server_id,omitempty"
+            json: "serverId,omitempty"
             db: "server_id"
-        server_version:
+        serverVersion:
           type: string
           description: Meshery server version
           x-oapi-codegen-extra-tags:
-            json: "server_version,omitempty"
+            json: "serverVersion,omitempty"
             db: "server_version"
-        server_location:
+        serverLocation:
           type: string
           description: Server location URL
           x-oapi-codegen-extra-tags:
-            json: "server_location,omitempty"
+            json: "serverLocation,omitempty"
             db: "server_location"
-        server_build_sha:
+        serverBuildSha:
           type: string
           description: Server build SHA
           x-go-name: ServerBuildSHA
           x-oapi-codegen-extra-tags:
-            json: "server_build_sha,omitempty"
+            json: "serverBuildSha,omitempty"
             db: "server_build_sha"
         created_at:
           type: string
@@ -544,45 +544,45 @@ components:
       type: object
       description: Paginated list of Meshery instances
       properties:
-        meshery_instances:
+        mesheryInstances:
           type: array
           description: List of Meshery instances
           items:
             $ref: "#/components/schemas/MesheryInstance"
           x-oapi-codegen-extra-tags:
-            json: "meshery_instances"
+            json: "mesheryInstances"
         page:
           type: integer
           description: Current page number
           x-oapi-codegen-extra-tags:
             json: "page"
-        page_size:
+        pageSize:
           type: integer
           description: Number of items per page
           x-oapi-codegen-extra-tags:
-            json: "page_size"
-        total_count:
+            json: "pageSize"
+        totalCount:
           type: integer
           description: Total number of instances
           x-oapi-codegen-extra-tags:
-            json: "total_count"
+            json: "totalCount"
       required:
-        - meshery_instances
+        - mesheryInstances
         - page
-        - page_size
-        - total_count
+        - pageSize
+        - totalCount
 
     MesheryCompatibility:
       type: object
       description: Meshery version compatibility check
       properties:
-        meshery_version:
+        mesheryVersion:
           type: string
           description: Meshery version string
           x-oapi-codegen-extra-tags:
-            json: "meshery_version,omitempty"
-        check_compatibility:
+            json: "mesheryVersion,omitempty"
+        checkCompatibility:
           type: boolean
           description: Whether to check compatibility
           x-oapi-codegen-extra-tags:
-            json: "check_compatibility,omitempty"
+            json: "checkCompatibility,omitempty"

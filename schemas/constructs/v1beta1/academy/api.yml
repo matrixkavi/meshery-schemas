@@ -11,6 +11,9 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 
+security:
+  - jwt: []
+
 paths:
   /api/academy/Curricula/registered:
     get:
@@ -51,6 +54,8 @@ paths:
                 $ref: "#/components/schemas/AcademyCurriculaListResponse"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "500":
           description: Server error
 
@@ -77,6 +82,8 @@ paths:
                 $ref: "#/components/schemas/AcademyCurricula"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "500":
           description: Server error
 
@@ -195,6 +202,8 @@ paths:
                 $ref: "#/components/schemas/AcademyCurriculaWithMetricsListResponse"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "500":
           description: Server error
 
@@ -229,6 +238,10 @@ paths:
                 $ref: "#/components/schemas/AcademyCurricula"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           description: Server error
 
@@ -255,6 +268,8 @@ paths:
                 $ref: "#/components/schemas/AcademyRegistration"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "500":
           description: Server error
 
@@ -277,6 +292,10 @@ paths:
                 $ref: "#/components/schemas/AcademyRegistration"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           description: Server error
 
@@ -305,6 +324,8 @@ paths:
                 $ref: "#/components/schemas/SingleAcademyCurriculaResponse"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "404":
           description: Curricula not found
         "500":
@@ -324,6 +345,8 @@ paths:
           description: Successfully deleted the curricula
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "404":
           description: Curricula not found
         "500":
@@ -347,6 +370,8 @@ paths:
                 $ref: "#/components/schemas/SingleAcademyCurriculaResponse"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "404":
           description: Curricula not found
         "500":
@@ -384,6 +409,8 @@ paths:
                 $ref: "#/components/schemas/AcademyRegistration"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "404":
           description: Content not found
         "500":
@@ -415,24 +442,17 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  progress_tracker:
-                    $ref: "#/components/schemas/CurriculaProgressTracker"
-                  registration_id:
-                    type: string
-                  content_type:
-                    $ref: "#/components/schemas/ContentType"
-                  item_data:
-                    $ref: "#/components/schemas/CurriculaCurrentItemData"
+                $ref: "#/components/schemas/UpdateCurrentItemProgressResponse"
         "400":
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           description: Server error
           content:
@@ -464,6 +484,8 @@ paths:
                 $ref: "#/components/schemas/Quiz"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "404":
           description: Quiz not found
         "500":
@@ -494,6 +516,8 @@ paths:
                 $ref: "#/components/schemas/Quiz"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "404":
           description: Quiz not found
         "500":
@@ -514,6 +538,8 @@ paths:
           description: The ID of the registration to retrieve tests for
           schema:
             type: string
+        - $ref: "../../v1alpha1/core/api.yml#/components/parameters/page"
+        - $ref: "../../v1alpha1/core/api.yml#/components/parameters/pagesize"
         - name: testAbsPath
           in: query
           required: false
@@ -532,6 +558,8 @@ paths:
                   $ref: "#/components/schemas/TestSubmissions"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "404":
           description: Registration not found
         "500":
@@ -564,6 +592,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          $ref: "#/components/responses/401"
         "500":
           description: Server error
           content:
@@ -588,6 +618,8 @@ paths:
                 type: object
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "500":
           description: Server error
 
@@ -641,6 +673,8 @@ paths:
                 $ref: "#/components/schemas/CurriculaRegistrationsResponse"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "500":
           description: Server error
 
@@ -669,12 +703,30 @@ paths:
                 $ref: "#/components/schemas/Certificate"
         "400":
           description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
         "404":
           description: Certificate not found
         "500":
           description: Server error
 
 components:
+  responses:
+    400:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/400"
+    401:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/401"
+    404:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/404"
+    500:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/500"
+
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   parameters:
     id:
       name: id
@@ -1200,7 +1252,6 @@ components:
           x-oapi-codegen-extra-tags:
             db: "id"
             json: "id"
-            yaml: "id"
 
         org_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
@@ -1932,3 +1983,17 @@ components:
           type: integer
         page:
           type: integer
+
+    UpdateCurrentItemProgressResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        progress_tracker:
+          $ref: "#/components/schemas/CurriculaProgressTracker"
+        registration_id:
+          type: string
+        content_type:
+          $ref: "#/components/schemas/ContentType"
+        item_data:
+          $ref: "#/components/schemas/CurriculaCurrentItemData"

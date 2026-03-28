@@ -14,6 +14,10 @@ info:
 tags:
   - name: Invitation
     description: Operations related to invitation
+
+security:
+  - jwt: []
+
 paths:
   /api/organizations/invitations/{invitationId}:
     get:
@@ -34,6 +38,8 @@ paths:
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -52,6 +58,8 @@ paths:
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -79,6 +87,8 @@ paths:
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -145,6 +155,8 @@ paths:
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -177,8 +189,12 @@ paths:
               schema:
                 type: object
                 additionalProperties: true
+        "400":
+          $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
         "500":
           $ref: "#/components/responses/500"
 
@@ -189,6 +205,7 @@ paths:
       tags:
         - Invitation
       summary: Create a signup request
+      security: []
       requestBody:
         required: true
         content:
@@ -204,6 +221,8 @@ paths:
               schema:
                 type: object
                 additionalProperties: true
+        "400":
+          $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
         "500":
@@ -295,6 +314,8 @@ paths:
           description: No pending signup request notifications
         "401":
           $ref: "#/components/responses/401"
+        "500":
+          $ref: "#/components/responses/500"
 
 components:
   parameters:
@@ -315,11 +336,19 @@ components:
 
   responses:
     400:
-      description: Bad Request
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/400"
     401:
-      description: Unauthorized
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/401"
+    404:
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/404"
     500:
-      description: Internal Server Error
+      $ref: "../../v1alpha1/core/api.yml#/components/responses/500"
+
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 
   schemas:
     uuid:
