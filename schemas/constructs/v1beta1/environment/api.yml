@@ -257,7 +257,7 @@ paths:
         - $ref: "#/components/parameters/environmentId"
       responses:
         "204":
-          description: Environment deleted successfully
+          description: Environment deleted
         "400":
           $ref: "#/components/responses/400"
         "401":

@@ -82,7 +82,7 @@ paths:
               $ref: "#/components/schemas/KeyPayload"
       responses:
         "200":
-          description: Key upserted successfully
+          description: Key upserted
           content:
             application/json:
               schema:
@@ -105,7 +105,7 @@ paths:
         - $ref: "#/components/parameters/keyId"
       responses:
         "200":
-          description: Key fetched successfully
+          description: Key response
           content:
             application/json:
               schema:
@@ -128,7 +128,7 @@ paths:
         - $ref: "#/components/parameters/keyId"
       responses:
         "204":
-          description: Key deleted successfully
+          description: Key deleted
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -210,17 +210,17 @@ components:
       type: object
       required:
         - page
-        - page_size
-        - total_count
+        - pageSize
+        - totalCount
         - keys
       properties:
         page:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
           x-order: 1
-        page_size:
+        pageSize:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
           x-order: 2
-        total_count:
+        totalCount:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
           x-order: 3
         keys:

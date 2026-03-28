@@ -42,7 +42,7 @@ paths:
         - $ref: "#/components/parameters/order"
       responses:
         "200":
-          description: Tokens fetched successfully
+          description: Tokens response
           content:
             application/json:
               schema:
@@ -63,7 +63,7 @@ paths:
         - $ref: "#/components/parameters/purpose"
       responses:
         "200":
-          description: Token generated successfully
+          description: Token generated
           content:
             application/json:
               schema:
@@ -85,7 +85,7 @@ paths:
         - $ref: "#/components/parameters/tokenId"
       responses:
         "200":
-          description: Token deleted successfully
+          description: Token deleted
           content:
             application/json:
               schema:
@@ -109,7 +109,7 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         "200":
-          description: Token fetched successfully
+          description: Token response
           content:
             application/json:
               schema:
@@ -134,7 +134,7 @@ paths:
         - $ref: "#/components/parameters/provider"
       responses:
         "200":
-          description: Token generated successfully
+          description: Token generated
           content:
             application/json:
               schema:

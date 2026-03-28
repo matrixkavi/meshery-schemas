@@ -8,7 +8,7 @@ required:
   - schemaVersion
   - name
   - type
-  - sub_type
+  - subType
   - kind
   - status
 properties:
@@ -42,10 +42,10 @@ properties:
     x-order: 4
     type: string
     description: Connection Type (platform, telemetry, collaboration)
-  sub_type:
+  subType:
     x-oapi-codegen-extra-tags:
       db: sub_type
-      yaml: sub_type
+      yaml: subType
     x-order: 5
     type: string
     description: Connection Subtype (cloud, identity, metrics, chat, git, orchestration)
@@ -117,7 +117,7 @@ properties:
       x-go-type-import:
         path: github.com/meshery/schemas/models/v1beta1/environment
         name: environmentv1beta1
-      $ref: ../environment/api.yml#/components/schemas/environment
+      $ref: ../environment/api.yml#/components/schemas/Environment
     x-oapi-codegen-extra-tags:
       db: "-"
       yaml: environments

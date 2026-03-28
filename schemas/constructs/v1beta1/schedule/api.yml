@@ -41,7 +41,7 @@ paths:
         - $ref: "#/components/parameters/order"
       responses:
         "200":
-          description: Schedules fetched successfully
+          description: Schedules response
           content:
             application/json:
               schema:
@@ -65,7 +65,7 @@ paths:
               $ref: "#/components/schemas/Schedule"
       responses:
         "200":
-          description: Schedule upserted successfully
+          description: Schedule upserted
           content:
             application/json:
               schema:
@@ -89,7 +89,7 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         "200":
-          description: Schedule fetched successfully
+          description: Schedule response
           content:
             application/json:
               schema:
@@ -111,7 +111,7 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         "204":
-          description: Schedule deleted successfully
+          description: Schedule deleted
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -162,7 +162,7 @@ components:
       required:
         - name
         - user_id
-        - cron_expression
+        - cronExpression
       properties:
         id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
@@ -182,7 +182,7 @@ components:
           x-order: 3
           x-oapi-codegen-extra-tags:
             db: "user_id"
-        cron_expression:
+        cronExpression:
           type: string
           description: >
             Cron expression defining the schedule's recurrence
@@ -202,19 +202,19 @@ components:
       description: A paginated list of schedules.
       required:
         - page
-        - page_size
-        - total_count
+        - pageSize
+        - totalCount
         - schedules
       properties:
         page:
           type: integer
           description: Current page number (zero-based).
           x-order: 1
-        page_size:
+        pageSize:
           type: integer
           description: Number of schedules per page.
           x-order: 2
-        total_count:
+        totalCount:
           type: integer
           description: Total number of schedules across all pages.
           x-order: 3

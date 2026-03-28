@@ -88,7 +88,7 @@ paths:
               $ref: "#/components/schemas/ConnectionPayload"
       responses:
         "201":
-          description: Connection registered successfully
+          description: Connection registered
           content:
             application/json:
               schema:
@@ -139,7 +139,7 @@ paths:
               $ref: "#/components/schemas/ConnectionPayload"
       responses:
         "200":
-          description: Connection updated successfully
+          description: Connection updated
           content:
             application/json:
               schema:
@@ -163,7 +163,7 @@ paths:
         - $ref: "#/components/parameters/connectionId"
       responses:
         "204":
-          description: Connection deleted successfully
+          description: Connection deleted
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -188,7 +188,7 @@ paths:
             format: uuid
       responses:
         "204":
-          description: Meshery connection deleted successfully
+          description: Meshery connection deleted
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -231,7 +231,7 @@ paths:
         - $ref: "#/components/parameters/connectionId"
       responses:
         "201":
-          description: Connection added to environment successfully
+          description: Connection added to environment
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -252,7 +252,7 @@ paths:
         - $ref: "#/components/parameters/connectionId"
       responses:
         "204":
-          description: Connection removed from environment successfully
+          description: Connection removed from environment
         "401":
           $ref: "#/components/responses/401"
         "404":

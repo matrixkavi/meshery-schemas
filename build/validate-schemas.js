@@ -40,6 +40,7 @@
  *   Rule 28 — HTTP response codes must match method semantics (201 for create, 204 for delete).
  *   Rule 29 — Duplicate component schemas across constructs should use $ref instead.
  *   Rule 30 — Response schemas should use $ref to components/schemas, not inline definitions.
+ *   Rule 31 — Response descriptions and inline response message text must not include the word "successfully".
  *
  * USAGE:
  *   node build/validate-schemas.js          # exits 0 if no blocking violations found
@@ -1610,6 +1611,20 @@ function fingerprint(schema) {
   const propTypes = propKeys.map((k) => {
     const p = schema.properties[k];
     if (p?.$ref) return `$ref:${p.$ref.split("/").pop()}`;
+    if (p?.type === "array") {
+      if (p.items?.$ref) {
+        return `${k}:array:$ref:${p.items.$ref.split("/").pop()}`;
+      }
+      return `${k}:array:${p.items?.type || "unknown"}`;
+    }
+    if (p?.type === "object" && p.additionalProperties) {
+      if (p.additionalProperties?.$ref) {
+        return `${k}:object:$ref:${p.additionalProperties.$ref.split("/").pop()}`;
+      }
+      if (p.additionalProperties?.type) {
+        return `${k}:object:${p.additionalProperties.type}`;
+      }
+    }
     return `${k}:${p?.type || "unknown"}`;
   });
   return propTypes.join("|");
@@ -1679,6 +1694,59 @@ function validateResponseSchemaRefs(filePath, doc) {
                 `${method.toUpperCase()} ${routePath} — response ${statusCode} returns an array ` +
                   `with inline item schema (${Object.keys(schema.items.properties).length} properties). ` +
                   `Extract item type to \`components/schemas\` for reuse in TypeScript types and Go structs.`,
+              );
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ─── Rule 31: forbid "successfully" in response text ───────────────────────
+
+function containsForbiddenSuccessfully(value) {
+  return typeof value === "string" && /\bsuccessfully\b/i.test(value);
+}
+
+function validateResponseText(filePath, doc) {
+  if (!doc?.paths) return;
+
+  for (const [routePath, pathItem] of Object.entries(doc.paths)) {
+    for (const method of HTTP_METHODS) {
+      const op = pathItem[method];
+      if (!op?.responses) continue;
+
+      for (const [statusCode, response] of Object.entries(op.responses)) {
+        if (containsForbiddenSuccessfully(response?.description)) {
+          reportDesignAdvisory(
+            filePath,
+            `${method.toUpperCase()} ${routePath} — response ${statusCode} description contains the word ` +
+              `"successfully". Use neutral wording such as "deleted", "updated", or "response" instead.`,
+          );
+        }
+
+        const contentMap = response?.content;
+        if (!contentMap) continue;
+
+        for (const [mediaType, mediaObj] of Object.entries(contentMap)) {
+          if (containsForbiddenSuccessfully(mediaObj?.example)) {
+            reportDesignAdvisory(
+              filePath,
+              `${method.toUpperCase()} ${routePath} — response ${statusCode} ${mediaType} example contains the word ` +
+                `"successfully". Avoid that term in response message text.`,
+            );
+          }
+
+          const examples = mediaObj?.examples;
+          if (!examples || typeof examples !== "object") continue;
+
+          for (const [exampleName, exampleDef] of Object.entries(examples)) {
+            if (containsForbiddenSuccessfully(exampleDef?.value)) {
+              reportDesignAdvisory(
+                filePath,
+                `${method.toUpperCase()} ${routePath} — response ${statusCode} ${mediaType} example ` +
+                  `"${exampleName}" contains the word "successfully". Avoid that term in response message text.`,
               );
             }
           }
@@ -1765,7 +1833,7 @@ function walk(dir) {
           validateCoreMapAnnotation(apiYml, doc);
           validateNoUnnecessaryAllOf(apiYml, doc);
           validateGetResponseSchemas(apiYml, doc);
-          // New rules 23-30
+          // New rules 23-31
           validateErrorResponses(apiYml, doc);
           validateSecurityScheme(apiYml, doc);
           validatePaginationParams(apiYml, doc);
@@ -1774,6 +1842,7 @@ function walk(dir) {
           validateResponseCodeSemantics(apiYml, doc);
           collectSchemaFingerprints(apiYml, doc);
           validateResponseSchemaRefs(apiYml, doc);
+          validateResponseText(apiYml, doc);
         }
       }
     }

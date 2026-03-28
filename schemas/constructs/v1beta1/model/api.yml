@@ -26,7 +26,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ImportRequest"
       responses:
-        "200":
+        "201":
           description: Successful registration
           content:
             application/json:
@@ -161,7 +161,7 @@ components:
         uploadType:
           type: string
           title: "Upload method"
-          enum: ["file", "urlImport", "csv", "url"]
+          enum: ["file", "urlimport", "csv", "url"]
           enumDescriptions:
             [
               "Upload a model file (.tar, .tar.gz, .tgz) from your local system",
@@ -244,9 +244,9 @@ components:
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
         models:
           type: array

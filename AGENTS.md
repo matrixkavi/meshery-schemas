@@ -205,6 +205,8 @@ post:
 
 Use **201** (not 200) for `POST` endpoints that exclusively create a new resource. Use **200** for upsert operations where the resource may already exist.
 
+Response descriptions and response message text must not include the word `successfully`. Use neutral wording such as `Connection deleted`, `Webhook processed`, or `Plans response`.
+
 ### Resource grouping and path structure
 
 Endpoints are grouped into logical categories under `/api`:

@@ -114,12 +114,8 @@ paths:
       parameters:
         - $ref: "#/components/parameters/orgId"
       responses:
-        "200":
-          description: Single-organization page response for the deleted organization
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OrganizationPage"
+        "204":
+          description: Organization deleted
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -193,7 +189,7 @@ paths:
             schema:
               $ref: "#/components/schemas/OrgTeamActionPayload"
       responses:
-        "200":
+        "201":
           description: Team added to organization or team tombstoned
           content:
             application/json:
@@ -250,7 +246,7 @@ paths:
           schema:
             $ref: "../../v1alpha1/core/api.yml#/components/schemas/user_id"
       responses:
-        "200":
+        "201":
           description: User added to organization
           content:
             application/json:
@@ -278,13 +274,8 @@ paths:
           schema:
             $ref: "../../v1alpha1/core/api.yml#/components/schemas/user_id"
       responses:
-        "200":
+        "204":
           description: User removed from organization
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties: true
         "401":
           description: Unauthorized
         "404":
@@ -387,21 +378,21 @@ components:
     Logo:
       type: object
       required:
-        - desktop_view
-        - mobile_view
-        - dark_desktop_view
-        - dark_mobile_view
+        - desktopView
+        - mobileView
+        - darkDesktopView
+        - darkMobileView
       properties:
-        desktop_view:
+        desktopView:
           x-go-type: "Location"
           $ref: "#/components/schemas/Location"
-        mobile_view:
+        mobileView:
           x-go-type: "Location"
           $ref: "#/components/schemas/Location"
-        dark_desktop_view:
+        darkDesktopView:
           x-go-type: "Location"
           $ref: "#/components/schemas/Location"
-        dark_mobile_view:
+        darkMobileView:
           x-go-type: "Location"
           $ref: "#/components/schemas/Location"
 
@@ -538,9 +529,9 @@ components:
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
         organizations:
           type: array
@@ -553,9 +544,9 @@ components:
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
         organizations:
           type: array
@@ -574,7 +565,7 @@ components:
           $ref: "#/components/schemas/Text"
         description:
           $ref: "#/components/schemas/Text"
-        notify_org_update:
+        notifyOrgUpdate:
           type: boolean
         preferences:
           $ref: "#/components/schemas/Preferences"
@@ -582,7 +573,7 @@ components:
     AvailableTeam:
       type: object
       properties:
-        ID:
+        id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/general_id"
         name:
           $ref: "#/components/schemas/Text"
@@ -604,9 +595,9 @@ components:
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
         teams:
           type: array
@@ -616,9 +607,9 @@ components:
     TeamsOrganizationsMapping:
       type: object
       properties:
-        ID:
+        id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/general_id"
-        org_id:
+        orgId:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/organization_id"
         team_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/team_id"
@@ -634,11 +625,11 @@ components:
       properties:
         page:
           type: integer
-        page_size:
+        pageSize:
           type: integer
-        total_count:
+        totalCount:
           type: integer
-        teams_organizations_mapping:
+        teamsOrganizationsMapping:
           type: array
           items:
             $ref: "#/components/schemas/TeamsOrganizationsMapping"

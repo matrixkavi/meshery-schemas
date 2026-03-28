@@ -47,6 +47,8 @@ Both repositories must be locally cloned and available:
 | Operations | camelCase VerbNoun | `GetAllRoles`, `UpsertRoles` |
 | Non-CRUD actions | append verb | `.../keychains/{keychainId}` |
 
+Response descriptions and response message text must not include the word `successfully`. Use neutral wording such as `Role deleted`, `Webhook processed`, or `Roles response`.
+
 ## Workflow
 
 ### Task 1: Create Schema Artifacts

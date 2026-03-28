@@ -26,6 +26,7 @@ You are an expert-level engineering agent specialized in OpenAPI schema developm
 - **Prefer Implicit Generator Rules**: When extending generation, derive behavior from schema metadata, generated type shapes, or stable naming conventions. Do not add hand-maintained package/type manifests when the rule can be inferred.
 - **Dual-Schema Pattern**: Every entity `<construct>.yaml` is a response schema only — it must have `additionalProperties: false` and include all server-generated fields in `required`. Every `POST`/`PUT` operation must use a separate `{Construct}Payload` schema defined in `api.yml`. Never use the full entity schema as a `requestBody`. See AGENTS.md § "The Dual-Schema Pattern" for full rules and canonical examples.
 - **SQL Driver Nil Handling**: Manual `Value()` implementations must always marshal — never return `(nil, nil)`. Manual `Scan()` implementations must set `*m = nil` (not bare `return nil`) when `src` is nil. Auto-generated helpers from `x-generate-db-helpers` already follow these rules.
+- **Response Wording**: Never use the word `successfully` in OpenAPI response descriptions or response message text. Prefer neutral wording such as `deleted`, `updated`, `processed`, or `response`.
 
 ## Technology Stack Expertise
 

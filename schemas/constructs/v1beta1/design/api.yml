@@ -66,7 +66,7 @@ paths:
             type: boolean
       responses:
         "200":
-          description: Designs fetched successfully
+          description: Designs response
           content:
             application/json:
               schema:
@@ -90,7 +90,7 @@ paths:
               $ref: "#/components/schemas/MesheryPatternRequestBody"
       responses:
         "200":
-          description: Design saved successfully
+          description: Design saved
           content:
             application/json:
               schema:
@@ -118,7 +118,7 @@ paths:
               $ref: "#/components/schemas/MesheryPatternDeleteRequestBody"
       responses:
         "200":
-          description: Designs deleted successfully
+          description: Designs deleted
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -141,7 +141,7 @@ paths:
         - $ref: "#/components/parameters/order"
       responses:
         "200":
-          description: Pattern resources fetched successfully
+          description: Pattern resources response
         "401":
           $ref: "#/components/responses/401"
         "500":
@@ -155,7 +155,7 @@ paths:
       description: Creates or updates a pattern resource definition.
       responses:
         "200":
-          description: Pattern resource saved successfully
+          description: Pattern resource saved
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -174,7 +174,7 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         "200":
-          description: Pattern resource fetched successfully
+          description: Pattern resource response
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -191,7 +191,7 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         "204":
-          description: Pattern resource deleted successfully
+          description: Pattern resource deleted
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -210,7 +210,7 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         "200":
-          description: Design fetched successfully
+          description: Design response
           content:
             application/json:
               schema:
@@ -231,7 +231,7 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         "204":
-          description: Design deleted successfully
+          description: Design deleted
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -251,7 +251,7 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         "200":
-          description: Design cloned successfully
+          description: Design cloned
           content:
             application/json:
               schema:
@@ -307,7 +307,7 @@ paths:
               $ref: "#/components/schemas/MesheryPatternImportRequestBody"
       responses:
         "200":
-          description: Design source content uploaded successfully
+          description: Design source content uploaded
         "400":
           $ref: "#/components/responses/400"
         "401":

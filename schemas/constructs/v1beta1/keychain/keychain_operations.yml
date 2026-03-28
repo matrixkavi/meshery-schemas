@@ -221,7 +221,7 @@ itemKeys:
       - $ref: "../../v1alpha1/core/api.yml#/components/parameters/order"
     responses:
       "200":
-        description: Keys fetched successfully
+        description: Keys response
         content:
           application/json:
             schema:

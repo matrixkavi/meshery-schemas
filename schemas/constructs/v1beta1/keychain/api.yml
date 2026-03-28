@@ -90,17 +90,17 @@ components:
       type: object
       required:
         - page
-        - page_size
-        - total_count
+        - pageSize
+        - totalCount
         - keychains
       properties:
         page:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
           x-order: 1
-        page_size:
+        pageSize:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
           x-order: 2
-        total_count:
+        totalCount:
           $ref: ../../v1alpha1/core/api.yml#/components/schemas/number
           x-order: 3
         keychains:

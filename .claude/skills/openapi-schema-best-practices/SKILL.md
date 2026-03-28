@@ -211,6 +211,8 @@ post:
 
 Use 201 (not 200) when a `POST` endpoint exclusively creates a new resource.
 
+Response descriptions and response message text must not include the word `successfully`. Use neutral wording such as `Connection deleted`, `Webhook processed`, or `Plans response`.
+
 ### Resource grouping
 
 Endpoints are grouped into logical categories:
