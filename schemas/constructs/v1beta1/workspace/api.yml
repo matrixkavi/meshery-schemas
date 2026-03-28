@@ -672,9 +672,9 @@ components:
       properties:
         page:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        pageSize:
+        page_size:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        totalCount:
+        total_count:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
         workspaces:
           type: array
@@ -688,9 +688,9 @@ components:
       properties:
         page:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        pageSize:
+        page_size:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        totalCount:
+        total_count:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
         workspacesTeamsMapping:
           type: array
@@ -704,9 +704,9 @@ components:
       properties:
         page:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        pageSize:
+        page_size:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        totalCount:
+        total_count:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
         workspacesEnvironmentsMapping:
           type: array
@@ -720,9 +720,9 @@ components:
       properties:
         page:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        pageSize:
+        page_size:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        totalCount:
+        total_count:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
         workspacesDesignsMapping:
           type: array
@@ -736,9 +736,9 @@ components:
       properties:
         page:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        pageSize:
+        page_size:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        totalCount:
+        total_count:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
         workspacesViewsMapping:
           type: array
@@ -752,9 +752,9 @@ components:
       properties:
         page:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        pageSize:
+        page_size:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        totalCount:
+        total_count:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
         designs:
           type: array
@@ -789,9 +789,9 @@ components:
       properties:
         page:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        pageSize:
+        page_size:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        totalCount:
+        total_count:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
         views:
           type: array

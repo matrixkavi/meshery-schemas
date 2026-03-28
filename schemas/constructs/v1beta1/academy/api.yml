@@ -60,34 +60,6 @@ paths:
           description: Server error
 
   /api/academy/curricula:
-    post:
-      x-internal: ["cloud"]
-      tags:
-        - Academy
-      operationId: createAcademyCurricula
-      summary: Create a new academy curricula
-      description: Creates a new academy curricula with the provided details.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateAcademyCurriculaRequest"
-      responses:
-        "201":
-          description: created the curricula
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AcademyCurricula"
-        "400":
-          description: Invalid request parameters
-        "401":
-          $ref: "#/components/responses/401"
-        "500":
-          description: Server error
-
-  /api/academy/curricula:
     get:
       x-internal: ["cloud"]
       tags:
@@ -200,6 +172,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AcademyCurriculaWithMetricsListResponse"
+        "400":
+          description: Invalid request parameters
+        "401":
+          $ref: "#/components/responses/401"
+        "500":
+          description: Server error
+    post:
+      x-internal: ["cloud"]
+      tags:
+        - Academy
+      operationId: createAcademyCurricula
+      summary: Create a new academy curricula
+      description: Creates a new academy curricula with the provided details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAcademyCurriculaRequest"
+      responses:
+        "201":
+          description: created the curricula
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AcademyCurricula"
         "400":
           description: Invalid request parameters
         "401":
@@ -902,7 +900,7 @@ components:
             db: "level"
             json: "level"
 
-        badgeId:
+        badge_id:
           type: string
           format: uuid
           description: ID of the badge to be awarded on completion of this curricula
@@ -912,7 +910,7 @@ components:
             name: corev1alpha1
           x-oapi-codegen-extra-tags:
             db: "badge_id"
-            json: "badgeId"
+            json: "badge_id"
 
         inviteId:
           $ref: "#/components/schemas/AcademyCurriculaInviteId"
@@ -949,13 +947,13 @@ components:
         - $ref: "#/components/schemas/AcademyCurricula"
         - type: object
           required:
-            - registrationCount
+            - registration_count
           properties:
-            registrationCount:
+            registration_count:
               type: number
               x-oapi-codegen-extra-tags:
                 db: "registration_count,omitempty"
-                json: "registrationCount,omitempty"
+                json: "registration_count,omitempty"
             invitation:
               $ref: "../invitation/api.yml#/components/schemas/Invitation"
               x-go-type: "invitationv1beta1.Invitation"
@@ -988,7 +986,7 @@ components:
         workspace_id:
           $ref: "#/components/schemas/AcademyCurriculaWorkspaceId"
 
-        badgeId:
+        badge_id:
           type: string
           format: uuid
           description: ID of the badge to be awarded on completion of this curricula
@@ -998,7 +996,7 @@ components:
             name: corev1alpha1
           x-oapi-codegen-extra-tags:
             db: "badge_id"
-            json: "badgeId"
+            json: "badge_id"
 
         team_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
@@ -1008,10 +1006,10 @@ components:
             json: "team_id"
             db: "team_id"
 
-        accessExpiresAt:
+        access_expires_at:
           $ref: "#/components/schemas/AcademyCurriculaAccessExpiresAt"
 
-        accessStatus:
+        access_status:
           $ref: "../invitation/api.yml#/components/schemas/InvitationStatus"
           description: Current access status of the curricula
           x-go-name: AccessStatus
@@ -1020,7 +1018,7 @@ components:
             path: "github.com/meshery/schemas/models/v1beta1/invitation"
             name: invitationv1beta1
           x-oapi-codegen-extra-tags:
-            json: "accessStatus"
+            json: "access_status"
             db: "access_status"
 
         metadata:
@@ -1032,7 +1030,7 @@ components:
         - orgId
         - workspace_id
         - team_id
-        - accessStatus
+        - access_status
         - metadata
 
     AcademyCurriculaWithMetrics:
@@ -1040,13 +1038,13 @@ components:
         - $ref: "#/components/schemas/AcademyCurricula"
         - type: object
           required:
-            - registrationCount
+            - registration_count
           properties:
-            registrationCount:
+            registration_count:
               type: number
               x-oapi-codegen-extra-tags:
                 db: "registration_count,omitempty"
-                json: "registrationCount,omitempty"
+                json: "registration_count,omitempty"
 
     AcademyCurriculaListResponse:
       type: object
@@ -1236,12 +1234,12 @@ components:
       type: object
       required:
         - id
-        - orgId
+        - org_id
         - user_id
         - status
         - created_at
         - updated_at
-        - contentId
+        - content_id
         - certificate
         - test_submissions
         - metadata
@@ -1253,14 +1251,14 @@ components:
             db: "id"
             json: "id"
 
-        orgId:
+        org_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: ID of the organization
 
           x-oapi-codegen-extra-tags:
             db: "org_id"
 
-        contentId:
+        content_id:
           type: string
           description: ID of the course content
 
@@ -1489,7 +1487,7 @@ components:
       required:
         - id
         - title
-        - orgId
+        - org_id
         - description
         - slug
         - relPermalink
@@ -1519,13 +1517,13 @@ components:
           x-go-name: ID
           x-oapi-codegen-extra-tags:
             json: "id"
-        orgId:
+        org_id:
           type: string
           description: Organization ID that owns this quiz
           example: layer5
           x-oapi-codegen-extra-tags:
             db: "org_id"
-            json: "orgId"
+            json: "org_id"
         final:
           type: boolean
           description: Indicates if the quiz is final . i.e this quiz will used to evaluate the completion of parent section eg course , module , learning path
@@ -1732,8 +1730,8 @@ components:
       type: object
       required:
         - id
-        - registrationId
-        - testAbsPath
+        - registration_id
+        - test_abs_path
         - user_id
         - created_at
         - status
@@ -1747,13 +1745,13 @@ components:
             db: "id"
             json: "id"
 
-        registrationId:
+        registration_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           x-oapi-codegen-extra-tags:
             db: "registration_id"
-            json: "registrationId"
+            json: "registration_id"
 
-        testAbsPath:
+        test_abs_path:
           type: string
           x-oapi-codegen-extra-tags:
             db: "test_abs_path"
@@ -1783,18 +1781,18 @@ components:
           x-oapi-codegen-extra-tags:
             db: "deleted_at"
 
-        submittedAt:
+        submitted_at:
           type: string
           format: date-time
           x-oapi-codegen-extra-tags:
             db: "submitted_at"
-        submissionData:
+        submission_data:
           $ref: "#/components/schemas/QuizSubmission"
           x-go-type: QuizSubmission
           x-oapi-codegen-extra-tags:
             db: "submission_data"
 
-        expiresAt:
+        expires_at:
           type: string
           description: Expiry time for the test submission ( based on the time limit of the test )
           format: date-time
@@ -1857,37 +1855,37 @@ components:
     UserRegistration:
       type: object
       required:
-        - curriculaTitle
-        - curriculaType
-        - curriculaPermalink
-        - registrationId
+        - curricula_title
+        - curricula_type
+        - curricula_permalink
+        - registration_id
         - status
         - user_id
-        - userEmail
-        - userLastName
-        - userFirstName
-        - userAvatarUrl
-        - totalCount
+        - user_email
+        - user_last_name
+        - user_first_name
+        - user_avatar_url
+        - total_count
 
       properties:
-        curriculaTitle:
+        curricula_title:
           type: string
           description: Title of the curricula
           x-oapi-codegen-extra-tags:
             db: "curricula_title"
-        curriculaType:
+        curricula_type:
           $ref: "#/components/schemas/ContentType"
           description: Type of the curricula
           x-go-type: "ContentType"
           x-oapi-codegen-extra-tags:
             db: "curricula_type"
-        curriculaPermalink:
+        curricula_permalink:
           type: string
           description: Permalink of the curricula
           x-oapi-codegen-extra-tags:
             db: "curricula_permalink"
 
-        registrationId:
+        registration_id:
           type: string
           format: uuid
           description: Unique ID of the registration
@@ -1912,30 +1910,30 @@ components:
           description: ID of the user
           x-oapi-codegen-extra-tags:
             db: "user_id"
-        userFirstName:
+        user_first_name:
           type: string
           description: First name of the user
           x-oapi-codegen-extra-tags:
             db: "user_first_name"
-        userLastName:
+        user_last_name:
           type: string
           description: Last name of the user
           x-oapi-codegen-extra-tags:
             db: "user_last_name"
-        userEmail:
+        user_email:
           type: string
           format: email
           description: Email of the user
           x-oapi-codegen-extra-tags:
             db: "user_email"
-        userAvatarUrl:
+        user_avatar_url:
           type: string
           format: uri
           description: Avatar URL of the user
           x-oapi-codegen-extra-tags:
             db: "user_avatar_url"
 
-        totalCount:
+        total_count:
           type: integer
           format: int64
           description: Total count for pagination
@@ -1947,14 +1945,14 @@ components:
       required:
         - pagesize
         - page
-        - contentType
+        - content_type
         - status
       properties:
         pagesize:
           type: integer
         page:
           type: integer
-        contentType:
+        content_type:
           type: array
           items:
             type: string
@@ -1967,8 +1965,8 @@ components:
       type: object
       required:
         - data
-        - totalCount
-        - pageSize
+        - total_count
+        - page_size
         - page
       properties:
         data:
@@ -1976,10 +1974,10 @@ components:
           items:
             $ref: "#/components/schemas/UserRegistration"
             x-go-type: UserRegistration
-        totalCount:
+        total_count:
           type: integer
           format: int64
-        pageSize:
+        page_size:
           type: integer
         page:
           type: integer

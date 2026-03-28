@@ -19,6 +19,11 @@ const PlanSchema: Record<string, unknown> = {
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
+  "security": [
+    {
+      "jwt": []
+    }
+  ],
   "tags": [
     {
       "name": "Plans",
@@ -36,9 +41,27 @@ const PlanSchema: Record<string, unknown> = {
           "Plans"
         ],
         "summary": "Get all plans supported by the system",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Get responses by page",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pagesize",
+            "in": "query",
+            "description": "Get responses by pagesize",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Plans fetched successfully",
+            "description": "Plans response",
             "content": {
               "application/json": {
                 "schema": {
@@ -70,10 +93,10 @@ const PlanSchema: Record<string, unknown> = {
                         },
                         "description": "Name of the plan",
                         "enum": [
-                          "Free",
-                          "Team Designer",
-                          "Team Operator",
-                          "Enterprise"
+                          "free",
+                          "team designer",
+                          "team operator",
+                          "enterprise"
                         ]
                       },
                       "cadence": {
@@ -149,16 +172,97 @@ const PlanSchema: Record<string, unknown> = {
             }
           },
           "400": {
-            "description": "Invalid request"
+            "description": "Invalid request body or request param",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Expired JWT token used or insufficient privilege",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     }
   },
   "components": {
+    "responses": {
+      "400": {
+        "description": "Invalid request body or request param",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Expired JWT token used or insufficient privilege",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "page": {
+        "name": "page",
+        "in": "query",
+        "description": "Get responses by page",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pagesize": {
+        "name": "pagesize",
+        "in": "query",
+        "description": "Get responses by pagesize",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "securitySchemes": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "PlanPage": {
         "type": "object",
@@ -207,10 +311,10 @@ const PlanSchema: Record<string, unknown> = {
                   },
                   "description": "Name of the plan",
                   "enum": [
-                    "Free",
-                    "Team Designer",
-                    "Team Operator",
-                    "Enterprise"
+                    "free",
+                    "team designer",
+                    "team operator",
+                    "enterprise"
                   ]
                 },
                 "cadence": {
@@ -312,10 +416,10 @@ const PlanSchema: Record<string, unknown> = {
             },
             "description": "Name of the plan",
             "enum": [
-              "Free",
-              "Team Designer",
-              "Team Operator",
-              "Enterprise"
+              "free",
+              "team designer",
+              "team operator",
+              "enterprise"
             ]
           },
           "cadence": {
@@ -390,10 +494,10 @@ const PlanSchema: Record<string, unknown> = {
         "type": "string",
         "description": "Name of the plan",
         "enum": [
-          "Free",
-          "Team Designer",
-          "Team Operator",
-          "Enterprise"
+          "free",
+          "team designer",
+          "team operator",
+          "enterprise"
         ]
       },
       "PlanCadence": {

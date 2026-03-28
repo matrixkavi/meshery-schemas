@@ -244,9 +244,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         models:
           type: array

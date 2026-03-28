@@ -529,9 +529,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         organizations:
           type: array
@@ -544,9 +544,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         organizations:
           type: array
@@ -595,9 +595,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         teams:
           type: array
@@ -625,9 +625,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         teamsOrganizationsMapping:
           type: array

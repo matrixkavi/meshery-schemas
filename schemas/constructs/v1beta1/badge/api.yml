@@ -159,9 +159,9 @@ components:
       required:
         - label
         - name
-        - orgId
+        - org_id
         - description
-        - imageUrl
+        - image_url
       properties:
         id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
@@ -171,12 +171,12 @@ components:
             db: "id"
             json: "id,omitempty"
 
-        orgId:
+        org_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: The ID of the organization in which this badge is available.
           x-oapi-codegen-extra-tags:
             db: "org_id"
-            json: "orgId"
+            json: "org_id"
 
         label:
           type: string
@@ -202,14 +202,14 @@ components:
             db: "description"
             json: "description"
 
-        imageUrl:
+        image_url:
           type: string
           format: uri
           description: URL to the badge image
           example: https://raw.githubusercontent.com/layer5io/layer5-academy/refs/heads/master/static/11111111-1111-1111-1111-111111111111/images/meshery-logo-light.webp
           x-oapi-codegen-extra-tags:
             db: "image_url"
-            json: "imageUrl"
+            json: "image_url"
 
     Badge:
       type: object
@@ -217,9 +217,9 @@ components:
         - id
         - label
         - name
-        - orgId
+        - org_id
         - description
-        - imageUrl
+        - image_url
         - created_at
         - updated_at
         - deleted_at
@@ -231,12 +231,12 @@ components:
             db: "id"
             json: "id"
 
-        orgId:
+        org_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: The ID of the organization in which this badge is available .
           x-oapi-codegen-extra-tags:
             db: "org_id"
-            json: "orgId"
+            json: "org_id"
 
         label:
           type: string
@@ -262,14 +262,14 @@ components:
             db: "description"
             json: "description"
 
-        imageUrl:
+        image_url:
           type: string
           format: uri
           description: URL to the badge image
           example: https://raw.githubusercontent.com/layer5io/layer5-academy/refs/heads/master/static/11111111-1111-1111-1111-111111111111/images/meshery-logo-light.webp
           x-oapi-codegen-extra-tags:
             db: "image_url"
-            json: "imageUrl"
+            json: "image_url"
 
         created_at:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/created_at"

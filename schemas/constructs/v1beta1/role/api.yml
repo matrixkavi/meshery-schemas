@@ -316,7 +316,7 @@ components:
       type: object
       description: Role definition for Layer5 Cloud (Meshery).
       required:
-        - roleName
+        - role_name
         - description
       properties:
         id:
@@ -325,7 +325,7 @@ components:
           x-order: 1
           x-oapi-codegen-extra-tags:
             db: "id"
-        roleName:
+        role_name:
           type: string
           description: Unique name of the role.
           x-order: 2
@@ -355,19 +355,19 @@ components:
       description: A paginated list of roles.
       required:
         - page
-        - pageSize
-        - totalCount
+        - page_size
+        - total_count
         - roles
       properties:
         page:
           type: integer
           description: Current page number (zero-based).
           x-order: 1
-        pageSize:
+        page_size:
           type: integer
           description: Number of roles per page.
           x-order: 2
-        totalCount:
+        total_count:
           type: integer
           description: Total number of roles across all pages.
           x-order: 3
@@ -383,8 +383,8 @@ components:
       description: Mapping between a role and a keychain.
       required:
         - id
-        - keychainId
-        - roleId
+        - keychain_id
+        - role_id
         - created_at
         - updated_at
       properties:
@@ -393,13 +393,13 @@ components:
           x-order: 1
           x-oapi-codegen-extra-tags:
             db: "id"
-        keychainId:
+        keychain_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: UUID of the associated keychain.
           x-order: 2
           x-oapi-codegen-extra-tags:
             db: "keychain_id"
-        roleId:
+        role_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: UUID of the associated role.
           x-order: 3

@@ -413,9 +413,9 @@ components:
       properties:
         page:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        pageSize:
+        page_size:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
-        totalCount:
+        total_count:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/number"
         data:
           type: array
@@ -438,9 +438,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         data:
           type: array

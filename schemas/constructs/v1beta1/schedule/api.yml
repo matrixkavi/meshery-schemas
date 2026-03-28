@@ -162,7 +162,7 @@ components:
       required:
         - name
         - user_id
-        - cronExpression
+        - cron_expression
       properties:
         id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
@@ -182,7 +182,7 @@ components:
           x-order: 3
           x-oapi-codegen-extra-tags:
             db: "user_id"
-        cronExpression:
+        cron_expression:
           type: string
           description: >
             Cron expression defining the schedule's recurrence
@@ -202,19 +202,19 @@ components:
       description: A paginated list of schedules.
       required:
         - page
-        - pageSize
-        - totalCount
+        - page_size
+        - total_count
         - schedules
       properties:
         page:
           type: integer
           description: Current page number (zero-based).
           x-order: 1
-        pageSize:
+        page_size:
           type: integer
           description: Number of schedules per page.
           x-order: 2
-        totalCount:
+        total_count:
           type: integer
           description: Total number of schedules across all pages.
           x-order: 3

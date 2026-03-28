@@ -69,15 +69,15 @@ components:
       type: object
       required:
         - page
-        - pageSize
-        - totalCount
+        - page_size
+        - total_count
         - plans
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         plans:
           type: "array"
@@ -118,20 +118,20 @@ components:
             json: "unit"
             csv: "unit"
 
-        minimumUnits:
+        minimum_units:
           type: "integer"
           description: "Minimum number of units required for the plan"
           x-oapi-codegen-extra-tags:
             db: "minimum_units"
-            json: "minimumUnits"
+            json: "minimum_units"
             csv: "minimum_units"
 
-        pricePerUnit:
+        price_per_unit:
           type: "number"
           description: "Price per unit of the plan"
           x-oapi-codegen-extra-tags:
             db: "price_per_unit"
-            json: "pricePerUnit"
+            json: "price_per_unit"
             csv: "price_per_unit"
 
         # price_id:
@@ -151,8 +151,8 @@ components:
         - name
         - cadence
         - unit
-        - pricePerUnit
-        - minimumUnits
+        - price_per_unit
+        - minimum_units
         - price_id
         - currency
     PlanName:

@@ -302,15 +302,15 @@ components:
       type: object
       required:
         - page
-        - pageSize
-        - totalCount
+        - page_size
+        - total_count
         - subscriptions
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         subscriptions:
           type: "array"
@@ -324,11 +324,11 @@ components:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           x-oapi-codegen-extra-tags:
             db: "id"
-        orgId:
+        org_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           x-oapi-codegen-extra-tags:
             db: "org_id"
-        planId:
+        plan_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           x-oapi-codegen-extra-tags:
             db: "plan_id"
@@ -348,11 +348,11 @@ components:
           type: "integer"
           x-oapi-codegen-extra-tags:
             db: "quantity"
-        startDate:
+        start_date:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
           x-oapi-codegen-extra-tags:
             db: "start_date"
-        endDate:
+        end_date:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
           x-oapi-codegen-extra-tags:
             db: "end_date"
@@ -373,7 +373,7 @@ components:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/SqlNullTime"
           x-oapi-codegen-extra-tags:
             db: "deleted_at"
-        billingId:
+        billing_id:
           type: string
           description: "Billing ID of the subscription. This is the ID of the subscription in the billing system. eg Stripe"
           x-oapi-codegen-extra-tags:
@@ -381,9 +381,9 @@ components:
 
       required:
         - id
-        - orgId
-        - planId
-        - billingId
+        - org_id
+        - plan_id
+        - billing_id
         - status
         - quantity
 

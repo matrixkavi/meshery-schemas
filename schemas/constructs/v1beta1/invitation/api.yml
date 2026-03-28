@@ -385,9 +385,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         data:
           type: array
@@ -400,7 +400,7 @@ components:
       required:
         - name
         - description
-        - orgId
+        - org_id
         - emails
         - roles
         - teams
@@ -413,19 +413,19 @@ components:
           x-oapi-codegen-extra-tags:
             json: "id,omitempty"
 
-        ownerId:
+        owner_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: ID of the user who created the invitation.
           x-oapi-codegen-extra-tags:
             db: "owner_id"
-            json: "ownerId,omitempty"
+            json: "owner_id,omitempty"
 
-        isDefault:
+        is_default:
           type: boolean
           description: Indicates whether the invitation is a default invitation (open invite).
           x-oapi-codegen-extra-tags:
             db: "is_default"
-            json: "isDefault,omitempty"
+            json: "is_default,omitempty"
 
         name:
           type: string
@@ -445,20 +445,20 @@ components:
             pattern: "^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,}|@[a-zA-Z0-9.-]+\\.[a-z]{2,})$"
             x-go-type: "string"
 
-        orgId:
+        org_id:
           type: string
           description: ID of the organization to which the user is invited.
           x-oapi-codegen-extra-tags:
             db: "org_id"
-            json: "orgId"
+            json: "org_id"
 
-        expiresAt:
+        expires_at:
           type: string
           format: date-time
           description: Timestamp when the invitation expires, if applicable.
           x-oapi-codegen-extra-tags:
             db: "expires_at"
-            json: "expiresAt,omitempty"
+            json: "expires_at,omitempty"
 
         quota:
           type: integer
@@ -498,11 +498,11 @@ components:
       type: object
       required:
         - id
-        - ownerId
+        - owner_id
         - name
         - description
-        - orgId
-        - acceptedBy
+        - org_id
+        - accepted_by
         - emails
         - roles
         - teams
@@ -516,16 +516,16 @@ components:
           x-go-name: ID
           description: Unique identifier for the invitation , is also used as the invitation code
 
-        ownerId:
+        owner_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           description: "ID of the user who created the invitation,
             this is used to track who created the invitation and can be used for auditing purposes"
 
           x-oapi-codegen-extra-tags:
             db: "owner_id"
-            json: "ownerId"
+            json: "owner_id"
 
-        isDefault:
+        is_default:
           type: boolean
           description:
             "Indicates whether the invitation is a default invitation (open invite),
@@ -534,7 +534,7 @@ components:
 
           x-oapi-codegen-extra-tags:
             db: "is_default"
-            json: "isDefault"
+            json: "is_default"
 
         name:
           type: string
@@ -560,20 +560,20 @@ components:
               "Exact email address or the email address pattern for which the invitation is valid ,
               null means the invitation is valid for all email addresses"
 
-        orgId:
+        org_id:
           type: string
           description: ID of the organization to which the user is invited
           x-oapi-codegen-extra-tags:
             db: "org_id"
-            json: "orgId"
+            json: "org_id"
 
-        expiresAt:
+        expires_at:
           type: string
           format: date-time
           description: Timestamp when the invitation expires, if applicable , null or empty string means the invitation does not expire
           x-oapi-codegen-extra-tags:
             db: "expires_at"
-            json: "expiresAt"
+            json: "expires_at"
 
         quota:
           type: integer
@@ -581,7 +581,7 @@ components:
             "Quota for the invitation, which can be used to limit the number of users that can accept the invitation,
             null or empty string means the invitation does not have a quota"
 
-        acceptedBy:
+        accepted_by:
           type: array
 
           x-go-type: "pq.StringArray"
@@ -594,7 +594,7 @@ components:
             null or empty string means the invitation has not been used yet"
           x-oapi-codegen-extra-tags:
             db: "accepted_by"
-            json: "acceptedBy"
+            json: "accepted_by"
 
         roles:
           type: array

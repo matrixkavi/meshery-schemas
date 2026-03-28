@@ -385,11 +385,11 @@ components:
           description: Connection type
           x-oapi-codegen-extra-tags:
             json: "type"
-        subType:
+        sub_type:
           type: string
           description: Connection sub-type
           x-oapi-codegen-extra-tags:
-            json: "subType"
+            json: "sub_type"
         credentialSecret:
           type: object
           description: Credential secret data
@@ -424,7 +424,7 @@ components:
         - name
         - kind
         - type
-        - subType
+        - sub_type
         - status
 
     ConnectionStatusInfo:
@@ -451,21 +451,21 @@ components:
       type: object
       description: Paginated list of connection status counts
       properties:
-        totalCount:
+        total_count:
           type: integer
           description: Total number of status entries
           x-oapi-codegen-extra-tags:
-            json: "totalCount"
+            json: "total_count"
         page:
           type: integer
           description: Current page number
           x-oapi-codegen-extra-tags:
             json: "page"
-        pageSize:
+        page_size:
           type: integer
           description: Number of items per page
           x-oapi-codegen-extra-tags:
-            json: "pageSize"
+            json: "page_size"
         connectionsStatus:
           type: array
           description: List of status counts
@@ -474,9 +474,9 @@ components:
           x-oapi-codegen-extra-tags:
             json: "connectionsStatus"
       required:
-        - totalCount
+        - total_count
         - page
-        - pageSize
+        - page_size
         - connectionsStatus
 
     MesheryInstance:
@@ -495,31 +495,31 @@ components:
           x-oapi-codegen-extra-tags:
             json: "name,omitempty"
             db: "name"
-        serverId:
+        server_id:
           type: string
           description: Server ID
           x-go-name: ServerID
           x-oapi-codegen-extra-tags:
-            json: "serverId,omitempty"
+            json: "server_id,omitempty"
             db: "server_id"
-        serverVersion:
+        server_version:
           type: string
           description: Meshery server version
           x-oapi-codegen-extra-tags:
-            json: "serverVersion,omitempty"
+            json: "server_version,omitempty"
             db: "server_version"
-        serverLocation:
+        server_location:
           type: string
           description: Server location URL
           x-oapi-codegen-extra-tags:
-            json: "serverLocation,omitempty"
+            json: "server_location,omitempty"
             db: "server_location"
-        serverBuildSha:
+        server_build_sha:
           type: string
           description: Server build SHA
           x-go-name: ServerBuildSHA
           x-oapi-codegen-extra-tags:
-            json: "serverBuildSha,omitempty"
+            json: "server_build_sha,omitempty"
             db: "server_build_sha"
         created_at:
           type: string
@@ -556,21 +556,21 @@ components:
           description: Current page number
           x-oapi-codegen-extra-tags:
             json: "page"
-        pageSize:
+        page_size:
           type: integer
           description: Number of items per page
           x-oapi-codegen-extra-tags:
-            json: "pageSize"
-        totalCount:
+            json: "page_size"
+        total_count:
           type: integer
           description: Total number of instances
           x-oapi-codegen-extra-tags:
-            json: "totalCount"
+            json: "total_count"
       required:
         - mesheryInstances
         - page
-        - pageSize
-        - totalCount
+        - page_size
+        - total_count
 
     MesheryCompatibility:
       type: object

@@ -111,7 +111,7 @@ Every element has exactly one correct casing. Use this table for all decisions:
 |---|---|---|---|
 | Schema property names (non-DB) | camelCase | `schemaVersion`, `displayName` | ~~`schema_version`~~, ~~`SchemaVersion`~~ |
 | ID-suffix properties | camelCase + `Id` | `modelId`, `registrantId` | ~~`modelID`~~, ~~`model_id`~~ |
-| **DB-mirrored fields** | **snake\_case** | `created_at`, `updated_at`, `user_id` | ~~`createdAt`~~ |
+| **DB-backed / DB-mirrored fields** | **exact snake\_case db column name** | `created_at`, `updated_at`, `user_id`, `first_name`, `plan_id` | ~~`createdAt`~~, ~~`firstName`~~, ~~`planId`~~ |
 | Enum values | lowercase | `enabled`, `ignored` | ~~`Enabled`~~, ~~`ENABLED`~~ |
 | `components/schemas` names | PascalCase | `ModelDefinition`, `KeychainPayload` | ~~`modelDefinition`~~ |
 | File and folder names | lowercase | `api.yml`, `keychain.yaml` | ~~`Keychain.yaml`~~ |
@@ -121,7 +121,11 @@ Every element has exactly one correct casing. Use this table for all decisions:
 | Go type names | PascalCase (generated) | `Connection`, `KeychainPayload` | — |
 | TypeScript type names | PascalCase (generated) | `Connection`, `KeychainPayload` | — |
 
-**snake\_case is reserved exclusively for DB-mirrored fields** — `created_at`, `updated_at`, `deleted_at`, `user_id`, and any other property that maps directly to an identically-named database column. Everything else follows camelCase or PascalCase as shown above.
+**The database naming is the compatibility boundary.** If a property has `x-oapi-codegen-extra-tags.db` and that `db` value is snake_case, then the schema property name and JSON tag must use that exact snake_case name. Do not camelize DB-backed fields in-place within an existing API version.
+
+**Partial casing migrations are forbidden.** Do not rename selected fields within the same resource from snake_case to camelCase while leaving other published fields unchanged. If the wire format must change, introduce a new API version and migrate the resource consistently there.
+
+**Pagination envelopes are fixed API contract fields** — use `page`, `page_size`, and `total_count`, not `pageSize` or `totalCount`.
 
 **Exceptions for DB-mirrored/system fields**
 

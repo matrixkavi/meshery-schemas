@@ -476,7 +476,7 @@ export interface components {
        * @description Choose the method you prefer to upload your model file. Select 'File Import' or 'CSV Import' if you have the file on your local system or 'URL Import' if you have the file hosted online.
        * @enum {string}
        */
-      uploadType: "file" | "urlImport" | "csv" | "url";
+      uploadType: "file" | "urlimport" | "csv" | "url";
       register: boolean;
     };
     ImportBody:
@@ -529,13 +529,21 @@ export interface components {
       models?: { [key: string]: unknown }[];
     };
   };
+  responses: {
+    /** Expired JWT token used or insufficient privilege */
+    401: {
+      content: {
+        "text/plain": string;
+      };
+    };
+  };
 }
 
 export interface operations {
   registerMeshmodels: {
     responses: {
       /** Successful registration */
-      200: {
+      201: {
         content: {
           "application/json": {
             message?: string;
@@ -544,6 +552,12 @@ export interface operations {
       };
       /** Invalid request format */
       400: unknown;
+      /** Expired JWT token used or insufficient privilege */
+      401: {
+        content: {
+          "text/plain": string;
+        };
+      };
       /** Internal server error */
       500: unknown;
     };
@@ -598,7 +612,7 @@ export interface operations {
            * @description Choose the method you prefer to upload your model file. Select 'File Import' or 'CSV Import' if you have the file on your local system or 'URL Import' if you have the file hosted online.
            * @enum {string}
            */
-          uploadType: "file" | "urlImport" | "csv" | "url";
+          uploadType: "file" | "urlimport" | "csv" | "url";
           register: boolean;
         };
       };
@@ -623,6 +637,12 @@ export interface operations {
             total_count?: number;
             models?: { [key: string]: unknown }[];
           };
+        };
+      };
+      /** Expired JWT token used or insufficient privilege */
+      401: {
+        content: {
+          "text/plain": string;
         };
       };
       /** Internal server error */

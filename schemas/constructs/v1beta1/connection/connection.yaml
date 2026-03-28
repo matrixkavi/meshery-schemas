@@ -8,7 +8,7 @@ required:
   - schemaVersion
   - name
   - type
-  - subType
+  - sub_type
   - kind
   - status
 properties:
@@ -42,10 +42,10 @@ properties:
     x-order: 4
     type: string
     description: Connection Type (platform, telemetry, collaboration)
-  subType:
+  sub_type:
     x-oapi-codegen-extra-tags:
       db: sub_type
-      yaml: subType
+      yaml: sub_type
     x-order: 5
     type: string
     description: Connection Subtype (cloud, identity, metrics, chat, git, orchestration)

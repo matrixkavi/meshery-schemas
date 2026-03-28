@@ -35,7 +35,7 @@ export interface components {
          * @description Name of the plan
          * @enum {string}
          */
-        name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
+        name: "free" | "team designer" | "team operator" | "enterprise";
         /** @enum {string} */
         cadence: "monthly" | "yearly";
         /** @enum {string} */
@@ -54,12 +54,12 @@ export interface components {
        * @enum {string}
        */
       name?:
-        | "ComponentsInDesign"
-        | "RelationshipsInDesign"
-        | "DesignsInWorkspace"
-        | "WorkspacesInOrganization"
-        | "ImageSizeInDesign"
-        | "SizePerDesign";
+        | "componentsindesign"
+        | "relationshipsindesign"
+        | "designsinworkspace"
+        | "workspacesinorganization"
+        | "imagesizeindesign"
+        | "sizeperdesign";
       /** @description Quantity of the feature allowed, use 9999999999 for unlimited */
       quantity: number;
       /** Format: date-time */
@@ -74,12 +74,12 @@ export interface components {
      * @enum {string}
      */
     FeatureName:
-      | "ComponentsInDesign"
-      | "RelationshipsInDesign"
-      | "DesignsInWorkspace"
-      | "WorkspacesInOrganization"
-      | "ImageSizeInDesign"
-      | "SizePerDesign";
+      | "componentsindesign"
+      | "relationshipsindesign"
+      | "designsinworkspace"
+      | "workspacesinorganization"
+      | "imagesizeindesign"
+      | "sizeperdesign";
     Feature: {
       /**
        * Format: uuid
@@ -101,7 +101,7 @@ export interface components {
          * @description Name of the plan
          * @enum {string}
          */
-        name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
+        name: "free" | "team designer" | "team operator" | "enterprise";
         /** @enum {string} */
         cadence: "monthly" | "yearly";
         /** @enum {string} */
@@ -120,12 +120,12 @@ export interface components {
        * @enum {string}
        */
       name?:
-        | "ComponentsInDesign"
-        | "RelationshipsInDesign"
-        | "DesignsInWorkspace"
-        | "WorkspacesInOrganization"
-        | "ImageSizeInDesign"
-        | "SizePerDesign";
+        | "componentsindesign"
+        | "relationshipsindesign"
+        | "designsinworkspace"
+        | "workspacesinorganization"
+        | "imagesizeindesign"
+        | "sizeperdesign";
       /** @description Quantity of the feature allowed, use 9999999999 for unlimited */
       quantity: number;
       /** Format: date-time */
@@ -145,7 +145,7 @@ export interface components {
 export interface operations {
   getFeatures: {
     responses: {
-      /** Features fetched successfully */
+      /** Features response */
       200: {
         content: {
           "application/json": ({
@@ -169,7 +169,7 @@ export interface operations {
                * @description Name of the plan
                * @enum {string}
                */
-              name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
+              name: "free" | "team designer" | "team operator" | "enterprise";
               /** @enum {string} */
               cadence: "monthly" | "yearly";
               /** @enum {string} */
@@ -188,12 +188,12 @@ export interface operations {
              * @enum {string}
              */
             name?:
-              | "ComponentsInDesign"
-              | "RelationshipsInDesign"
-              | "DesignsInWorkspace"
-              | "WorkspacesInOrganization"
-              | "ImageSizeInDesign"
-              | "SizePerDesign";
+              | "componentsindesign"
+              | "relationshipsindesign"
+              | "designsinworkspace"
+              | "workspacesinorganization"
+              | "imagesizeindesign"
+              | "sizeperdesign";
             /** @description Quantity of the feature allowed, use 9999999999 for unlimited */
             quantity: number;
             /** Format: date-time */
@@ -233,7 +233,7 @@ export interface operations {
       };
     };
     responses: {
-      /** Features fetched successfully */
+      /** Features response */
       200: {
         content: {
           "application/json": ({
@@ -257,7 +257,7 @@ export interface operations {
                * @description Name of the plan
                * @enum {string}
                */
-              name: "Free" | "Team Designer" | "Team Operator" | "Enterprise";
+              name: "free" | "team designer" | "team operator" | "enterprise";
               /** @enum {string} */
               cadence: "monthly" | "yearly";
               /** @enum {string} */
@@ -276,12 +276,12 @@ export interface operations {
              * @enum {string}
              */
             name?:
-              | "ComponentsInDesign"
-              | "RelationshipsInDesign"
-              | "DesignsInWorkspace"
-              | "WorkspacesInOrganization"
-              | "ImageSizeInDesign"
-              | "SizePerDesign";
+              | "componentsindesign"
+              | "relationshipsindesign"
+              | "designsinworkspace"
+              | "workspacesinorganization"
+              | "imagesizeindesign"
+              | "sizeperdesign";
             /** @description Quantity of the feature allowed, use 9999999999 for unlimited */
             quantity: number;
             /** Format: date-time */
@@ -301,6 +301,12 @@ export interface operations {
       };
       /** Expired JWT token used or insufficient privilege */
       401: {
+        content: {
+          "text/plain": string;
+        };
+      };
+      /** Result not found */
+      404: {
         content: {
           "text/plain": string;
         };

@@ -174,12 +174,12 @@ components:
         - user_id
         - provider
         - email
-        - firstName
-        - lastName
+        - first_name
+        - last_name
         - status
         - created_at
         - updated_at
-        - lastLoginTime
+        - last_login_time
         - deleted_at
       properties:
         id:
@@ -216,20 +216,20 @@ components:
           x-oapi-codegen-extra-tags:
             db: "email"
             json: "email"
-        firstName:
+        first_name:
           type: string
           maxLength: 200
           description: User's first name
           x-oapi-codegen-extra-tags:
             db: "first_name"
-            json: "firstName"
-        lastName:
+            json: "first_name"
+        last_name:
           type: string
           maxLength: 300
           description: User's last name
           x-oapi-codegen-extra-tags:
             db: "last_name"
-            json: "lastName"
+            json: "last_name"
         avatar_url:
           type: string
           format: uri
@@ -289,18 +289,18 @@ components:
           x-oapi-codegen-extra-tags:
             db: "accepted_terms_at"
             json: "accepted_terms_at"
-        firstLoginTime:
+        first_login_time:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
           description: Timestamp of user's first login
           x-oapi-codegen-extra-tags:
             db: "first_login_time"
-            json: "firstLoginTime"
-        lastLoginTime:
+            json: "first_login_time"
+        last_login_time:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
           description: Timestamp of user's most recent login
           x-oapi-codegen-extra-tags:
             db: "last_login_time"
-            json: "lastLoginTime"
+            json: "last_login_time"
         created_at:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/Time"
           description: Timestamp when the user record was created
@@ -334,7 +334,7 @@ components:
           x-oapi-codegen-extra-tags:
             db: "deleted_at"
             json: "deleted_at"
-        roleNames:
+        role_names:
           type: array
           items:
             type: string
@@ -351,7 +351,7 @@ components:
           example: ["admin", "meshmap"]
           x-oapi-codegen-extra-tags:
             db: "role_names"
-            json: "roleNames"
+            json: "role_names"
         teams:
           type: object
           description: Teams the user belongs to with role information
@@ -398,9 +398,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         data:
           type: array
@@ -413,9 +413,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         data:
           type: array

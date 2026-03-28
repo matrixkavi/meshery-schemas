@@ -15,7 +15,8 @@
  *   Rule  3 — `operationId` must be lower camelCase verbNoun.
  *   Rule  4 — Path parameters must be camelCase with "Id" suffix.
  *   Rule  5 — DELETE operations must not have a requestBody.
- *   Rule  6 — Schema property names must be camelCase (except DB-mirrored fields).
+ *   Rule  6 — Schema property names must preserve published casing: DB-backed properties
+ *              use exact snake_case db names; new non-DB properties use camelCase.
  *   Rule  7 — Schema component names (components/schemas keys) must be PascalCase.
  *   Rule  8 — Enum values must be lowercase.
  *   Rule  9 — Query/header parameter names must be camelCase.
@@ -41,6 +42,8 @@
  *   Rule 29 — Duplicate component schemas across constructs should use $ref instead.
  *   Rule 30 — Response schemas should use $ref to components/schemas, not inline definitions.
  *   Rule 31 — Response descriptions and inline response message text must not include the word "successfully".
+ *   Rule 32 — DB-backed property names must exactly match snake_case db tags.
+ *   Rule 33 — Pagination envelopes must use page, page_size, total_count.
  *
  * USAGE:
  *   node build/validate-schemas.js          # exits 0 if no blocking violations found
@@ -69,8 +72,7 @@ const SERVER_GENERATED_FIELDS = new Set(["id", "created_at", "updated_at", "dele
 // Only validate these versions (alpha schemas predate the pattern).
 const VALIDATED_VERSIONS = ["v1beta1", "v1beta2-draft"];
 
-// DB-mirrored fields that are allowed to use snake_case.
-// These map directly to database column names and are the ONLY exception to camelCase.
+// Known contract-stable snake_case fields that may not carry explicit db tags.
 const DB_MIRRORED_FIELDS = new Set([
   "created_at",
   "updated_at",
@@ -89,7 +91,11 @@ const DB_MIRRORED_FIELDS = new Set([
   "general_id",
   "avatar_url",
   "accepted_terms_at",
+  "page_size",
+  "total_count",
 ]);
+
+const DB_TAG_PATTERN = /^(?:-|[a-z][a-z0-9]*(?:_[a-z0-9]+)*)$/;
 
 // HTTP methods checked when iterating over path-item operations.
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"];
@@ -221,12 +227,39 @@ function getCamelCaseSuggestion(name) {
   return isCamelCase(suggestion) ? suggestion : null;
 }
 
-function getCamelCaseIssues(name, { allowDbMirrored = false } = {}) {
-  if (allowDbMirrored && DB_MIRRORED_FIELDS.has(name)) return [];
+function getTagBaseValue(value) {
+  if (value === undefined || value === null) return null;
+  return String(value).replace(/,.*$/, "");
+}
+
+function getExtraTags(definition) {
+  const extraTags = definition?.["x-oapi-codegen-extra-tags"];
+  return extraTags && typeof extraTags === "object" ? extraTags : null;
+}
+
+function getDbTagValue(definition) {
+  return getTagBaseValue(getExtraTags(definition)?.db);
+}
+
+function getJsonTagValue(definition) {
+  return getTagBaseValue(getExtraTags(definition)?.json);
+}
+
+function isDbBackedSnakeCaseProperty(name, definition) {
+  const dbTag = getDbTagValue(definition);
+  return Boolean(dbTag && DB_TAG_PATTERN.test(dbTag) && hasUnderscore(dbTag) && name === dbTag);
+}
+
+function isAllowedSnakeCaseProperty(name, definition) {
+  return DB_MIRRORED_FIELDS.has(name) || isDbBackedSnakeCaseProperty(name, definition);
+}
+
+function getCamelCaseIssues(name, { allowDbMirrored = false, definition = null } = {}) {
+  if (allowDbMirrored && isAllowedSnakeCaseProperty(name, definition)) return [];
 
   const issues = [];
   if (hasUnderscore(name)) {
-    issues.push("uses snake_case (only DB-mirrored fields may use underscores)");
+    issues.push("uses snake_case (only DB-backed contract fields may use underscores)");
   }
   if (/^[A-Z]/.test(name)) {
     issues.push("starts with uppercase (must be camelCase, not PascalCase)");
@@ -337,6 +370,8 @@ function validateEntitySchema(filePath) {
   if (doc.properties) {
     validatePropertyNames(filePath, "(entity root)", doc.properties);
   }
+
+  validateDbBackedPropertyNames(filePath, doc);
 }
 
 // ─── Rule 2: POST/PUT requestBody must not use the full entity schema ─────────
@@ -502,18 +537,18 @@ function validateDeleteNoBody(filePath, doc) {
 
 /**
  * Validates that all property names in a schema object follow casing rules:
- * - camelCase for regular properties
- * - snake_case ONLY for DB-mirrored fields in the allowlist
- * - Flags PascalCase, SCREAMING_CASE, and non-allowlisted snake_case
+ * - camelCase for new non-DB properties
+ * - exact snake_case DB names for DB-backed contract fields
+ * - Flags PascalCase, SCREAMING_CASE, and non-authoritative snake_case
  */
 function validatePropertyNames(filePath, schemaName, properties) {
   if (!properties || typeof properties !== "object") return;
 
-  for (const propName of Object.keys(properties)) {
+  for (const [propName, propDef] of Object.entries(properties)) {
     // Skip $ref-only properties (no name to validate)
     if (propName.startsWith("$")) continue;
 
-    const issues = getCamelCaseIssues(propName, { allowDbMirrored: true });
+    const issues = getCamelCaseIssues(propName, { allowDbMirrored: true, definition: propDef });
     if (issues.length > 0) {
       const suggestion = getCamelCaseSuggestion(propName);
       reportStyleIssue(
@@ -547,6 +582,122 @@ function validateAllSchemaProperties(filePath, doc) {
         }
       }
     }
+  }
+}
+
+// ─── Rule 32: DB-backed property names must match db tags exactly ────────────
+
+function validateDbBackedPropertyNames(filePath, doc) {
+  if (!doc || typeof doc !== "object") return;
+
+  if (doc.properties) {
+    validateDbBackedPropertyTree(filePath, "(root)", doc);
+  }
+
+  if (!doc?.components?.schemas) return;
+
+  for (const [schemaName, schemaDef] of Object.entries(doc.components.schemas)) {
+    validateDbBackedPropertyTree(filePath, schemaName, schemaDef);
+  }
+}
+
+function validateDbBackedPropertyTree(filePath, scope, schema) {
+  if (!schema || typeof schema !== "object") return;
+
+  if (schema.properties && typeof schema.properties === "object") {
+    for (const [propName, propDef] of Object.entries(schema.properties)) {
+      if (!propDef || typeof propDef !== "object") continue;
+
+      const dbValue = getDbTagValue(propDef);
+      const jsonValue = getJsonTagValue(propDef);
+      if (dbValue && DB_TAG_PATTERN.test(dbValue) && hasUnderscore(dbValue) && propName !== dbValue) {
+        warn(
+          filePath,
+          `Schema "${scope}" — property "${propName}" maps to database column "${dbValue}". ` +
+            `DB-backed property names are stable wire-format fields and must use the exact snake_case db name. ` +
+            `Rename the schema property to "${dbValue}" or introduce a new API version for a full casing migration.`,
+        );
+      }
+
+      if (dbValue && DB_TAG_PATTERN.test(dbValue) && hasUnderscore(dbValue) && jsonValue && jsonValue !== "-" && jsonValue !== dbValue) {
+        warn(
+          filePath,
+          `Schema "${scope}" — property "${propName}" has json tag "${jsonValue}" but db tag "${dbValue}". ` +
+            `DB-backed property names and JSON tags must both use the exact snake_case db name in this API version.`,
+        );
+      }
+
+      validateDbBackedPropertyTree(filePath, `${scope}.${propName}`, propDef);
+    }
+  }
+
+  for (const combiner of ["allOf", "oneOf", "anyOf"]) {
+    if (Array.isArray(schema[combiner])) {
+      schema[combiner].forEach((subSchema, index) => {
+        validateDbBackedPropertyTree(filePath, `${scope}.${combiner}[${index}]`, subSchema);
+      });
+    }
+  }
+
+  if (schema.items) {
+    validateDbBackedPropertyTree(filePath, `${scope}.items`, schema.items);
+  }
+}
+
+// ─── Rule 33: pagination envelopes use page_size / total_count ───────────────
+
+function validatePaginationEnvelopeFieldNames(filePath, doc) {
+  if (!doc?.components?.schemas) return;
+
+  for (const [schemaName, schemaDef] of Object.entries(doc.components.schemas)) {
+    validatePaginationEnvelopeTree(filePath, schemaName, schemaDef);
+  }
+}
+
+function validatePaginationEnvelopeTree(filePath, scope, schema) {
+  if (!schema || typeof schema !== "object") return;
+
+  if (schema.properties && typeof schema.properties === "object") {
+    const propertyNames = new Set(Object.keys(schema.properties));
+    const looksPaginated =
+      propertyNames.has("page") ||
+      propertyNames.has("pageSize") ||
+      propertyNames.has("page_size") ||
+      propertyNames.has("totalCount") ||
+      propertyNames.has("total_count");
+
+    if (looksPaginated) {
+      if (propertyNames.has("pageSize")) {
+        warn(
+          filePath,
+          `Schema "${scope}" — pagination envelopes must use "page_size", not "pageSize". ` +
+            `These response fields are part of the published API contract.`,
+        );
+      }
+      if (propertyNames.has("totalCount")) {
+        warn(
+          filePath,
+          `Schema "${scope}" — pagination envelopes must use "total_count", not "totalCount". ` +
+            `These response fields are part of the published API contract.`,
+        );
+      }
+    }
+
+    for (const [propName, propDef] of Object.entries(schema.properties)) {
+      validatePaginationEnvelopeTree(filePath, `${scope}.${propName}`, propDef);
+    }
+  }
+
+  for (const combiner of ["allOf", "oneOf", "anyOf"]) {
+    if (Array.isArray(schema[combiner])) {
+      schema[combiner].forEach((subSchema, index) => {
+        validatePaginationEnvelopeTree(filePath, `${scope}.${combiner}[${index}]`, subSchema);
+      });
+    }
+  }
+
+  if (schema.items) {
+    validatePaginationEnvelopeTree(filePath, `${scope}.items`, schema.items);
   }
 }
 
@@ -1505,8 +1656,8 @@ function checkExtraTagsInProps(filePath, schemaName, properties) {
 
     // Check db: tag uses snake_case
     if (extraTags.db !== undefined) {
-      const dbVal = String(extraTags.db).replace(/,.*$/, ""); // strip options like ,omitempty
-      if (!/^(?:-|[a-z][a-z0-9]*(?:_[a-z0-9]+)*)$/.test(dbVal)) {
+      const dbVal = getTagBaseValue(extraTags.db);
+      if (!DB_TAG_PATTERN.test(dbVal)) {
         warn(
           filePath,
           `Schema "${schemaName}" — property "${propName}" has \`db: "${extraTags.db}"\` ` +
@@ -1518,7 +1669,7 @@ function checkExtraTagsInProps(filePath, schemaName, properties) {
 
     // Check json: tag matches property name
     if (extraTags.json !== undefined) {
-      const jsonVal = String(extraTags.json).replace(/,.*$/, ""); // strip ,omitempty
+      const jsonVal = getTagBaseValue(extraTags.json);
       if (jsonVal !== propName && jsonVal !== "-") {
         warn(
           filePath,
@@ -1839,6 +1990,8 @@ function walk(dir) {
           validatePaginationParams(apiYml, doc);
           validateInlineSchemaExtraction(apiYml, doc);
           validateExtraTagsConsistency(apiYml, doc);
+          validateDbBackedPropertyNames(apiYml, doc);
+          validatePaginationEnvelopeFieldNames(apiYml, doc);
           validateResponseCodeSemantics(apiYml, doc);
           collectSchemaFingerprints(apiYml, doc);
           validateResponseSchemaRefs(apiYml, doc);

@@ -903,7 +903,7 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
         patterns:
           type: array
@@ -913,7 +913,7 @@ components:
 
         resultType:
           type: string
-        totalCount:
+        total_count:
           type: integer
 
     MesheryPatternDeleteRequestBody:
@@ -983,9 +983,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         patterns:
           type: array
@@ -1015,9 +1015,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         catalogRequests:
           type: array
@@ -1046,9 +1046,9 @@ components:
       properties:
         page:
           type: integer
-        pageSize:
+        page_size:
           type: integer
-        totalCount:
+        total_count:
           type: integer
         views:
           type: array

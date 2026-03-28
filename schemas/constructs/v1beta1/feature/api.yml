@@ -110,7 +110,7 @@ components:
       type: object
       required:
         - id
-        - planId
+        - plan_id
         - quantity
         - feature
       properties:
@@ -118,7 +118,7 @@ components:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           x-oapi-codegen-extra-tags:
             db: "id"
-        planId:
+        plan_id:
           $ref: "../../v1alpha1/core/api.yml#/components/schemas/uuid"
           x-oapi-codegen-extra-tags:
             db: "plan_id"
