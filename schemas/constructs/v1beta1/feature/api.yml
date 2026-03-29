@@ -98,12 +98,12 @@ components:
       type: string
 
       enum:
-        - componentsindesign
-        - relationshipsindesign
-        - designsinworkspace
-        - workspacesinorganization
-        - imagesizeindesign
-        - sizeperdesign
+        - ComponentsInDesign
+        - RelationshipsInDesign
+        - DesignsInWorkspace
+        - WorkspacesInOrganization
+        - ImageSizeInDesign
+        - SizePerDesign
       description: Enumeration of possible feature types
 
     Feature:

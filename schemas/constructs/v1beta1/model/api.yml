@@ -161,7 +161,7 @@ components:
         uploadType:
           type: string
           title: "Upload method"
-          enum: ["file", "urlimport", "csv", "url"]
+          enum: ["file", "urlImport", "csv", "url"]
           enumDescriptions:
             [
               "Upload a model file (.tar, .tar.gz, .tgz) from your local system",
