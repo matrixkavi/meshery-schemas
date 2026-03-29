@@ -124,7 +124,7 @@ Before opening a PR, verify:
 
 - Property names: preserve published wire-format casing; new non-DB properties use `camelCase`, DB-backed properties use the exact snake_case database column name
 - ID-suffix fields: `lowerCamelCase` + `Id` (`modelId`, `registrantId`)
-- Enums: lowercase words (`enabled`, `ignored`, `duplicate`)
+- New enum values: lowercase words (`enabled`, `ignored`, `duplicate`); preserve published enum literals as-is within the same API version
 - Object names: singular nouns (`model`, `component`, `design`)
 - `components/schemas` names: PascalCase nouns (`Model`, `Component`, `KeychainPayload`)
 - Files/folders: lowercase (`api.yml`, `keychain.yaml`, `templates/keychain_template.json`)
@@ -141,7 +141,7 @@ Every element in the API has exactly one correct casing. The table below is the 
 | Schema property names (non-DB) | camelCase | `schemaVersion`, `displayName` | ~~`schema_version`~~, ~~`SchemaVersion`~~ |
 | ID-suffix properties | camelCase + `Id` | `modelId`, `registrantId` | ~~`modelID`~~, ~~`model_id`~~ |
 | DB-backed / DB-mirrored fields | exact snake_case db column name | `created_at`, `updated_at`, `user_id`, `first_name`, `plan_id` | ~~`createdAt`~~, ~~`firstName`~~, ~~`planId`~~ |
-| Enum values | lowercase | `enabled`, `ignored` | ~~`Enabled`~~, ~~`ENABLED`~~ |
+| New enum values | lowercase | `enabled`, `ignored` | ~~`Enabled`~~, ~~`ENABLED`~~ |
 | `components/schemas` names | PascalCase | `ModelDefinition`, `KeychainPayload` | ~~`modelDefinition`~~ |
 | File and folder names | lowercase | `api.yml`, `keychain.yaml` | ~~`Keychain.yaml`~~ |
 | Path segments | kebab-case, plural nouns | `/api/role-holders` | ~~`/api/roleHolders`~~ |
@@ -154,6 +154,8 @@ Every element in the API has exactly one correct casing. The table below is the 
 **The database naming is the compatibility boundary.** If a property has `x-oapi-codegen-extra-tags.db` and that `db` value is snake_case, then the schema property name and JSON tag must use that exact snake_case name. Do not camelize DB-backed fields in-place within an existing API version.
 
 **Partial casing migrations are forbidden.** Do not rename selected fields within the same resource from snake_case to camelCase while leaving other published fields unchanged. If the wire format must change, introduce a new API version and migrate the resource consistently there.
+
+**Existing enum wire values are compatibility-sensitive.** Use lowercase for newly introduced enum literals, but do not recase published enum values in-place within the same API version. The validator exempts legacy enum values that already exist on the baseline branch.
 
 **Pagination envelopes are fixed API contract fields** — use `page`, `page_size`, and `total_count`, not `pageSize` or `totalCount`.
 

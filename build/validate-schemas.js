@@ -18,7 +18,7 @@
  *   Rule  6 — Schema property names must preserve published casing: DB-backed properties
  *              use exact snake_case db names; new non-DB properties use camelCase.
  *   Rule  7 — Schema component names (components/schemas keys) must be PascalCase.
- *   Rule  8 — Enum values must be lowercase.
+ *   Rule  8 — Newly introduced enum values must be lowercase.
  *   Rule  9 — Query/header parameter names must be camelCase.
  *   Rule 10 — Path segments must be kebab-case.
  *   Rule 11 — x-generate-db-helpers must be at schema component level, not per-property.
@@ -58,9 +58,12 @@
 
 "use strict";
 
+const { execFileSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
+
+const { findNewNonLowercaseEnumValues } = require("./lib/enum-validation");
 
 const ROOT = path.resolve(__dirname, "..");
 const CONSTRUCTS_DIR = path.join(ROOT, "schemas", "constructs");
@@ -108,7 +111,24 @@ const includeLegacyContractDebt =
 const blockingViolations = [];
 const advisoryViolations = [];
 const refDocCache = new Map();
+const baselineDocCache = new Map();
+const enumBaselineRef = detectEnumBaselineRef();
 const advisoryBaseline = loadAdvisoryBaseline();
+
+function detectEnumBaselineRef() {
+  const candidates = ["master", "origin/master", "refs/heads/master", "refs/remotes/origin/master", "HEAD^1"];
+
+  for (const ref of candidates) {
+    try {
+      execFileSync("git", ["rev-parse", "--verify", ref], { cwd: ROOT, stdio: "ignore" });
+      return ref;
+    } catch (e) {
+      continue;
+    }
+  }
+
+  return null;
+}
 
 function loadAdvisoryBaseline() {
   if (!warnOnly || noAdvisoryBaseline) {
@@ -192,11 +212,6 @@ function isPascalCase(s) {
 /** Returns true if the string is valid kebab-case (lowercase + hyphens only). */
 function isKebabCase(s) {
   return /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(s);
-}
-
-/** Returns true if all characters are lowercase (for enum values). */
-function isLowercase(s) {
-  return s === s.toLowerCase() && !/[A-Z]/.test(s);
 }
 
 /** Returns true if the property name contains an underscore (potential snake_case). */
@@ -293,6 +308,33 @@ function loadYamlDoc(filePath) {
   }
 
   refDocCache.set(filePath, doc);
+  return doc;
+}
+
+function loadBaselineYamlDoc(filePath) {
+  if (baselineDocCache.has(filePath)) {
+    return baselineDocCache.get(filePath);
+  }
+
+  if (!enumBaselineRef) {
+    baselineDocCache.set(filePath, null);
+    return null;
+  }
+
+  const relativeFile = path.relative(ROOT, filePath).split(path.sep).join("/");
+  let doc = null;
+
+  try {
+    const source = execFileSync("git", ["show", `${enumBaselineRef}:${relativeFile}`], {
+      cwd: ROOT,
+      encoding: "utf8",
+    });
+    doc = yaml.load(source);
+  } catch (e) {
+    doc = null;
+  }
+
+  baselineDocCache.set(filePath, doc);
   return doc;
 }
 
@@ -719,51 +761,19 @@ function validateSchemaComponentNames(filePath, doc) {
   }
 }
 
-// ─── Rule 8: enum values must be lowercase ────────────────────────────────────
+// ─── Rule 8: newly introduced enum values must be lowercase ──────────────────
 
 function validateEnumValues(filePath, doc) {
   if (!doc?.components?.schemas) return;
+  const findings = findNewNonLowercaseEnumValues(doc, loadBaselineYamlDoc(filePath));
 
-  function checkEnums(schemaName, schema, propPath) {
-    if (!schema || typeof schema !== "object") return;
-
-    if (Array.isArray(schema.enum)) {
-      for (const val of schema.enum) {
-        if (typeof val === "string" && !isLowercase(val)) {
-          reportStyleIssue(
-            filePath,
-            `${propPath} — enum value "${val}" must be lowercase. ` +
-              `Use "${val.toLowerCase()}" instead. ` +
-              `See AGENTS.md § "Casing rules at a glance".`,
-          );
-        }
-      }
-    }
-
-    // Recurse into properties
-    if (schema.properties) {
-      for (const [propName, propDef] of Object.entries(schema.properties)) {
-        checkEnums(schemaName, propDef, `${propPath}.${propName}`);
-      }
-    }
-
-    // Recurse into combiners
-    for (const combiner of ["allOf", "oneOf", "anyOf"]) {
-      if (Array.isArray(schema[combiner])) {
-        for (let i = 0; i < schema[combiner].length; i++) {
-          checkEnums(schemaName, schema[combiner][i], `${propPath}.${combiner}[${i}]`);
-        }
-      }
-    }
-
-    // Recurse into items (arrays)
-    if (schema.items) {
-      checkEnums(schemaName, schema.items, `${propPath}.items`);
-    }
-  }
-
-  for (const [schemaName, schemaDef] of Object.entries(doc.components.schemas)) {
-    checkEnums(schemaName, schemaDef, `Schema "${schemaName}"`);
+  for (const finding of findings) {
+    reportStyleIssue(
+      filePath,
+      `${finding.path} — new enum value "${finding.value}" must be lowercase. ` +
+        `Existing published enum values are exempt for compatibility; use "${finding.suggestedValue}" for new additions. ` +
+        `See AGENTS.md § "Casing rules at a glance".`,
+    );
   }
 }
 
