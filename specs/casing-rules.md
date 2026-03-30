@@ -86,7 +86,7 @@ schemaVersion: string;
 
 ### Go (oapi-codegen + build/generate-golang.js)
 
-The Go generation pipeline has 7 stages:
+The Go generation pipeline has 8 stages:
 
 1. **oapi-codegen** reads the OpenAPI spec and generates structs. It converts property names to PascalCase for Go field names (e.g., `credential_id` → `CredentialID`) and uses the schema property name verbatim as the `json:"..."` tag.
 
@@ -98,11 +98,15 @@ The Go generation pipeline has 7 stages:
 
 5. **validateReadableImportAliases()** verifies no opaque aliases remain.
 
-6. **validateGeneratedDbTags()** verifies that every `db:` tag declared in the schema is present in the generated Go code.
+6. **addCompatibilityParameterAliases()** adds backward-compatible parameter type aliases.
 
-7. **writeGeneratedHelperFile()** generates `zz_generated.helpers.go` with `Scan()`/`Value()` methods for types marked with `x-generate-db-helpers: true`.
+7. **validateGeneratedDbTags()** verifies that every `db:` tag declared in the schema is present in the generated Go code.
 
-**The key insight:** `json` and `yaml` tags are always the schema property name. `db` tags come from `x-oapi-codegen-extra-tags`. The `json` and `db` tags MUST be identical for DB-backed fields because both GORM and Pop use them to map the same struct.
+8. **validateGeneratedJsonTags()** verifies that every `json:` tag in the generated Go code matches the corresponding schema property name. This is the belt-and-suspenders check that catches oapi-codegen regressions or post-processing bugs.
+
+9. **writeGeneratedHelperFile()** generates `zz_generated.helpers.go` with `Scan()`/`Value()` methods for types marked with `x-generate-db-helpers: true`.
+
+**The key insight:** The property name is the single source of truth. oapi-codegen reads it verbatim (stage 1) and `validateGeneratedJsonTags` confirms it survived the pipeline unchanged (stage 8). `db` tags come from `x-oapi-codegen-extra-tags` and must match the property name for DB-backed fields, ensuring GORM and Pop see identical column names.
 
 ### TypeScript (openapi-typescript)
 

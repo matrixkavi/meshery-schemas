@@ -914,6 +914,23 @@ Run unit tests for the validation logic:
 npm run test:validate-schemas
 ```
 
+### Go Generation Pipeline
+
+`build/generate-golang.js` runs an 8-stage pipeline for each package. The pipeline both generates and validates Go structs to ensure schema property names, json tags, and db tags are consistent end-to-end.
+
+| Stage | Function | What it does |
+| --- | --- | --- |
+| 1 | `oapi-codegen` | Generates Go structs with `json` tags from schema property names (verbatim, no casing transform) |
+| 2 | `addYamlTags()` | Copies each `json` tag value to a `yaml` tag |
+| 3 | `addSchemaExtraTags()` | Merges `db`, `gorm`, etc. from `x-oapi-codegen-extra-tags` into struct tags |
+| 4 | `rewriteExternalRefAliases()` | Normalizes import aliases from opaque names to readable ones |
+| 5 | `validateReadableImportAliases()` | Verifies no opaque import aliases remain |
+| 6 | `addCompatibilityParameterAliases()` | Adds backward-compatible parameter type aliases |
+| 7 | `validateGeneratedDbTags()` | Verifies every `db:` tag declared in the schema is present in generated Go |
+| 8 | `validateGeneratedJsonTags()` | Verifies every `json:` tag in generated Go matches the schema property name |
+
+The **property name is the single source of truth** for the json wire format. oapi-codegen reads it verbatim (stage 1), and `validateGeneratedJsonTags` confirms it survived the pipeline unchanged (stage 8).
+
 ---
 
 ## ✅ Summary
