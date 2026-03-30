@@ -131,7 +131,7 @@ paths:
       description: Creates a non-expiring user token for provider admin use cases.
       parameters:
         - $ref: "#/components/parameters/userId"
-        - $ref: "#/components/parameters/Provider"
+        - $ref: "#/components/parameters/provider"
       responses:
         "200":
           description: Token generated

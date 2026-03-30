@@ -56,6 +56,6 @@ properties:
     description: Contains reference to the dark and light mode snapshots of the design.
 required:
   - compatibility
-  - pattern_caveats
-  - pattern_info
+  - patternCaveats
+  - patternInfo
   - type

@@ -823,6 +823,10 @@ components:
         contentId:
           type: string
           description: ID of the academy content to register for
+        user_id:
+          type: string
+          format: uuid
+          description: ID of the user registering for the content.
         contentType:
           $ref: "#/components/schemas/ContentType"
 
@@ -1241,7 +1245,6 @@ components:
         - updated_at
         - content_id
         - certificate
-        - test_submissions
         - metadata
       properties:
         id:
@@ -1559,7 +1562,7 @@ components:
           format: float
         timeLimit:
           description: Time limit for the quiz in minutes. A value of 0 indicates no time limit.
-          type: string
+          type: integer
         maxAttempts:
           description: Maximum number of attempts allowed for the quiz. A value of 0 indicates unlimited attempts.
           type: integer

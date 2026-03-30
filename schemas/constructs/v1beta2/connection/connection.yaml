@@ -132,4 +132,4 @@ properties:
       yaml: schemaVersion
       db: "-"
       gorm: "-"
-    default: connections.meshery.io/v1beta1
+    default: connections.meshery.io/v1beta2

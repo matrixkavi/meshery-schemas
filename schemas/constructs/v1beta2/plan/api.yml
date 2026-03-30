@@ -89,7 +89,6 @@ components:
             json: "id"
             csv: "id"
         name:
-          type: "string"
           $ref: "#/components/schemas/PlanName"
           x-go-type: PlanName
           x-oapi-codegen-extra-tags:
@@ -147,7 +146,6 @@ components:
         - unit
         - price_per_unit
         - minimum_units
-        - price_id
         - currency
     PlanName:
       type: string

@@ -18,7 +18,7 @@ properties:
     x-oapi-codegen-extra-tags:
       yaml: schemaVersion
       json: schemaVersion
-    default: components.meshery.io/v1beta1
+    default: components.meshery.io/v1beta2
   version:
     $ref: ../core/api.yml#/components/schemas/SemverString
     x-order: 3

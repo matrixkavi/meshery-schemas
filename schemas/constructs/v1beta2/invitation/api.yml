@@ -644,6 +644,8 @@ components:
           type: string
           format: date-time
           x-go-type: "core.NullTime"
+          x-go-type-import:
+            path: github.com/meshery/schemas/models/core
           description: Timestamp when the invitation was deleted, if applicable
 
           x-oapi-codegen-extra-tags:
