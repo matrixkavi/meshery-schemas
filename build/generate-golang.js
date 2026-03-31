@@ -1080,8 +1080,20 @@ function getPackageKey(pkg) {
   return `${pkg.version}/${pkg.dirName}`;
 }
 
+/**
+ * Go import overrides for packages where the Go models live at a
+ * different path than the schema version would imply.
+ */
+const GO_IMPORT_OVERRIDES = {
+  "v1beta1/core": "github.com/meshery/schemas/models/v1alpha1/core",
+  "v1beta2/core": "github.com/meshery/schemas/models/v1alpha1/core",
+  "v1beta1/capability": "github.com/meshery/schemas/models/v1alpha1/capability",
+  "v1beta2/catalog": "github.com/meshery/schemas/models/v1alpha2/catalog",
+};
+
 function getPackageImportPath(pkg) {
-  return `github.com/meshery/schemas/models/${pkg.version}/${pkg.name}`;
+  const key = `${pkg.version}/${pkg.dirName}`;
+  return GO_IMPORT_OVERRIDES[key] || `github.com/meshery/schemas/models/${pkg.version}/${pkg.name}`;
 }
 
 function findPackageForFile(filePath) {

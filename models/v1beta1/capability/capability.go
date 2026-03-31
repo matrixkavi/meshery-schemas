@@ -4,7 +4,7 @@
 package capability
 
 import (
-	corev1beta1 "github.com/meshery/schemas/models/v1beta1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // Defines values for CapabilityStatus.
@@ -31,34 +31,34 @@ type Capability struct {
 	Description string `json:"description" yaml:"description"`
 
 	// DisplayName A string starting with an alphanumeric character. Spaces and hyphens allowed.
-	DisplayName corev1beta1.InputString `json:"displayName" yaml:"displayName"`
+	DisplayName corev1alpha1.InputString `json:"displayName" yaml:"displayName"`
 
 	// EntityState State of the entity in which the capability is applicable.
-	EntityState []corev1beta1.InputString `json:"entityState" yaml:"entityState"`
+	EntityState []corev1alpha1.InputString `json:"entityState" yaml:"entityState"`
 
 	// Key A string starting with an alphanumeric character. Spaces and hyphens allowed.
-	Key corev1beta1.InputString `json:"key" yaml:"key"`
+	Key corev1alpha1.InputString `json:"key" yaml:"key"`
 
 	// Kind A string starting with an alphanumeric character. Spaces and hyphens allowed.
-	Kind corev1beta1.InputString `json:"kind" yaml:"kind"`
+	Kind corev1alpha1.InputString `json:"kind" yaml:"kind"`
 
 	// Metadata Metadata contains additional information associated with the capability. Extension point.
 	Metadata *map[string]interface{} `json:"metadata,omitempty" yaml:"metadata,omitempty"`
 
 	// SchemaVersion API version of the object, optionally prefixed with an API group (e.g. "group.example.io/v1beta1" or bare "v1beta1").
-	SchemaVersion corev1beta1.VersionString `json:"schemaVersion" yaml:"schemaVersion"`
+	SchemaVersion corev1alpha1.VersionString `json:"schemaVersion" yaml:"schemaVersion"`
 
 	// Status Status of the capability
 	Status CapabilityStatus `json:"status" yaml:"status"`
 
 	// SubType A string starting with an alphanumeric character. Spaces and hyphens allowed.
-	SubType corev1beta1.InputString `json:"subType" yaml:"subType"`
+	SubType corev1alpha1.InputString `json:"subType" yaml:"subType"`
 
 	// Type A string starting with an alphanumeric character. Spaces and hyphens allowed.
-	Type corev1beta1.InputString `json:"type" yaml:"type"`
+	Type corev1alpha1.InputString `json:"type" yaml:"type"`
 
 	// Version A valid semantic version string between 5 and 100 characters. The pattern allows for a major.minor.patch version followed by an optional pre-release tag like '-alpha' or '-beta.2' and an optional build metadata tag like '+build.1'.
-	Version corev1beta1.SemverString `json:"version" yaml:"version"`
+	Version corev1alpha1.SemverString `json:"version" yaml:"version"`
 }
 
 // CapabilityStatus Status of the capability

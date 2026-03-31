@@ -319,10 +319,10 @@ const PatternSchema: Record<string, unknown> = {
                                   "resolvedAliases": {
                                     "description": "Map of resolved aliases present in the design",
                                     "type": "object",
-                                    "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                                    "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                                     "x-go-type-import": {
-                                      "path": "github.com/meshery/schemas/models/v1beta1/core",
-                                      "name": "corev1beta1"
+                                      "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                      "name": "corev1alpha1"
                                     },
                                     "additionalProperties": {
                                       "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -1196,10 +1196,10 @@ const PatternSchema: Record<string, unknown> = {
                                                   "type": "array",
                                                   "description": "Capabilities associated with the model",
                                                   "items": {
-                                                    "x-go-type": "capabilityv1beta1.Capability",
+                                                    "x-go-type": "capabilityv1alpha1.Capability",
                                                     "x-go-type-import": {
-                                                      "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                                      "name": "capabilityv1beta1"
+                                                      "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                                      "name": "capabilityv1alpha1"
                                                     },
                                                     "$id": "https://schemas.meshery.io/capability.yaml",
                                                     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -1711,10 +1711,10 @@ const PatternSchema: Record<string, unknown> = {
                                             "yaml": "styles",
                                             "json": "styles"
                                           },
-                                          "x-go-type": "corev1beta1.ComponentStyles",
+                                          "x-go-type": "corev1alpha1.ComponentStyles",
                                           "x-go-type-import": {
-                                            "path": "github.com/meshery/schemas/models/core",
-                                            "name": "corev1beta1"
+                                            "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                            "name": "corev1alpha1"
                                           },
                                           "x-order": 8,
                                           "type": "object",
@@ -2094,10 +2094,10 @@ const PatternSchema: Record<string, unknown> = {
                                           "type": "array",
                                           "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                                           "items": {
-                                            "x-go-type": "capabilityv1beta1.Capability",
+                                            "x-go-type": "capabilityv1alpha1.Capability",
                                             "x-go-type-import": {
-                                              "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                              "name": "capabilityv1beta1"
+                                              "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                              "name": "capabilityv1alpha1"
                                             },
                                             "$id": "https://schemas.meshery.io/capability.yaml",
                                             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -2701,10 +2701,10 @@ const PatternSchema: Record<string, unknown> = {
                                           "description": "Capabilities associated with the relationship.",
                                           "x-order": 2,
                                           "items": {
-                                            "x-go-type": "capabilityv1beta1.Capability",
+                                            "x-go-type": "capabilityv1alpha1.Capability",
                                             "x-go-type-import": {
-                                              "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                              "name": "capabilityv1beta1"
+                                              "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                              "name": "capabilityv1alpha1"
                                             },
                                             "$id": "https://schemas.meshery.io/capability.yaml",
                                             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -5113,10 +5113,10 @@ const PatternSchema: Record<string, unknown> = {
                               "resolvedAliases": {
                                 "description": "Map of resolved aliases present in the design",
                                 "type": "object",
-                                "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                                "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                                 "x-go-type-import": {
-                                  "path": "github.com/meshery/schemas/models/v1beta1/core",
-                                  "name": "corev1beta1"
+                                  "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                  "name": "corev1alpha1"
                                 },
                                 "additionalProperties": {
                                   "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -5990,10 +5990,10 @@ const PatternSchema: Record<string, unknown> = {
                                               "type": "array",
                                               "description": "Capabilities associated with the model",
                                               "items": {
-                                                "x-go-type": "capabilityv1beta1.Capability",
+                                                "x-go-type": "capabilityv1alpha1.Capability",
                                                 "x-go-type-import": {
-                                                  "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                                  "name": "capabilityv1beta1"
+                                                  "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                                  "name": "capabilityv1alpha1"
                                                 },
                                                 "$id": "https://schemas.meshery.io/capability.yaml",
                                                 "$schema": "http://json-schema.org/draft-07/schema#",
@@ -6505,10 +6505,10 @@ const PatternSchema: Record<string, unknown> = {
                                         "yaml": "styles",
                                         "json": "styles"
                                       },
-                                      "x-go-type": "corev1beta1.ComponentStyles",
+                                      "x-go-type": "corev1alpha1.ComponentStyles",
                                       "x-go-type-import": {
-                                        "path": "github.com/meshery/schemas/models/core",
-                                        "name": "corev1beta1"
+                                        "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                        "name": "corev1alpha1"
                                       },
                                       "x-order": 8,
                                       "type": "object",
@@ -6888,10 +6888,10 @@ const PatternSchema: Record<string, unknown> = {
                                       "type": "array",
                                       "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                                       "items": {
-                                        "x-go-type": "capabilityv1beta1.Capability",
+                                        "x-go-type": "capabilityv1alpha1.Capability",
                                         "x-go-type-import": {
-                                          "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                          "name": "capabilityv1beta1"
+                                          "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                          "name": "capabilityv1alpha1"
                                         },
                                         "$id": "https://schemas.meshery.io/capability.yaml",
                                         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -7495,10 +7495,10 @@ const PatternSchema: Record<string, unknown> = {
                                       "description": "Capabilities associated with the relationship.",
                                       "x-order": 2,
                                       "items": {
-                                        "x-go-type": "capabilityv1beta1.Capability",
+                                        "x-go-type": "capabilityv1alpha1.Capability",
                                         "x-go-type-import": {
-                                          "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                          "name": "capabilityv1beta1"
+                                          "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                          "name": "capabilityv1alpha1"
                                         },
                                         "$id": "https://schemas.meshery.io/capability.yaml",
                                         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -9874,10 +9874,10 @@ const PatternSchema: Record<string, unknown> = {
                             "resolvedAliases": {
                               "description": "Map of resolved aliases present in the design",
                               "type": "object",
-                              "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                              "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                               "x-go-type-import": {
-                                "path": "github.com/meshery/schemas/models/v1beta1/core",
-                                "name": "corev1beta1"
+                                "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                "name": "corev1alpha1"
                               },
                               "additionalProperties": {
                                 "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -10751,10 +10751,10 @@ const PatternSchema: Record<string, unknown> = {
                                             "type": "array",
                                             "description": "Capabilities associated with the model",
                                             "items": {
-                                              "x-go-type": "capabilityv1beta1.Capability",
+                                              "x-go-type": "capabilityv1alpha1.Capability",
                                               "x-go-type-import": {
-                                                "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                                "name": "capabilityv1beta1"
+                                                "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                                "name": "capabilityv1alpha1"
                                               },
                                               "$id": "https://schemas.meshery.io/capability.yaml",
                                               "$schema": "http://json-schema.org/draft-07/schema#",
@@ -11266,10 +11266,10 @@ const PatternSchema: Record<string, unknown> = {
                                       "yaml": "styles",
                                       "json": "styles"
                                     },
-                                    "x-go-type": "corev1beta1.ComponentStyles",
+                                    "x-go-type": "corev1alpha1.ComponentStyles",
                                     "x-go-type-import": {
-                                      "path": "github.com/meshery/schemas/models/core",
-                                      "name": "corev1beta1"
+                                      "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                      "name": "corev1alpha1"
                                     },
                                     "x-order": 8,
                                     "type": "object",
@@ -11649,10 +11649,10 @@ const PatternSchema: Record<string, unknown> = {
                                     "type": "array",
                                     "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                                     "items": {
-                                      "x-go-type": "capabilityv1beta1.Capability",
+                                      "x-go-type": "capabilityv1alpha1.Capability",
                                       "x-go-type-import": {
-                                        "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                        "name": "capabilityv1beta1"
+                                        "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                        "name": "capabilityv1alpha1"
                                       },
                                       "$id": "https://schemas.meshery.io/capability.yaml",
                                       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -12256,10 +12256,10 @@ const PatternSchema: Record<string, unknown> = {
                                     "description": "Capabilities associated with the relationship.",
                                     "x-order": 2,
                                     "items": {
-                                      "x-go-type": "capabilityv1beta1.Capability",
+                                      "x-go-type": "capabilityv1alpha1.Capability",
                                       "x-go-type-import": {
-                                        "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                        "name": "capabilityv1beta1"
+                                        "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                        "name": "capabilityv1alpha1"
                                       },
                                       "$id": "https://schemas.meshery.io/capability.yaml",
                                       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -15006,10 +15006,10 @@ const PatternSchema: Record<string, unknown> = {
                             "resolvedAliases": {
                               "description": "Map of resolved aliases present in the design",
                               "type": "object",
-                              "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                              "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                               "x-go-type-import": {
-                                "path": "github.com/meshery/schemas/models/v1beta1/core",
-                                "name": "corev1beta1"
+                                "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                "name": "corev1alpha1"
                               },
                               "additionalProperties": {
                                 "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -15883,10 +15883,10 @@ const PatternSchema: Record<string, unknown> = {
                                             "type": "array",
                                             "description": "Capabilities associated with the model",
                                             "items": {
-                                              "x-go-type": "capabilityv1beta1.Capability",
+                                              "x-go-type": "capabilityv1alpha1.Capability",
                                               "x-go-type-import": {
-                                                "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                                "name": "capabilityv1beta1"
+                                                "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                                "name": "capabilityv1alpha1"
                                               },
                                               "$id": "https://schemas.meshery.io/capability.yaml",
                                               "$schema": "http://json-schema.org/draft-07/schema#",
@@ -16398,10 +16398,10 @@ const PatternSchema: Record<string, unknown> = {
                                       "yaml": "styles",
                                       "json": "styles"
                                     },
-                                    "x-go-type": "corev1beta1.ComponentStyles",
+                                    "x-go-type": "corev1alpha1.ComponentStyles",
                                     "x-go-type-import": {
-                                      "path": "github.com/meshery/schemas/models/core",
-                                      "name": "corev1beta1"
+                                      "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                      "name": "corev1alpha1"
                                     },
                                     "x-order": 8,
                                     "type": "object",
@@ -16781,10 +16781,10 @@ const PatternSchema: Record<string, unknown> = {
                                     "type": "array",
                                     "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                                     "items": {
-                                      "x-go-type": "capabilityv1beta1.Capability",
+                                      "x-go-type": "capabilityv1alpha1.Capability",
                                       "x-go-type-import": {
-                                        "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                        "name": "capabilityv1beta1"
+                                        "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                        "name": "capabilityv1alpha1"
                                       },
                                       "$id": "https://schemas.meshery.io/capability.yaml",
                                       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -17388,10 +17388,10 @@ const PatternSchema: Record<string, unknown> = {
                                     "description": "Capabilities associated with the relationship.",
                                     "x-order": 2,
                                     "items": {
-                                      "x-go-type": "capabilityv1beta1.Capability",
+                                      "x-go-type": "capabilityv1alpha1.Capability",
                                       "x-go-type-import": {
-                                        "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                        "name": "capabilityv1beta1"
+                                        "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                        "name": "capabilityv1alpha1"
                                       },
                                       "$id": "https://schemas.meshery.io/capability.yaml",
                                       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -19875,10 +19875,10 @@ const PatternSchema: Record<string, unknown> = {
                             "resolvedAliases": {
                               "description": "Map of resolved aliases present in the design",
                               "type": "object",
-                              "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                              "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                               "x-go-type-import": {
-                                "path": "github.com/meshery/schemas/models/v1beta1/core",
-                                "name": "corev1beta1"
+                                "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                "name": "corev1alpha1"
                               },
                               "additionalProperties": {
                                 "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -20752,10 +20752,10 @@ const PatternSchema: Record<string, unknown> = {
                                             "type": "array",
                                             "description": "Capabilities associated with the model",
                                             "items": {
-                                              "x-go-type": "capabilityv1beta1.Capability",
+                                              "x-go-type": "capabilityv1alpha1.Capability",
                                               "x-go-type-import": {
-                                                "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                                "name": "capabilityv1beta1"
+                                                "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                                "name": "capabilityv1alpha1"
                                               },
                                               "$id": "https://schemas.meshery.io/capability.yaml",
                                               "$schema": "http://json-schema.org/draft-07/schema#",
@@ -21267,10 +21267,10 @@ const PatternSchema: Record<string, unknown> = {
                                       "yaml": "styles",
                                       "json": "styles"
                                     },
-                                    "x-go-type": "corev1beta1.ComponentStyles",
+                                    "x-go-type": "corev1alpha1.ComponentStyles",
                                     "x-go-type-import": {
-                                      "path": "github.com/meshery/schemas/models/core",
-                                      "name": "corev1beta1"
+                                      "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                      "name": "corev1alpha1"
                                     },
                                     "x-order": 8,
                                     "type": "object",
@@ -21650,10 +21650,10 @@ const PatternSchema: Record<string, unknown> = {
                                     "type": "array",
                                     "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                                     "items": {
-                                      "x-go-type": "capabilityv1beta1.Capability",
+                                      "x-go-type": "capabilityv1alpha1.Capability",
                                       "x-go-type-import": {
-                                        "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                        "name": "capabilityv1beta1"
+                                        "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                        "name": "capabilityv1alpha1"
                                       },
                                       "$id": "https://schemas.meshery.io/capability.yaml",
                                       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -22257,10 +22257,10 @@ const PatternSchema: Record<string, unknown> = {
                                     "description": "Capabilities associated with the relationship.",
                                     "x-order": 2,
                                     "items": {
-                                      "x-go-type": "capabilityv1beta1.Capability",
+                                      "x-go-type": "capabilityv1alpha1.Capability",
                                       "x-go-type-import": {
-                                        "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                        "name": "capabilityv1beta1"
+                                        "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                        "name": "capabilityv1alpha1"
                                       },
                                       "$id": "https://schemas.meshery.io/capability.yaml",
                                       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -25061,10 +25061,10 @@ const PatternSchema: Record<string, unknown> = {
                                   "resolvedAliases": {
                                     "description": "Map of resolved aliases present in the design",
                                     "type": "object",
-                                    "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                                    "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                                     "x-go-type-import": {
-                                      "path": "github.com/meshery/schemas/models/v1beta1/core",
-                                      "name": "corev1beta1"
+                                      "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                      "name": "corev1alpha1"
                                     },
                                     "additionalProperties": {
                                       "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -25938,10 +25938,10 @@ const PatternSchema: Record<string, unknown> = {
                                                   "type": "array",
                                                   "description": "Capabilities associated with the model",
                                                   "items": {
-                                                    "x-go-type": "capabilityv1beta1.Capability",
+                                                    "x-go-type": "capabilityv1alpha1.Capability",
                                                     "x-go-type-import": {
-                                                      "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                                      "name": "capabilityv1beta1"
+                                                      "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                                      "name": "capabilityv1alpha1"
                                                     },
                                                     "$id": "https://schemas.meshery.io/capability.yaml",
                                                     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -26453,10 +26453,10 @@ const PatternSchema: Record<string, unknown> = {
                                             "yaml": "styles",
                                             "json": "styles"
                                           },
-                                          "x-go-type": "corev1beta1.ComponentStyles",
+                                          "x-go-type": "corev1alpha1.ComponentStyles",
                                           "x-go-type-import": {
-                                            "path": "github.com/meshery/schemas/models/core",
-                                            "name": "corev1beta1"
+                                            "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                            "name": "corev1alpha1"
                                           },
                                           "x-order": 8,
                                           "type": "object",
@@ -26836,10 +26836,10 @@ const PatternSchema: Record<string, unknown> = {
                                           "type": "array",
                                           "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                                           "items": {
-                                            "x-go-type": "capabilityv1beta1.Capability",
+                                            "x-go-type": "capabilityv1alpha1.Capability",
                                             "x-go-type-import": {
-                                              "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                              "name": "capabilityv1beta1"
+                                              "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                              "name": "capabilityv1alpha1"
                                             },
                                             "$id": "https://schemas.meshery.io/capability.yaml",
                                             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -27443,10 +27443,10 @@ const PatternSchema: Record<string, unknown> = {
                                           "description": "Capabilities associated with the relationship.",
                                           "x-order": 2,
                                           "items": {
-                                            "x-go-type": "capabilityv1beta1.Capability",
+                                            "x-go-type": "capabilityv1alpha1.Capability",
                                             "x-go-type-import": {
-                                              "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                              "name": "capabilityv1beta1"
+                                              "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                              "name": "capabilityv1alpha1"
                                             },
                                             "$id": "https://schemas.meshery.io/capability.yaml",
                                             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -30996,10 +30996,10 @@ const PatternSchema: Record<string, unknown> = {
               "resolvedAliases": {
                 "description": "Map of resolved aliases present in the design",
                 "type": "object",
-                "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                 "x-go-type-import": {
-                  "path": "github.com/meshery/schemas/models/v1beta1/core",
-                  "name": "corev1beta1"
+                  "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                  "name": "corev1alpha1"
                 },
                 "additionalProperties": {
                   "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -31873,10 +31873,10 @@ const PatternSchema: Record<string, unknown> = {
                               "type": "array",
                               "description": "Capabilities associated with the model",
                               "items": {
-                                "x-go-type": "capabilityv1beta1.Capability",
+                                "x-go-type": "capabilityv1alpha1.Capability",
                                 "x-go-type-import": {
-                                  "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                  "name": "capabilityv1beta1"
+                                  "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                  "name": "capabilityv1alpha1"
                                 },
                                 "$id": "https://schemas.meshery.io/capability.yaml",
                                 "$schema": "http://json-schema.org/draft-07/schema#",
@@ -32388,10 +32388,10 @@ const PatternSchema: Record<string, unknown> = {
                         "yaml": "styles",
                         "json": "styles"
                       },
-                      "x-go-type": "corev1beta1.ComponentStyles",
+                      "x-go-type": "corev1alpha1.ComponentStyles",
                       "x-go-type-import": {
-                        "path": "github.com/meshery/schemas/models/core",
-                        "name": "corev1beta1"
+                        "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                        "name": "corev1alpha1"
                       },
                       "x-order": 8,
                       "type": "object",
@@ -32771,10 +32771,10 @@ const PatternSchema: Record<string, unknown> = {
                       "type": "array",
                       "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                       "items": {
-                        "x-go-type": "capabilityv1beta1.Capability",
+                        "x-go-type": "capabilityv1alpha1.Capability",
                         "x-go-type-import": {
-                          "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                          "name": "capabilityv1beta1"
+                          "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                          "name": "capabilityv1alpha1"
                         },
                         "$id": "https://schemas.meshery.io/capability.yaml",
                         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -33378,10 +33378,10 @@ const PatternSchema: Record<string, unknown> = {
                       "description": "Capabilities associated with the relationship.",
                       "x-order": 2,
                       "items": {
-                        "x-go-type": "capabilityv1beta1.Capability",
+                        "x-go-type": "capabilityv1alpha1.Capability",
                         "x-go-type-import": {
-                          "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                          "name": "capabilityv1beta1"
+                          "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                          "name": "capabilityv1alpha1"
                         },
                         "$id": "https://schemas.meshery.io/capability.yaml",
                         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -35714,10 +35714,10 @@ const PatternSchema: Record<string, unknown> = {
                   "resolvedAliases": {
                     "description": "Map of resolved aliases present in the design",
                     "type": "object",
-                    "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                    "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                     "x-go-type-import": {
-                      "path": "github.com/meshery/schemas/models/v1beta1/core",
-                      "name": "corev1beta1"
+                      "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                      "name": "corev1alpha1"
                     },
                     "additionalProperties": {
                       "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -36591,10 +36591,10 @@ const PatternSchema: Record<string, unknown> = {
                                   "type": "array",
                                   "description": "Capabilities associated with the model",
                                   "items": {
-                                    "x-go-type": "capabilityv1beta1.Capability",
+                                    "x-go-type": "capabilityv1alpha1.Capability",
                                     "x-go-type-import": {
-                                      "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                      "name": "capabilityv1beta1"
+                                      "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                      "name": "capabilityv1alpha1"
                                     },
                                     "$id": "https://schemas.meshery.io/capability.yaml",
                                     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -37106,10 +37106,10 @@ const PatternSchema: Record<string, unknown> = {
                             "yaml": "styles",
                             "json": "styles"
                           },
-                          "x-go-type": "corev1beta1.ComponentStyles",
+                          "x-go-type": "corev1alpha1.ComponentStyles",
                           "x-go-type-import": {
-                            "path": "github.com/meshery/schemas/models/core",
-                            "name": "corev1beta1"
+                            "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                            "name": "corev1alpha1"
                           },
                           "x-order": 8,
                           "type": "object",
@@ -37489,10 +37489,10 @@ const PatternSchema: Record<string, unknown> = {
                           "type": "array",
                           "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                           "items": {
-                            "x-go-type": "capabilityv1beta1.Capability",
+                            "x-go-type": "capabilityv1alpha1.Capability",
                             "x-go-type-import": {
-                              "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                              "name": "capabilityv1beta1"
+                              "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                              "name": "capabilityv1alpha1"
                             },
                             "$id": "https://schemas.meshery.io/capability.yaml",
                             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -38096,10 +38096,10 @@ const PatternSchema: Record<string, unknown> = {
                           "description": "Capabilities associated with the relationship.",
                           "x-order": 2,
                           "items": {
-                            "x-go-type": "capabilityv1beta1.Capability",
+                            "x-go-type": "capabilityv1alpha1.Capability",
                             "x-go-type-import": {
-                              "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                              "name": "capabilityv1beta1"
+                              "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                              "name": "capabilityv1alpha1"
                             },
                             "$id": "https://schemas.meshery.io/capability.yaml",
                             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -40464,10 +40464,10 @@ const PatternSchema: Record<string, unknown> = {
                         "resolvedAliases": {
                           "description": "Map of resolved aliases present in the design",
                           "type": "object",
-                          "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                          "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                           "x-go-type-import": {
-                            "path": "github.com/meshery/schemas/models/v1beta1/core",
-                            "name": "corev1beta1"
+                            "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                            "name": "corev1alpha1"
                           },
                           "additionalProperties": {
                             "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -41341,10 +41341,10 @@ const PatternSchema: Record<string, unknown> = {
                                         "type": "array",
                                         "description": "Capabilities associated with the model",
                                         "items": {
-                                          "x-go-type": "capabilityv1beta1.Capability",
+                                          "x-go-type": "capabilityv1alpha1.Capability",
                                           "x-go-type-import": {
-                                            "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                            "name": "capabilityv1beta1"
+                                            "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                            "name": "capabilityv1alpha1"
                                           },
                                           "$id": "https://schemas.meshery.io/capability.yaml",
                                           "$schema": "http://json-schema.org/draft-07/schema#",
@@ -41856,10 +41856,10 @@ const PatternSchema: Record<string, unknown> = {
                                   "yaml": "styles",
                                   "json": "styles"
                                 },
-                                "x-go-type": "corev1beta1.ComponentStyles",
+                                "x-go-type": "corev1alpha1.ComponentStyles",
                                 "x-go-type-import": {
-                                  "path": "github.com/meshery/schemas/models/core",
-                                  "name": "corev1beta1"
+                                  "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                  "name": "corev1alpha1"
                                 },
                                 "x-order": 8,
                                 "type": "object",
@@ -42239,10 +42239,10 @@ const PatternSchema: Record<string, unknown> = {
                                 "type": "array",
                                 "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                                 "items": {
-                                  "x-go-type": "capabilityv1beta1.Capability",
+                                  "x-go-type": "capabilityv1alpha1.Capability",
                                   "x-go-type-import": {
-                                    "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                    "name": "capabilityv1beta1"
+                                    "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                    "name": "capabilityv1alpha1"
                                   },
                                   "$id": "https://schemas.meshery.io/capability.yaml",
                                   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -42846,10 +42846,10 @@ const PatternSchema: Record<string, unknown> = {
                                 "description": "Capabilities associated with the relationship.",
                                 "x-order": 2,
                                 "items": {
-                                  "x-go-type": "capabilityv1beta1.Capability",
+                                  "x-go-type": "capabilityv1alpha1.Capability",
                                   "x-go-type-import": {
-                                    "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                    "name": "capabilityv1beta1"
+                                    "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                    "name": "capabilityv1alpha1"
                                   },
                                   "$id": "https://schemas.meshery.io/capability.yaml",
                                   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -45246,10 +45246,10 @@ const PatternSchema: Record<string, unknown> = {
                       "resolvedAliases": {
                         "description": "Map of resolved aliases present in the design",
                         "type": "object",
-                        "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                        "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                         "x-go-type-import": {
-                          "path": "github.com/meshery/schemas/models/v1beta1/core",
-                          "name": "corev1beta1"
+                          "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                          "name": "corev1alpha1"
                         },
                         "additionalProperties": {
                           "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -46123,10 +46123,10 @@ const PatternSchema: Record<string, unknown> = {
                                       "type": "array",
                                       "description": "Capabilities associated with the model",
                                       "items": {
-                                        "x-go-type": "capabilityv1beta1.Capability",
+                                        "x-go-type": "capabilityv1alpha1.Capability",
                                         "x-go-type-import": {
-                                          "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                          "name": "capabilityv1beta1"
+                                          "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                          "name": "capabilityv1alpha1"
                                         },
                                         "$id": "https://schemas.meshery.io/capability.yaml",
                                         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -46638,10 +46638,10 @@ const PatternSchema: Record<string, unknown> = {
                                 "yaml": "styles",
                                 "json": "styles"
                               },
-                              "x-go-type": "corev1beta1.ComponentStyles",
+                              "x-go-type": "corev1alpha1.ComponentStyles",
                               "x-go-type-import": {
-                                "path": "github.com/meshery/schemas/models/core",
-                                "name": "corev1beta1"
+                                "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                "name": "corev1alpha1"
                               },
                               "x-order": 8,
                               "type": "object",
@@ -47021,10 +47021,10 @@ const PatternSchema: Record<string, unknown> = {
                               "type": "array",
                               "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                               "items": {
-                                "x-go-type": "capabilityv1beta1.Capability",
+                                "x-go-type": "capabilityv1alpha1.Capability",
                                 "x-go-type-import": {
-                                  "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                  "name": "capabilityv1beta1"
+                                  "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                  "name": "capabilityv1alpha1"
                                 },
                                 "$id": "https://schemas.meshery.io/capability.yaml",
                                 "$schema": "http://json-schema.org/draft-07/schema#",
@@ -47628,10 +47628,10 @@ const PatternSchema: Record<string, unknown> = {
                               "description": "Capabilities associated with the relationship.",
                               "x-order": 2,
                               "items": {
-                                "x-go-type": "capabilityv1beta1.Capability",
+                                "x-go-type": "capabilityv1alpha1.Capability",
                                 "x-go-type-import": {
-                                  "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                  "name": "capabilityv1beta1"
+                                  "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                  "name": "capabilityv1alpha1"
                                 },
                                 "$id": "https://schemas.meshery.io/capability.yaml",
                                 "$schema": "http://json-schema.org/draft-07/schema#",
@@ -50060,10 +50060,10 @@ const PatternSchema: Record<string, unknown> = {
                         "resolvedAliases": {
                           "description": "Map of resolved aliases present in the design",
                           "type": "object",
-                          "x-go-type": "map[string]corev1beta1.ResolvedAlias",
+                          "x-go-type": "map[string]corev1alpha1.ResolvedAlias",
                           "x-go-type-import": {
-                            "path": "github.com/meshery/schemas/models/v1beta1/core",
-                            "name": "corev1beta1"
+                            "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                            "name": "corev1alpha1"
                           },
                           "additionalProperties": {
                             "description": "An resolved alias is an component that acts as an ref/pointer to a field in another component, resolvedAlias are aware of there immediate parents and completely resolved parents also",
@@ -50937,10 +50937,10 @@ const PatternSchema: Record<string, unknown> = {
                                         "type": "array",
                                         "description": "Capabilities associated with the model",
                                         "items": {
-                                          "x-go-type": "capabilityv1beta1.Capability",
+                                          "x-go-type": "capabilityv1alpha1.Capability",
                                           "x-go-type-import": {
-                                            "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                            "name": "capabilityv1beta1"
+                                            "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                            "name": "capabilityv1alpha1"
                                           },
                                           "$id": "https://schemas.meshery.io/capability.yaml",
                                           "$schema": "http://json-schema.org/draft-07/schema#",
@@ -51452,10 +51452,10 @@ const PatternSchema: Record<string, unknown> = {
                                   "yaml": "styles",
                                   "json": "styles"
                                 },
-                                "x-go-type": "corev1beta1.ComponentStyles",
+                                "x-go-type": "corev1alpha1.ComponentStyles",
                                 "x-go-type-import": {
-                                  "path": "github.com/meshery/schemas/models/core",
-                                  "name": "corev1beta1"
+                                  "path": "github.com/meshery/schemas/models/v1alpha1/core",
+                                  "name": "corev1alpha1"
                                 },
                                 "x-order": 8,
                                 "type": "object",
@@ -51835,10 +51835,10 @@ const PatternSchema: Record<string, unknown> = {
                                 "type": "array",
                                 "description": "Meshery manages components in accordance with their specific capabilities. This field explicitly identifies those capabilities largely by what actions a given component supports; e.g. metric-scrape, sub-interface, and so on. This field is extensible. ComponentDefinitions may define a broad array of capabilities, which are in-turn dynamically interpretted by Meshery for full lifecycle management.",
                                 "items": {
-                                  "x-go-type": "capabilityv1beta1.Capability",
+                                  "x-go-type": "capabilityv1alpha1.Capability",
                                   "x-go-type-import": {
-                                    "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                    "name": "capabilityv1beta1"
+                                    "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                    "name": "capabilityv1alpha1"
                                   },
                                   "$id": "https://schemas.meshery.io/capability.yaml",
                                   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -52442,10 +52442,10 @@ const PatternSchema: Record<string, unknown> = {
                                 "description": "Capabilities associated with the relationship.",
                                 "x-order": 2,
                                 "items": {
-                                  "x-go-type": "capabilityv1beta1.Capability",
+                                  "x-go-type": "capabilityv1alpha1.Capability",
                                   "x-go-type-import": {
-                                    "path": "github.com/meshery/schemas/models/v1beta1/capability",
-                                    "name": "capabilityv1beta1"
+                                    "path": "github.com/meshery/schemas/models/v1alpha1/capability",
+                                    "name": "capabilityv1alpha1"
                                   },
                                   "$id": "https://schemas.meshery.io/capability.yaml",
                                   "$schema": "http://json-schema.org/draft-07/schema#",

@@ -4,28 +4,28 @@
 package schedule
 
 import (
-	corev1beta1 "github.com/meshery/schemas/models/v1beta1/core"
+	corev1alpha1 "github.com/meshery/schemas/models/v1alpha1/core"
 )
 
 // Schedule A schedule defines a recurring cron-based trigger for performance tests or other automated tasks.
 type Schedule struct {
 	// Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	ID *corev1beta1.Uuid `db:"id" json:"id,omitempty" yaml:"id,omitempty"`
+	ID *corev1alpha1.Uuid `db:"id" json:"id,omitempty" yaml:"id,omitempty"`
 
 	// Name Human-readable name for the schedule.
 	Name string `db:"name" json:"name" yaml:"name"`
 
 	// UserId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-	UserId corev1beta1.Uuid `db:"user_id" json:"user_id" yaml:"user_id"`
+	UserId corev1alpha1.Uuid `db:"user_id" json:"user_id" yaml:"user_id"`
 
 	// CronExpression Cron expression defining the schedule's recurrence (e.g. "0 0 * * *" for daily at midnight).
 	CronExpression string `db:"cron_expression" json:"cron_expression" yaml:"cron_expression"`
 
 	// CreatedAt Timestamp when the resource was created.
-	CreatedAt corev1beta1.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	CreatedAt corev1alpha1.CreatedAt `db:"created_at" json:"created_at,omitempty" yaml:"created_at,omitempty"`
 
 	// UpdatedAt Timestamp when the resource was updated.
-	UpdatedAt corev1beta1.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	UpdatedAt corev1alpha1.UpdatedAt `db:"updated_at" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
 }
 
 // SchedulePage A paginated list of schedules.
@@ -42,7 +42,7 @@ type SchedulePage struct {
 }
 
 // Id A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
-type Id = corev1beta1.Uuid
+type Id = corev1alpha1.Uuid
 
 // Order defines model for order.
 type Order = string
