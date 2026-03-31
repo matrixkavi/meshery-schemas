@@ -2295,7 +2295,7 @@ function validateNumericBounds(filePath, properties, schemaName) {
 // Properties with `x-id-format: external` are exempt — they represent IDs from
 // external systems (payment processors, third-party APIs) that are not UUIDs.
 
-const ID_PROPERTY_PATTERN = /(?:^id$|_id$|Id$)/;
+const ID_PROPERTY_PATTERN = /(?:^id$|_id$|Id$|ID$)/i;
 
 function validateIdFormat(filePath, properties, schemaName) {
   if (!properties || typeof properties !== "object") return;
