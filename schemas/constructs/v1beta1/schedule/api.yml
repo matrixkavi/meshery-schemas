@@ -160,6 +160,7 @@ components:
         A schedule defines a recurring cron-based trigger for performance tests
         or other automated tasks.
       required:
+        - name
         - user_id
         - cron_expression
       properties:
@@ -173,6 +174,8 @@ components:
           type: string
           description: Human-readable name for the schedule.
           x-order: 2
+          x-oapi-codegen-extra-tags:
+            db: "name"
         user_id:
           $ref: "../core/api.yml#/components/schemas/uuid"
           description: UUID of the user who owns this schedule.

@@ -1,6 +1,6 @@
 # Schema / Database Audit — Remaining Findings
 
-Cross-reference audit performed 2026-03-31 against `meshery-cloud/database/migrations/20190402165033_create_initial_schema.postgres.up.sql`. Findings below were not fixed in PR #683 because they are either intentional design decisions, require broader migration planning, or need server-side changes first.
+Cross-reference audit performed 2026-03-31 against `meshery-cloud/database/migrations/20190402165033_create_initial_schema.postgres.up.sql`. Findings below were not fixed in PR #678 because they are either intentional design decisions, require broader migration planning, or need server-side changes first.
 
 ## Event Schema (v1beta1 + v1beta2)
 
