@@ -643,8 +643,6 @@ components:
           format: date-time
           x-go-type: "core.NullTime"
           x-go-type-import:
-            # Unversioned path — models/core/ is the canonical Go package
-            # for shared types (Map, NullTime, etc.), not version-scoped.
             path: github.com/meshery/schemas/models/core
           description: Timestamp when the invitation was deleted, if applicable
 

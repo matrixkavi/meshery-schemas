@@ -8,6 +8,8 @@ const SubscriptionSchema: Record<string, unknown> = {
   "info": {
     "title": "Subscription",
     "description": "API for managing subscriptions using various payment processors in a SaaS application.",
+    "x-deprecated": true,
+    "x-superseded-by": "v1beta2",
     "version": "v1beta1",
     "contact": {
       "name": "Meshery Maintainers",
@@ -196,6 +198,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                                   "csv": "name"
                                 },
                                 "description": "Name of the plan",
+                                "x-enum-casing-exempt": true,
                                 "enum": [
                                   "Free",
                                   "Team Designer",
@@ -527,6 +530,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                                   "csv": "name"
                                 },
                                 "description": "Name of the plan",
+                                "x-enum-casing-exempt": true,
                                 "enum": [
                                   "Free",
                                   "Team Designer",
@@ -981,6 +985,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                             "csv": "name"
                           },
                           "description": "Name of the plan",
+                          "x-enum-casing-exempt": true,
                           "enum": [
                             "Free",
                             "Team Designer",
@@ -1196,7 +1201,7 @@ const SubscriptionSchema: Record<string, unknown> = {
         }
       }
     },
-    "/api/entitlement/subscriptions/{subscriptionId}/upgrade-preview": {
+    "/api/entitlement/subscriptions/{subscriptionId}/upgradePreview": {
       "post": {
         "x-internal": [
           "cloud"
@@ -1662,6 +1667,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                         "csv": "name"
                       },
                       "description": "Name of the plan",
+                      "x-enum-casing-exempt": true,
                       "enum": [
                         "Free",
                         "Team Designer",
@@ -1909,6 +1915,7 @@ const SubscriptionSchema: Record<string, unknown> = {
                   "csv": "name"
                 },
                 "description": "Name of the plan",
+                "x-enum-casing-exempt": true,
                 "enum": [
                   "Free",
                   "Team Designer",

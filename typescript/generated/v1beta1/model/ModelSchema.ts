@@ -146,6 +146,7 @@ const ModelSchema: Record<string, unknown> = {
                   "uploadType": {
                     "type": "string",
                     "title": "Upload method",
+                    "x-enum-casing-exempt": true,
                     "enum": [
                       "file",
                       "urlImport",
@@ -1016,10 +1017,10 @@ const ModelSchema: Record<string, unknown> = {
                 "type": "array",
                 "description": "Capabilities associated with the model",
                 "items": {
-                  "x-go-type": "capabilityv1alpha1.Capability",
+                  "x-go-type": "capabilityv1beta1.Capability",
                   "x-go-type-import": {
-                    "path": "github.com/meshery/schemas/models/v1alpha1/capability",
-                    "name": "capabilityv1alpha1"
+                    "path": "github.com/meshery/schemas/models/v1beta1/capability",
+                    "name": "capabilityv1beta1"
                   },
                   "$id": "https://schemas.meshery.io/capability.yaml",
                   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -1149,7 +1150,7 @@ const ModelSchema: Record<string, unknown> = {
                       ],
                       "key": "",
                       "kind": "mutate",
-                      "schemaVersion": "capability.meshery.io/v1alpha1",
+                      "schemaVersion": "capability.meshery.io/v1beta1",
                       "status": "enabled",
                       "subType": "",
                       "type": "style",
@@ -1163,7 +1164,7 @@ const ModelSchema: Record<string, unknown> = {
                       ],
                       "key": "",
                       "kind": "mutate",
-                      "schemaVersion": "capability.meshery.io/v1alpha1",
+                      "schemaVersion": "capability.meshery.io/v1beta1",
                       "status": "enabled",
                       "subType": "shape",
                       "type": "style",
@@ -1177,7 +1178,7 @@ const ModelSchema: Record<string, unknown> = {
                       ],
                       "key": "",
                       "kind": "interaction",
-                      "schemaVersion": "capability.meshery.io/v1alpha1",
+                      "schemaVersion": "capability.meshery.io/v1beta1",
                       "status": "enabled",
                       "subType": "compoundDnd",
                       "type": "graph",
@@ -1191,7 +1192,7 @@ const ModelSchema: Record<string, unknown> = {
                       ],
                       "key": "",
                       "kind": "mutate",
-                      "schemaVersion": "capability.meshery.io/v1alpha1",
+                      "schemaVersion": "capability.meshery.io/v1beta1",
                       "status": "enabled",
                       "subType": "body-text",
                       "type": "style",
@@ -1626,6 +1627,7 @@ const ModelSchema: Record<string, unknown> = {
           "uploadType": {
             "type": "string",
             "title": "Upload method",
+            "x-enum-casing-exempt": true,
             "enum": [
               "file",
               "urlImport",

@@ -313,7 +313,7 @@ case nil:
 These patterns are deliberate. Do not suggest changes during code review:
 
 1. **`SqlNullTime` vs `NullTime`** — Some entities use `SqlNullTime` for backward compatibility with v1beta1 and downstream GORM/Pop consumers. Do not suggest switching unless the entire entity is being migrated.
-2. **Unversioned `models/core` import path** — `github.com/meshery/schemas/models/core` is the canonical Go package for shared types (`Map`, `NullTime`). It is deliberately not version-scoped. Do not suggest adding a version prefix.
+2. **Unversioned `models/core` import path** — `github.com/meshery/schemas/models/core` is the canonical Go package for shared utility types (`Map`, `NullTime`, `MapObject`, helpers). It is deliberately not version-scoped because these types are used by all versioned model packages and do not change between API versions. Do not suggest adding a version prefix.
 3. **`x-enum-casing-exempt: true`** — Enums with this annotation contain published values that will never be lowercased (e.g., `PlanName`, `FeatureName`). Do not suggest lowercasing.
 4. **`page_size` / `total_count`** — Pagination envelope fields use snake_case as a published API contract, not because they are database-backed. Do not suggest `pageSize`/`totalCount`.
 5. **Deprecated v1beta1 constructs** — Files with `x-deprecated: true` are kept for backward compatibility. Known casing violations are fixed in v1beta2. Do not flag issues in deprecated constructs.

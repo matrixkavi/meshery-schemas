@@ -58,8 +58,9 @@ const packageNameOverrides = {
  * These directories will be skipped even if they contain api.yml
  */
 const excludePackages = [
-  // Add any packages to exclude here
-  // Example: "v1beta2-draft/somepkg"
+  // Deprecated v1beta1 constructs that have circular $ref in api.yml
+  // (re-exports from relationship.yaml). Use v1alpha3 Go models instead.
+  "v1beta1/relationship",
 ];
 
 /**
@@ -71,11 +72,26 @@ const excludeFromMerge = [
   // still exist for backward compatibility but are excluded from merge.
   "v1alpha1/core",
   "v1alpha1/capability",
-  // Promoted v1beta1 copies: core and capability are reusable base schemas,
-  // not standalone API surfaces — exclude from the merged spec.
+  // Core, capability, selector are reusable base schemas, not standalone
+  // API surfaces — exclude from the merged spec in all versions.
   "v1beta1/core",
   "v1beta1/capability",
   "v1beta1/selector",
+  "v1beta2/core",
+  "v1beta2/selector",
+  // Deprecated v1beta1 constructs superseded by v1beta2.
+  // Excluded to prevent path conflicts during OpenAPI merge.
+  "v1beta1/academy",
+  "v1beta1/catalog",
+  "v1beta1/component",
+  "v1beta1/connection",
+  "v1beta1/design",
+  "v1beta1/event",
+  "v1beta1/invitation",
+  "v1beta1/plan",
+  "v1beta1/relationship",
+  "v1beta1/subscription",
+  "v1beta1/token",
 ];
 
 /**

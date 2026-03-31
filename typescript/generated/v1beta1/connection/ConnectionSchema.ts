@@ -8,6 +8,8 @@ const ConnectionSchema: Record<string, unknown> = {
   "info": {
     "title": "Connection API",
     "description": "API for managing Meshery connections - managed and unmanaged resources tracked by Meshery.",
+    "x-deprecated": true,
+    "x-superseded-by": "v1beta2",
     "version": "v1beta1",
     "contact": {
       "name": "Meshery Maintainers",
@@ -145,8 +147,6 @@ const ConnectionSchema: Record<string, unknown> = {
             "content": {
               "application/json": {
                 "schema": {
-                  "$id": "https://schemas.meshery.io/connection_page.yaml",
-                  "$schema": "http://json-schema.org/draft-07/schema#",
                   "description": "Represents a page of connections with meta information about connections count",
                   "additionalProperties": false,
                   "type": "object",
@@ -651,11 +651,11 @@ const ConnectionSchema: Record<string, unknown> = {
                       "json": "type"
                     }
                   },
-                  "subType": {
+                  "sub_type": {
                     "type": "string",
                     "description": "Connection sub-type",
                     "x-oapi-codegen-extra-tags": {
-                      "json": "subType"
+                      "json": "sub_type"
                     }
                   },
                   "credentialSecret": {
@@ -703,7 +703,7 @@ const ConnectionSchema: Record<string, unknown> = {
                   "name",
                   "kind",
                   "type",
-                  "subType",
+                  "sub_type",
                   "status"
                 ]
               }
@@ -1620,11 +1620,11 @@ const ConnectionSchema: Record<string, unknown> = {
                       "json": "type"
                     }
                   },
-                  "subType": {
+                  "sub_type": {
                     "type": "string",
                     "description": "Connection sub-type",
                     "x-oapi-codegen-extra-tags": {
-                      "json": "subType"
+                      "json": "sub_type"
                     }
                   },
                   "credentialSecret": {
@@ -1672,7 +1672,7 @@ const ConnectionSchema: Record<string, unknown> = {
                   "name",
                   "kind",
                   "type",
-                  "subType",
+                  "sub_type",
                   "status"
                 ]
               }
@@ -2922,8 +2922,6 @@ const ConnectionSchema: Record<string, unknown> = {
         }
       },
       "ConnectionPage": {
-        "$id": "https://schemas.meshery.io/connection_page.yaml",
-        "$schema": "http://json-schema.org/draft-07/schema#",
         "description": "Represents a page of connections with meta information about connections count",
         "additionalProperties": false,
         "type": "object",
@@ -3407,11 +3405,11 @@ const ConnectionSchema: Record<string, unknown> = {
               "json": "type"
             }
           },
-          "subType": {
+          "sub_type": {
             "type": "string",
             "description": "Connection sub-type",
             "x-oapi-codegen-extra-tags": {
-              "json": "subType"
+              "json": "sub_type"
             }
           },
           "credentialSecret": {
@@ -3459,7 +3457,7 @@ const ConnectionSchema: Record<string, unknown> = {
           "name",
           "kind",
           "type",
-          "subType",
+          "sub_type",
           "status"
         ]
       },

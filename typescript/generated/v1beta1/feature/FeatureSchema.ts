@@ -118,6 +118,7 @@ const FeatureSchema: Record<string, unknown> = {
                               "csv": "name"
                             },
                             "description": "Name of the plan",
+                            "x-enum-casing-exempt": true,
                             "enum": [
                               "Free",
                               "Team Designer",
@@ -199,6 +200,7 @@ const FeatureSchema: Record<string, unknown> = {
                           "db": "name"
                         },
                         "type": "string",
+                        "x-enum-casing-exempt": true,
                         "enum": [
                           "ComponentsInDesign",
                           "RelationshipsInDesign",
@@ -375,6 +377,7 @@ const FeatureSchema: Record<string, unknown> = {
                               "csv": "name"
                             },
                             "description": "Name of the plan",
+                            "x-enum-casing-exempt": true,
                             "enum": [
                               "Free",
                               "Team Designer",
@@ -456,6 +459,7 @@ const FeatureSchema: Record<string, unknown> = {
                           "db": "name"
                         },
                         "type": "string",
+                        "x-enum-casing-exempt": true,
                         "enum": [
                           "ComponentsInDesign",
                           "RelationshipsInDesign",
@@ -637,6 +641,7 @@ const FeatureSchema: Record<string, unknown> = {
                     "csv": "name"
                   },
                   "description": "Name of the plan",
+                  "x-enum-casing-exempt": true,
                   "enum": [
                     "Free",
                     "Team Designer",
@@ -718,6 +723,7 @@ const FeatureSchema: Record<string, unknown> = {
                 "db": "name"
               },
               "type": "string",
+              "x-enum-casing-exempt": true,
               "enum": [
                 "ComponentsInDesign",
                 "RelationshipsInDesign",
@@ -757,6 +763,7 @@ const FeatureSchema: Record<string, unknown> = {
       },
       "FeatureName": {
         "type": "string",
+        "x-enum-casing-exempt": true,
         "enum": [
           "ComponentsInDesign",
           "RelationshipsInDesign",
@@ -836,6 +843,7 @@ const FeatureSchema: Record<string, unknown> = {
                   "csv": "name"
                 },
                 "description": "Name of the plan",
+                "x-enum-casing-exempt": true,
                 "enum": [
                   "Free",
                   "Team Designer",
@@ -917,6 +925,7 @@ const FeatureSchema: Record<string, unknown> = {
               "db": "name"
             },
             "type": "string",
+            "x-enum-casing-exempt": true,
             "enum": [
               "ComponentsInDesign",
               "RelationshipsInDesign",

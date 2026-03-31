@@ -356,6 +356,7 @@ components:
 
     UserId:
       type: string
+      x-go-name: UserIdOrEmail
       description: user's email or username
       x-go-type-skip-optional-pointer: true
 

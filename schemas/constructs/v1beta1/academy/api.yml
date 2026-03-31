@@ -910,7 +910,7 @@ components:
           description: ID of the badge to be awarded on completion of this curricula
           x-go-type: "corev1beta1.Uuid"
           x-go-type-import:
-            path: "github.com/meshery/schemas/models/v1beta1/core"
+            path: "github.com/meshery/schemas/models/core"
             name: corev1beta1
           x-oapi-codegen-extra-tags:
             db: "badge_id"
@@ -996,7 +996,7 @@ components:
           description: ID of the badge to be awarded on completion of this curricula
           x-go-type: "corev1beta1.Uuid"
           x-go-type-import:
-            path: "github.com/meshery/schemas/models/v1beta1/core"
+            path: "github.com/meshery/schemas/models/core"
             name: corev1beta1
           x-oapi-codegen-extra-tags:
             db: "badge_id"

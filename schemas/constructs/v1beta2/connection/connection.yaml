@@ -63,8 +63,6 @@ properties:
     x-order: 7
     x-go-type: core.Map
     x-go-type-import:
-      # Unversioned path — models/core/ is the canonical Go package
-      # for shared types (Map, NullTime, etc.), not version-scoped.
       path: github.com/meshery/schemas/models/core
     x-go-type-skip-optional-pointer: true
     type: object
@@ -119,7 +117,7 @@ properties:
       x-go-type-import:
         path: github.com/meshery/schemas/models/v1beta1/environment
         name: environmentv1beta1
-      $ref: ../environment/api.yml#/components/schemas/Environment
+      $ref: ../../v1beta1/environment/api.yml#/components/schemas/Environment
     x-oapi-codegen-extra-tags:
       db: "-"
       yaml: environments

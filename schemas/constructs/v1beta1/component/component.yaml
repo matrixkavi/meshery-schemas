@@ -90,7 +90,7 @@ properties:
       json: styles
     x-go-type: corev1beta1.ComponentStyles
     x-go-type-import:
-      path: github.com/meshery/schemas/models/v1beta1/core
+      path: github.com/meshery/schemas/models/core
       name: corev1beta1
     x-order: 8
   capabilities:

@@ -10,7 +10,7 @@ Some entities (e.g., `Subscription.deleted_at`) use `SqlNullTime` instead of `Nu
 
 ### 2. Unversioned `models/core` import path
 
-Go type imports referencing `github.com/meshery/schemas/models/core` (without a version segment) are correct. The `models/core/` directory is the canonical Go package for shared types (`Map`, `NullTime`, etc.) and is deliberately not version-scoped. Do not suggest adding a version prefix like `models/v1beta2/core`.
+Go type imports for shared utility types (`Map`, `NullTime`, `MapObject`, helpers) reference `github.com/meshery/schemas/models/core`. This is a manual utility package that provides SQL driver implementations and conversion helpers used by ALL versioned model packages. It is deliberately not version-scoped because these types do not change between API versions. Do not suggest versioning this path.
 
 ### 3. `x-enum-casing-exempt: true`
 
