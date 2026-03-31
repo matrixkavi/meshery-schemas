@@ -2244,7 +2244,7 @@ function validateStringConstraints(filePath, properties, schemaName) {
   for (const [propName, propDef] of Object.entries(properties)) {
     if (!propDef || typeof propDef !== "object") continue;
     if (propDef.type !== "string") continue;
-    if (propDef.$ref || propDef.enum) continue;
+    if (propDef.$ref || propDef.enum || propDef.const !== undefined) continue;
 
     const hasConstraint =
       propDef.minLength !== undefined ||
