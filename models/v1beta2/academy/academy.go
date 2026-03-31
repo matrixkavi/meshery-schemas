@@ -246,8 +246,10 @@ type AcademyCurriculaWithMetrics struct {
 	Metadata AcademyCurriculaMetadata `db:"metadata" json:"metadata" yaml:"metadata"`
 
 	// OrgId Organization ID that owns this learning path
-	OrgId             AcademyCurriculaOrgId `db:"org_id" json:"org_id" yaml:"org_id"`
-	RegistrationCount float32               `db:"registration_count,omitempty" json:"registration_count,omitempty" yaml:"registration_count,omitempty"`
+	OrgId AcademyCurriculaOrgId `db:"org_id" json:"org_id" yaml:"org_id"`
+
+	// RegistrationCount Number of registrations associated with this curriculum.
+	RegistrationCount float32 `db:"registration_count,omitempty" json:"registration_count,omitempty" yaml:"registration_count,omitempty"`
 
 	// Slug slug of the Curricula
 	Slug   string      `json:"slug" yaml:"slug"`
@@ -732,8 +734,10 @@ type SingleAcademyCurriculaResponse struct {
 	Metadata AcademyCurriculaMetadata `db:"metadata" json:"metadata" yaml:"metadata"`
 
 	// OrgId Organization ID that owns this learning path
-	OrgId             AcademyCurriculaOrgId `db:"org_id" json:"org_id" yaml:"org_id"`
-	RegistrationCount float32               `db:"registration_count,omitempty" json:"registration_count,omitempty" yaml:"registration_count,omitempty"`
+	OrgId AcademyCurriculaOrgId `db:"org_id" json:"org_id" yaml:"org_id"`
+
+	// RegistrationCount Number of registrations associated with this curriculum.
+	RegistrationCount float32 `db:"registration_count,omitempty" json:"registration_count,omitempty" yaml:"registration_count,omitempty"`
 
 	// Slug slug of the Curricula
 	Slug   string      `json:"slug" yaml:"slug"`

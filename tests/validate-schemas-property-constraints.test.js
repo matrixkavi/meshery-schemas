@@ -23,7 +23,7 @@ test("skips description advisories for properties that use $ref with siblings", 
   assert.equal(issues.some((issue) => issue.includes('property "orgId" is missing a `description`')), false);
 });
 
-test("treats numeric const values as satisfying Rule 38", () => {
+test("treats numeric const values as satisfying the numeric bound rule", () => {
   const issues = collectPropertyConstraintIssues({
     components: {
       schemas: {
@@ -45,7 +45,7 @@ test("treats numeric const values as satisfying Rule 38", () => {
 });
 
 
-test("treats string const values as satisfying Rule 37", () => {
+test("treats string const values as satisfying the string constraint rule", () => {
   const issues = collectPropertyConstraintIssues({
     components: {
       schemas: {

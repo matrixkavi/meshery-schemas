@@ -159,23 +159,23 @@ Every element in the API has exactly one correct casing. The table below is the 
 
 **Pagination envelopes are fixed API contract fields** — use `page`, `page_size`, and `total_count`, not `pageSize` or `totalCount`.
 
-**`page_size` properties must have `minimum: 1`.** A page size of zero is never valid. The validator enforces this (Rule 40) on all properties named `page_size`, `pagesize`, or `pageSize`.
+**`page_size` properties must have `minimum: 1`.** A page size of zero is never valid. The validator enforces this (Rule 41) on all properties named `page_size`, `pagesize`, or `pageSize`.
 
 ## Per-Property Validation Constraints
 
-The schema validator (`build/validate-schemas.js`) enforces per-property constraints as advisory rules (Rules 36–40). These do not block CI but are reported on `--warn` runs and should be resolved in new schemas.
+The schema validator (`build/validate-schemas.js`) enforces per-property constraints as advisory rules (Rules 37–41). These do not block CI but are reported on `--warn` runs and should be resolved in new schemas.
 
 | Rule | What it checks |
 |---|---|
-| 36 | Every property has a `description` |
-| 37 | String properties have `minLength`, `maxLength`, `pattern`, or `format` |
-| 38 | Numeric properties have `minimum`, `maximum`, or `const` |
-| 39 | ID-like properties (`id`, `*_id`, `*Id`) have `format: uuid` or `$ref` to a UUID type |
-| 40 | Page-size properties (`page_size`, `pagesize`, `pageSize`) have `minimum: 1` |
+| 37 | Every property has a `description` |
+| 38 | String properties have `minLength`, `maxLength`, `pattern`, `format`, or `const` |
+| 39 | Numeric properties have `minimum`, `maximum`, or `const` |
+| 40 | ID-like properties (`id`, `*_id`, `*Id`) have `format: uuid` or `$ref` to a UUID type |
+| 41 | Page-size properties (`page_size`, `pagesize`, `pageSize`) have `minimum: 1` |
 
 ### `x-id-format: external` — exempting non-UUID IDs
 
-Some ID properties hold external system identifiers (e.g., Stripe subscription IDs, coupon codes) that are not UUIDs. To exempt these from Rule 39, annotate the property with `x-id-format: external`:
+Some ID properties hold external system identifiers (e.g., Stripe subscription IDs, coupon codes) that are not UUIDs. To exempt these from Rule 40, annotate the property with `x-id-format: external`:
 
 ```yaml
 billing_id:
@@ -373,8 +373,9 @@ These patterns are deliberate. Do not suggest changes during code review:
 20. ❌ Returning 200 from a `POST` that exclusively creates a new resource — use 201
 21. ❌ Using all-lowercase `id`/`url` suffixes in parameter names — always capitalize (`workspaceId`, not `workspaceid`; `pageUrl`, not `pageurl`)
 22. ❌ Template files with wrong value types — if schema says `type: array`, use `[]` not `{}`; if `type: string`, use `""` not `{}`
-23. ❌ Adding `format: uuid` to ID properties that hold external system identifiers (Stripe IDs, etc.) — use `x-id-format: external` instead
-24. ❌ Setting `minimum: 0` on page-size properties — page size must be at least 1
+23. ❌ Omitting `tags` from operations — every operation must have at least one tag for API documentation and client generation
+24. ❌ Adding `format: uuid` to ID properties that hold external system identifiers (Stripe IDs, etc.) — use `x-id-format: external` instead
+25. ❌ Setting `minimum: 0` on page-size properties — page size must be at least 1
 
 ## Checklist for Schema Changes
 
@@ -399,7 +400,8 @@ These patterns are deliberate. Do not suggest changes during code review:
 - [ ] (New endpoint) Path parameters are camelCase with `Id` suffix (e.g., `{workspaceId}`, not `{workspaceID}`)
 - [ ] (New endpoint) No `DELETE` operation has a `requestBody` — bulk deletes use `POST .../delete`
 - [ ] (New `POST` for creation only) Response code is 201, not 200
-- [ ] (New property) String properties have `description`, `maxLength`, and where appropriate `minLength` or `pattern`
+- [ ] (New endpoint) Operation has at least one `tags` entry matching the construct's top-level tag definition
+- [ ] (New property) String properties have `description`, `maxLength`, and where appropriate `minLength`, `pattern`, `format`, or `const`
 - [ ] (New property) Numeric properties have `minimum`, `maximum`, or `const`
 - [ ] (New property) ID properties have `format: uuid` (or `$ref` to UUID type), OR `x-id-format: external` if they hold non-UUID external identifiers
 - [ ] (New property) Page-size properties have `minimum: 1`

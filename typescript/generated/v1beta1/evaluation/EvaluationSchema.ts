@@ -24,11 +24,20 @@ const EvaluationSchema: Record<string, unknown> = {
       "jwt": []
     }
   ],
+  "tags": [
+    {
+      "name": "Evaluation",
+      "description": "Operations related to design evaluation"
+    }
+  ],
   "paths": {
     "/evaluate": {
       "post": {
         "x-internal": [
           "meshery"
+        ],
+        "tags": [
+          "Evaluation"
         ],
         "summary": "Evaluate relationships in a design",
         "description": "Performs relationship evaluation on a given design, applying policies and updating components and relationships as needed.",
@@ -18791,17 +18800,23 @@ const EvaluationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "id": {
-                "type": "string"
+                "type": "string",
+                "format": "uuid",
+                "description": "Identifier of the component to update."
               },
               "path": {
                 "type": "array",
+                "description": "Path to the field being updated on the component.",
                 "items": {
                   "type": "string"
                 }
               },
-              "value": {},
+              "value": {
+                "description": "New value to write at the specified component path."
+              },
               "mode": {
                 "type": "string",
+                "description": "Strategy to use when applying the component update value.",
                 "enum": [
                   "replace",
                   "merge"
@@ -18832,17 +18847,23 @@ const EvaluationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "id": {
-                "type": "string"
+                "type": "string",
+                "format": "uuid",
+                "description": "Identifier of the component whose configuration will be updated."
               },
               "path": {
                 "type": "array",
+                "description": "Path to the configuration field being updated.",
                 "items": {
                   "type": "string"
                 }
               },
-              "value": {},
+              "value": {
+                "description": "New configuration value to write at the specified path."
+              },
               "mode": {
                 "type": "string",
+                "description": "Strategy to use when applying the configuration update value.",
                 "enum": [
                   "replace",
                   "merge"
@@ -18871,7 +18892,9 @@ const EvaluationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "id": {
-                "type": "string"
+                "type": "string",
+                "format": "uuid",
+                "description": "Identifier of the component to delete."
               }
             },
             "description": "The value of the deletecomponentop."
@@ -18922,15 +18945,20 @@ const EvaluationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "id": {
-                "type": "string"
+                "type": "string",
+                "format": "uuid",
+                "description": "Identifier of the relationship to update."
               },
               "path": {
                 "type": "array",
+                "description": "Path to the field being updated on the relationship.",
                 "items": {
                   "type": "string"
                 }
               },
-              "value": {}
+              "value": {
+                "description": "New value to write at the specified relationship path."
+              }
             },
             "description": "The value of the updaterelationshipop."
           }
@@ -18953,7 +18981,9 @@ const EvaluationSchema: Record<string, unknown> = {
             ],
             "properties": {
               "id": {
-                "type": "string"
+                "type": "string",
+                "format": "uuid",
+                "description": "Identifier of the relationship to delete."
               }
             },
             "description": "The value of the deleterelationshipop."

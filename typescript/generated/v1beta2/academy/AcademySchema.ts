@@ -24,6 +24,12 @@ const AcademySchema: Record<string, unknown> = {
       "jwt": []
     }
   ],
+  "tags": [
+    {
+      "name": "Academy",
+      "description": "Operations related to Meshery Academy content and curriculum"
+    }
+  ],
   "paths": {
     "/api/academy/curricula/registered": {
       "get": {
@@ -2023,6 +2029,8 @@ const AcademySchema: Record<string, unknown> = {
                             "properties": {
                               "registration_count": {
                                 "type": "number",
+                                "description": "Number of registrations associated with this curriculum.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "registration_count,omitempty",
                                   "json": "registration_count,omitempty"
@@ -2067,6 +2075,10 @@ const AcademySchema: Record<string, unknown> = {
         "x-internal": [
           "cloud"
         ],
+        "tags": [
+          "Academy"
+        ],
+        "operationId": "getAcademyContent",
         "summary": "Get a single learning path",
         "description": "Returns a learning path identified by type, orgId, and slug.",
         "parameters": [
@@ -4020,6 +4032,8 @@ const AcademySchema: Record<string, unknown> = {
                       "properties": {
                         "registration_count": {
                           "type": "number",
+                          "description": "Number of registrations associated with this curriculum.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "registration_count,omitempty",
                             "json": "registration_count,omitempty"
@@ -4108,13 +4122,16 @@ const AcademySchema: Record<string, unknown> = {
                             },
                             "org_id": {
                               "type": "string",
-                              "description": "ID of the organization to which the user is invited",
+                              "format": "uuid",
+                              "description": "A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.",
+                              "x-go-type": "uuid.UUID",
+                              "x-go-type-import": {
+                                "path": "github.com/gofrs/uuid"
+                              },
                               "x-oapi-codegen-extra-tags": {
                                 "db": "org_id",
                                 "json": "org_id"
-                              },
-                              "maxLength": 500,
-                              "format": "uuid"
+                              }
                             },
                             "expires_at": {
                               "type": "string",
@@ -4764,6 +4781,8 @@ const AcademySchema: Record<string, unknown> = {
                       "properties": {
                         "registration_count": {
                           "type": "number",
+                          "description": "Number of registrations associated with this curriculum.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "registration_count,omitempty",
                             "json": "registration_count,omitempty"
@@ -4852,13 +4871,16 @@ const AcademySchema: Record<string, unknown> = {
                             },
                             "org_id": {
                               "type": "string",
-                              "description": "ID of the organization to which the user is invited",
+                              "format": "uuid",
+                              "description": "A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.",
+                              "x-go-type": "uuid.UUID",
+                              "x-go-type-import": {
+                                "path": "github.com/gofrs/uuid"
+                              },
                               "x-oapi-codegen-extra-tags": {
                                 "db": "org_id",
                                 "json": "org_id"
-                              },
-                              "maxLength": 500,
-                              "format": "uuid"
+                              }
                             },
                             "expires_at": {
                               "type": "string",
@@ -9694,6 +9716,8 @@ const AcademySchema: Record<string, unknown> = {
             "properties": {
               "registration_count": {
                 "type": "number",
+                "description": "Number of registrations associated with this curriculum.",
+                "minimum": 0,
                 "x-oapi-codegen-extra-tags": {
                   "db": "registration_count,omitempty",
                   "json": "registration_count,omitempty"
@@ -9782,13 +9806,16 @@ const AcademySchema: Record<string, unknown> = {
                   },
                   "org_id": {
                     "type": "string",
-                    "description": "ID of the organization to which the user is invited",
+                    "format": "uuid",
+                    "description": "A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.",
+                    "x-go-type": "uuid.UUID",
+                    "x-go-type-import": {
+                      "path": "github.com/gofrs/uuid"
+                    },
                     "x-oapi-codegen-extra-tags": {
                       "db": "org_id",
                       "json": "org_id"
-                    },
-                    "maxLength": 500,
-                    "format": "uuid"
+                    }
                   },
                   "expires_at": {
                     "type": "string",
@@ -10708,6 +10735,8 @@ const AcademySchema: Record<string, unknown> = {
             "properties": {
               "registration_count": {
                 "type": "number",
+                "description": "Number of registrations associated with this curriculum.",
+                "minimum": 0,
                 "x-oapi-codegen-extra-tags": {
                   "db": "registration_count,omitempty",
                   "json": "registration_count,omitempty"
@@ -11644,6 +11673,8 @@ const AcademySchema: Record<string, unknown> = {
                   "properties": {
                     "registration_count": {
                       "type": "number",
+                      "description": "Number of registrations associated with this curriculum.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "registration_count,omitempty",
                         "json": "registration_count,omitempty"

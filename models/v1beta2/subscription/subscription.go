@@ -95,7 +95,7 @@ type CreateSubscriptionRequest struct {
 
 // CreateSubscriptionResponse defines model for CreateSubscriptionResponse.
 type CreateSubscriptionResponse struct {
-	// ClientSecret The client secret of the createsubscriptionresponse.
+	// ClientSecret Client secret returned by the payment processor for the subscription checkout flow.
 	ClientSecret *string `json:"clientSecret,omitempty" yaml:"clientSecret,omitempty"`
 
 	// SubscriptionId ID of the associated subscription.
@@ -142,7 +142,7 @@ type SubscriptionPage struct {
 	// PageSize Number of items per page.
 	PageSize int `json:"page_size" yaml:"page_size"`
 
-	// Subscriptions The subscriptions of the subscriptionpage.
+	// Subscriptions Subscriptions returned in the current page of results.
 	Subscriptions []Subscription `json:"subscriptions" yaml:"subscriptions"`
 
 	// TotalCount Total number of items available.

@@ -24,6 +24,12 @@ const DesignSchema: Record<string, unknown> = {
       "jwt": []
     }
   ],
+  "tags": [
+    {
+      "name": "designs",
+      "description": "Operations related to designs and infrastructure patterns"
+    }
+  ],
   "paths": {
     "/api/content/patterns": {
       "get": {
@@ -395,6 +401,7 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "resolvedRefFieldPath": {
                                               "type": "array",
+                                              "description": "Fully resolved field path targeted by the alias.",
                                               "items": {
                                                 "type": "string"
                                               }
@@ -1889,26 +1896,37 @@ const DesignSchema: Record<string, unknown> = {
                                                     "x": {
                                                       "type": "number",
                                                       "description": "The x-coordinate of the node.",
+                                                      "minimum": -1000000,
+                                                      "maximum": 1000000,
                                                       "x-go-type": "float64"
                                                     },
                                                     "y": {
                                                       "type": "number",
                                                       "description": "The y-coordinate of the node.",
+                                                      "minimum": -1000000,
+                                                      "maximum": 1000000,
                                                       "x-go-type": "float64"
                                                     }
                                                   }
                                                 },
                                                 "bodyText": {
                                                   "type": "string",
-                                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                                  "maxLength": 500
                                                 },
                                                 "bodyTextWrap": {
                                                   "type": "string",
-                                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "wrap",
+                                                    "ellipsis"
+                                                  ]
                                                 },
                                                 "bodyTextMaxWidth": {
                                                   "type": "string",
-                                                  "description": "The maximum width for wrapping text in the node."
+                                                  "description": "The maximum width for wrapping text in the node.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextOpacity": {
                                                   "type": "number",
@@ -1918,47 +1936,59 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "bodyTextBackgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextFontSize": {
                                                   "type": "number",
-                                                  "description": "The size of the node's body text."
+                                                  "description": "The size of the node's body text.",
+                                                  "minimum": 0
                                                 },
                                                 "bodyTextColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextFontWeight": {
                                                   "type": "string",
-                                                  "description": "A CSS font weight to be applied to the node's body text."
+                                                  "description": "A CSS font weight to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextHorizontalAlign": {
                                                   "type": "string",
-                                                  "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                                  "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextDecoration": {
                                                   "type": "string",
-                                                  "description": "A CSS text decoration to be applied to the node's body text."
+                                                  "description": "A CSS text decoration to be applied to the node's body text.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextVerticalAlign": {
                                                   "type": "string",
-                                                  "description": "A CSS vertical alignment to be applied to the node's body text."
+                                                  "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "width": {
                                                   "type": "number",
-                                                  "description": "The width of the node's body or the width of an edge's line."
+                                                  "description": "The width of the node's body or the width of an edge's line.",
+                                                  "minimum": 0
                                                 },
                                                 "height": {
                                                   "type": "number",
-                                                  "description": "The height of the node's body"
+                                                  "description": "The height of the node's body",
+                                                  "minimum": 0
                                                 },
                                                 "backgroundImage": {
                                                   "type": "string",
-                                                  "description": "The URL that points to the image to show in the node."
+                                                  "format": "uri",
+                                                  "description": "The URL that points to the image to show in the node.",
+                                                  "maxLength": 2048
                                                 },
                                                 "backgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "backgroundBlacken": {
                                                   "type": "number",
@@ -1974,35 +2004,59 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "backgroundPositionX": {
                                                   "type": "string",
-                                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundPositionY": {
                                                   "type": "string",
-                                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundOffsetX": {
                                                   "type": "string",
-                                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundOffsetY": {
                                                   "type": "string",
-                                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundFit": {
                                                   "type": "string",
-                                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "contain",
+                                                    "cover"
+                                                  ]
                                                 },
                                                 "backgroundClip": {
                                                   "type": "string",
-                                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "node",
+                                                    "node-border"
+                                                  ]
                                                 },
                                                 "backgroundWidthRelativeTo": {
                                                   "type": "string",
-                                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "inner",
+                                                    "outer"
+                                                  ]
                                                 },
                                                 "backgroundHeightRelativeTo": {
                                                   "type": "string",
-                                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "inner",
+                                                    "outer"
+                                                  ]
                                                 },
                                                 "borderWidth": {
                                                   "type": "number",
@@ -2021,7 +2075,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "borderColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "borderOpacity": {
                                                   "type": "number",
@@ -2063,23 +2118,28 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "activeBgColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "activeBgOpacity": {
                                                   "type": "string",
-                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                                  "maxLength": 50
                                                 },
                                                 "activeBgSize": {
                                                   "type": "string",
-                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                                  "maxLength": 50
                                                 },
                                                 "selectionBoxColor": {
                                                   "type": "string",
-                                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "selectionBoxBorderWidth": {
                                                   "type": "number",
-                                                  "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                                  "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                                  "minimum": 0
                                                 },
                                                 "selectionBoxOpacity": {
                                                   "type": "number",
@@ -2089,7 +2149,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "outsideTextureBgColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "outsideTextureBgOpacity": {
                                                   "type": "number",
@@ -2099,11 +2160,13 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "shapePolygonPoints": {
                                                   "type": "string",
-                                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                                  "maxLength": 2000
                                                 },
                                                 "menuBackgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "menuBackgroundOpacity": {
                                                   "type": "number",
@@ -2113,7 +2176,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "menuForgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 }
                                               }
                                             }
@@ -2471,7 +2535,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "genealogy": {
                                               "x-order": 1,
                                               "type": "string",
-                                              "description": "Genealogy represents the various representational states of the component."
+                                              "description": "Genealogy represents the various representational states of the component.",
+                                              "maxLength": 1000
                                             },
                                             "isAnnotation": {
                                               "x-order": 2,
@@ -2497,7 +2562,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "configurationUISchema": {
                                               "x-order": 6,
                                               "type": "string",
-                                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                              "maxLength": 20000
                                             }
                                           },
                                           "x-oapi-codegen-extra-tags": {
@@ -5189,6 +5255,7 @@ const DesignSchema: Record<string, unknown> = {
                                         },
                                         "resolvedRefFieldPath": {
                                           "type": "array",
+                                          "description": "Fully resolved field path targeted by the alias.",
                                           "items": {
                                             "type": "string"
                                           }
@@ -6683,26 +6750,37 @@ const DesignSchema: Record<string, unknown> = {
                                                 "x": {
                                                   "type": "number",
                                                   "description": "The x-coordinate of the node.",
+                                                  "minimum": -1000000,
+                                                  "maximum": 1000000,
                                                   "x-go-type": "float64"
                                                 },
                                                 "y": {
                                                   "type": "number",
                                                   "description": "The y-coordinate of the node.",
+                                                  "minimum": -1000000,
+                                                  "maximum": 1000000,
                                                   "x-go-type": "float64"
                                                 }
                                               }
                                             },
                                             "bodyText": {
                                               "type": "string",
-                                              "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                              "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                              "maxLength": 500
                                             },
                                             "bodyTextWrap": {
                                               "type": "string",
-                                              "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                              "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                              "enum": [
+                                                "none",
+                                                "wrap",
+                                                "ellipsis"
+                                              ]
                                             },
                                             "bodyTextMaxWidth": {
                                               "type": "string",
-                                              "description": "The maximum width for wrapping text in the node."
+                                              "description": "The maximum width for wrapping text in the node.",
+                                              "maxLength": 50
                                             },
                                             "bodyTextOpacity": {
                                               "type": "number",
@@ -6712,47 +6790,59 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "bodyTextBackgroundColor": {
                                               "type": "string",
-                                              "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "bodyTextFontSize": {
                                               "type": "number",
-                                              "description": "The size of the node's body text."
+                                              "description": "The size of the node's body text.",
+                                              "minimum": 0
                                             },
                                             "bodyTextColor": {
                                               "type": "string",
-                                              "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "bodyTextFontWeight": {
                                               "type": "string",
-                                              "description": "A CSS font weight to be applied to the node's body text."
+                                              "description": "A CSS font weight to be applied to the node's body text.",
+                                              "maxLength": 50
                                             },
                                             "bodyTextHorizontalAlign": {
                                               "type": "string",
-                                              "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                              "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                              "maxLength": 50
                                             },
                                             "bodyTextDecoration": {
                                               "type": "string",
-                                              "description": "A CSS text decoration to be applied to the node's body text."
+                                              "description": "A CSS text decoration to be applied to the node's body text.",
+                                              "maxLength": 100
                                             },
                                             "bodyTextVerticalAlign": {
                                               "type": "string",
-                                              "description": "A CSS vertical alignment to be applied to the node's body text."
+                                              "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                              "maxLength": 50
                                             },
                                             "width": {
                                               "type": "number",
-                                              "description": "The width of the node's body or the width of an edge's line."
+                                              "description": "The width of the node's body or the width of an edge's line.",
+                                              "minimum": 0
                                             },
                                             "height": {
                                               "type": "number",
-                                              "description": "The height of the node's body"
+                                              "description": "The height of the node's body",
+                                              "minimum": 0
                                             },
                                             "backgroundImage": {
                                               "type": "string",
-                                              "description": "The URL that points to the image to show in the node."
+                                              "format": "uri",
+                                              "description": "The URL that points to the image to show in the node.",
+                                              "maxLength": 2048
                                             },
                                             "backgroundColor": {
                                               "type": "string",
-                                              "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "backgroundBlacken": {
                                               "type": "number",
@@ -6768,35 +6858,59 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "backgroundPositionX": {
                                               "type": "string",
-                                              "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                              "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                              "maxLength": 50
                                             },
                                             "backgroundPositionY": {
                                               "type": "string",
-                                              "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                              "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                              "maxLength": 50
                                             },
                                             "backgroundOffsetX": {
                                               "type": "string",
-                                              "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                              "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                              "maxLength": 50
                                             },
                                             "backgroundOffsetY": {
                                               "type": "string",
-                                              "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                              "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                              "maxLength": 50
                                             },
                                             "backgroundFit": {
                                               "type": "string",
-                                              "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                              "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                              "enum": [
+                                                "none",
+                                                "contain",
+                                                "cover"
+                                              ]
                                             },
                                             "backgroundClip": {
                                               "type": "string",
-                                              "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                              "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                              "enum": [
+                                                "none",
+                                                "node",
+                                                "node-border"
+                                              ]
                                             },
                                             "backgroundWidthRelativeTo": {
                                               "type": "string",
-                                              "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                              "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                              "enum": [
+                                                "none",
+                                                "inner",
+                                                "outer"
+                                              ]
                                             },
                                             "backgroundHeightRelativeTo": {
                                               "type": "string",
-                                              "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                              "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                              "enum": [
+                                                "none",
+                                                "inner",
+                                                "outer"
+                                              ]
                                             },
                                             "borderWidth": {
                                               "type": "number",
@@ -6815,7 +6929,8 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "borderColor": {
                                               "type": "string",
-                                              "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "borderOpacity": {
                                               "type": "number",
@@ -6857,23 +6972,28 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "activeBgColor": {
                                               "type": "string",
-                                              "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "activeBgOpacity": {
                                               "type": "string",
-                                              "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                              "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                              "maxLength": 50
                                             },
                                             "activeBgSize": {
                                               "type": "string",
-                                              "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                              "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                              "maxLength": 50
                                             },
                                             "selectionBoxColor": {
                                               "type": "string",
-                                              "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "selectionBoxBorderWidth": {
                                               "type": "number",
-                                              "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                              "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                              "minimum": 0
                                             },
                                             "selectionBoxOpacity": {
                                               "type": "number",
@@ -6883,7 +7003,8 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "outsideTextureBgColor": {
                                               "type": "string",
-                                              "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "outsideTextureBgOpacity": {
                                               "type": "number",
@@ -6893,11 +7014,13 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "shapePolygonPoints": {
                                               "type": "string",
-                                              "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                              "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                              "maxLength": 2000
                                             },
                                             "menuBackgroundColor": {
                                               "type": "string",
-                                              "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             },
                                             "menuBackgroundOpacity": {
                                               "type": "number",
@@ -6907,7 +7030,8 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "menuForgroundColor": {
                                               "type": "string",
-                                              "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                              "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                              "maxLength": 100
                                             }
                                           }
                                         }
@@ -7265,7 +7389,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "genealogy": {
                                           "x-order": 1,
                                           "type": "string",
-                                          "description": "Genealogy represents the various representational states of the component."
+                                          "description": "Genealogy represents the various representational states of the component.",
+                                          "maxLength": 1000
                                         },
                                         "isAnnotation": {
                                           "x-order": 2,
@@ -7291,7 +7416,8 @@ const DesignSchema: Record<string, unknown> = {
                                         "configurationUISchema": {
                                           "x-order": 6,
                                           "type": "string",
-                                          "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                          "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                          "maxLength": 20000
                                         }
                                       },
                                       "x-oapi-codegen-extra-tags": {
@@ -9949,6 +10075,7 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "resolvedRefFieldPath": {
                                         "type": "array",
+                                        "description": "Fully resolved field path targeted by the alias.",
                                         "items": {
                                           "type": "string"
                                         }
@@ -11443,26 +11570,37 @@ const DesignSchema: Record<string, unknown> = {
                                               "x": {
                                                 "type": "number",
                                                 "description": "The x-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               },
                                               "y": {
                                                 "type": "number",
                                                 "description": "The y-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               }
                                             }
                                           },
                                           "bodyText": {
                                             "type": "string",
-                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "bodyTextWrap": {
                                             "type": "string",
-                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                            "enum": [
+                                              "none",
+                                              "wrap",
+                                              "ellipsis"
+                                            ]
                                           },
                                           "bodyTextMaxWidth": {
                                             "type": "string",
-                                            "description": "The maximum width for wrapping text in the node."
+                                            "description": "The maximum width for wrapping text in the node.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextOpacity": {
                                             "type": "number",
@@ -11472,47 +11610,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "bodyTextBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontSize": {
                                             "type": "number",
-                                            "description": "The size of the node's body text."
+                                            "description": "The size of the node's body text.",
+                                            "minimum": 0
                                           },
                                           "bodyTextColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the node's body text."
+                                            "description": "A CSS font weight to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextHorizontalAlign": {
                                             "type": "string",
-                                            "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                            "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextDecoration": {
                                             "type": "string",
-                                            "description": "A CSS text decoration to be applied to the node's body text."
+                                            "description": "A CSS text decoration to be applied to the node's body text.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextVerticalAlign": {
                                             "type": "string",
-                                            "description": "A CSS vertical alignment to be applied to the node's body text."
+                                            "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "width": {
                                             "type": "number",
-                                            "description": "The width of the node's body or the width of an edge's line."
+                                            "description": "The width of the node's body or the width of an edge's line.",
+                                            "minimum": 0
                                           },
                                           "height": {
                                             "type": "number",
-                                            "description": "The height of the node's body"
+                                            "description": "The height of the node's body",
+                                            "minimum": 0
                                           },
                                           "backgroundImage": {
                                             "type": "string",
-                                            "description": "The URL that points to the image to show in the node."
+                                            "format": "uri",
+                                            "description": "The URL that points to the image to show in the node.",
+                                            "maxLength": 2048
                                           },
                                           "backgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "backgroundBlacken": {
                                             "type": "number",
@@ -11528,35 +11678,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "backgroundPositionX": {
                                             "type": "string",
-                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundPositionY": {
                                             "type": "string",
-                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetX": {
                                             "type": "string",
-                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetY": {
                                             "type": "string",
-                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundFit": {
                                             "type": "string",
-                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                            "enum": [
+                                              "none",
+                                              "contain",
+                                              "cover"
+                                            ]
                                           },
                                           "backgroundClip": {
                                             "type": "string",
-                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                            "enum": [
+                                              "none",
+                                              "node",
+                                              "node-border"
+                                            ]
                                           },
                                           "backgroundWidthRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "backgroundHeightRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "borderWidth": {
                                             "type": "number",
@@ -11575,7 +11749,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "borderColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "borderOpacity": {
                                             "type": "number",
@@ -11617,23 +11792,28 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "activeBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "activeBgOpacity": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "activeBgSize": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "selectionBoxColor": {
                                             "type": "string",
-                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "selectionBoxBorderWidth": {
                                             "type": "number",
-                                            "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                            "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                            "minimum": 0
                                           },
                                           "selectionBoxOpacity": {
                                             "type": "number",
@@ -11643,7 +11823,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "outsideTextureBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "outsideTextureBgOpacity": {
                                             "type": "number",
@@ -11653,11 +11834,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "shapePolygonPoints": {
                                             "type": "string",
-                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                            "maxLength": 2000
                                           },
                                           "menuBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "menuBackgroundOpacity": {
                                             "type": "number",
@@ -11667,7 +11850,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "menuForgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           }
                                         }
                                       }
@@ -12025,7 +12209,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "genealogy": {
                                         "x-order": 1,
                                         "type": "string",
-                                        "description": "Genealogy represents the various representational states of the component."
+                                        "description": "Genealogy represents the various representational states of the component.",
+                                        "maxLength": 1000
                                       },
                                       "isAnnotation": {
                                         "x-order": 2,
@@ -12051,7 +12236,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "configurationUISchema": {
                                         "x-order": 6,
                                         "type": "string",
-                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                        "maxLength": 20000
                                       }
                                     },
                                     "x-oapi-codegen-extra-tags": {
@@ -15077,6 +15263,7 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "resolvedRefFieldPath": {
                                         "type": "array",
+                                        "description": "Fully resolved field path targeted by the alias.",
                                         "items": {
                                           "type": "string"
                                         }
@@ -16571,26 +16758,37 @@ const DesignSchema: Record<string, unknown> = {
                                               "x": {
                                                 "type": "number",
                                                 "description": "The x-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               },
                                               "y": {
                                                 "type": "number",
                                                 "description": "The y-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               }
                                             }
                                           },
                                           "bodyText": {
                                             "type": "string",
-                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "bodyTextWrap": {
                                             "type": "string",
-                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                            "enum": [
+                                              "none",
+                                              "wrap",
+                                              "ellipsis"
+                                            ]
                                           },
                                           "bodyTextMaxWidth": {
                                             "type": "string",
-                                            "description": "The maximum width for wrapping text in the node."
+                                            "description": "The maximum width for wrapping text in the node.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextOpacity": {
                                             "type": "number",
@@ -16600,47 +16798,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "bodyTextBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontSize": {
                                             "type": "number",
-                                            "description": "The size of the node's body text."
+                                            "description": "The size of the node's body text.",
+                                            "minimum": 0
                                           },
                                           "bodyTextColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the node's body text."
+                                            "description": "A CSS font weight to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextHorizontalAlign": {
                                             "type": "string",
-                                            "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                            "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextDecoration": {
                                             "type": "string",
-                                            "description": "A CSS text decoration to be applied to the node's body text."
+                                            "description": "A CSS text decoration to be applied to the node's body text.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextVerticalAlign": {
                                             "type": "string",
-                                            "description": "A CSS vertical alignment to be applied to the node's body text."
+                                            "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "width": {
                                             "type": "number",
-                                            "description": "The width of the node's body or the width of an edge's line."
+                                            "description": "The width of the node's body or the width of an edge's line.",
+                                            "minimum": 0
                                           },
                                           "height": {
                                             "type": "number",
-                                            "description": "The height of the node's body"
+                                            "description": "The height of the node's body",
+                                            "minimum": 0
                                           },
                                           "backgroundImage": {
                                             "type": "string",
-                                            "description": "The URL that points to the image to show in the node."
+                                            "format": "uri",
+                                            "description": "The URL that points to the image to show in the node.",
+                                            "maxLength": 2048
                                           },
                                           "backgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "backgroundBlacken": {
                                             "type": "number",
@@ -16656,35 +16866,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "backgroundPositionX": {
                                             "type": "string",
-                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundPositionY": {
                                             "type": "string",
-                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetX": {
                                             "type": "string",
-                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetY": {
                                             "type": "string",
-                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundFit": {
                                             "type": "string",
-                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                            "enum": [
+                                              "none",
+                                              "contain",
+                                              "cover"
+                                            ]
                                           },
                                           "backgroundClip": {
                                             "type": "string",
-                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                            "enum": [
+                                              "none",
+                                              "node",
+                                              "node-border"
+                                            ]
                                           },
                                           "backgroundWidthRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "backgroundHeightRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "borderWidth": {
                                             "type": "number",
@@ -16703,7 +16937,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "borderColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "borderOpacity": {
                                             "type": "number",
@@ -16745,23 +16980,28 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "activeBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "activeBgOpacity": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "activeBgSize": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "selectionBoxColor": {
                                             "type": "string",
-                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "selectionBoxBorderWidth": {
                                             "type": "number",
-                                            "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                            "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                            "minimum": 0
                                           },
                                           "selectionBoxOpacity": {
                                             "type": "number",
@@ -16771,7 +17011,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "outsideTextureBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "outsideTextureBgOpacity": {
                                             "type": "number",
@@ -16781,11 +17022,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "shapePolygonPoints": {
                                             "type": "string",
-                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                            "maxLength": 2000
                                           },
                                           "menuBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "menuBackgroundOpacity": {
                                             "type": "number",
@@ -16795,7 +17038,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "menuForgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           }
                                         }
                                       }
@@ -17153,7 +17397,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "genealogy": {
                                         "x-order": 1,
                                         "type": "string",
-                                        "description": "Genealogy represents the various representational states of the component."
+                                        "description": "Genealogy represents the various representational states of the component.",
+                                        "maxLength": 1000
                                       },
                                       "isAnnotation": {
                                         "x-order": 2,
@@ -17179,7 +17424,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "configurationUISchema": {
                                         "x-order": 6,
                                         "type": "string",
-                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                        "maxLength": 20000
                                       }
                                     },
                                     "x-oapi-codegen-extra-tags": {
@@ -19941,6 +20187,7 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "resolvedRefFieldPath": {
                                         "type": "array",
+                                        "description": "Fully resolved field path targeted by the alias.",
                                         "items": {
                                           "type": "string"
                                         }
@@ -21435,26 +21682,37 @@ const DesignSchema: Record<string, unknown> = {
                                               "x": {
                                                 "type": "number",
                                                 "description": "The x-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               },
                                               "y": {
                                                 "type": "number",
                                                 "description": "The y-coordinate of the node.",
+                                                "minimum": -1000000,
+                                                "maximum": 1000000,
                                                 "x-go-type": "float64"
                                               }
                                             }
                                           },
                                           "bodyText": {
                                             "type": "string",
-                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                            "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                            "maxLength": 500
                                           },
                                           "bodyTextWrap": {
                                             "type": "string",
-                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                            "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                            "enum": [
+                                              "none",
+                                              "wrap",
+                                              "ellipsis"
+                                            ]
                                           },
                                           "bodyTextMaxWidth": {
                                             "type": "string",
-                                            "description": "The maximum width for wrapping text in the node."
+                                            "description": "The maximum width for wrapping text in the node.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextOpacity": {
                                             "type": "number",
@@ -21464,47 +21722,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "bodyTextBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontSize": {
                                             "type": "number",
-                                            "description": "The size of the node's body text."
+                                            "description": "The size of the node's body text.",
+                                            "minimum": 0
                                           },
                                           "bodyTextColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextFontWeight": {
                                             "type": "string",
-                                            "description": "A CSS font weight to be applied to the node's body text."
+                                            "description": "A CSS font weight to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextHorizontalAlign": {
                                             "type": "string",
-                                            "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                            "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "bodyTextDecoration": {
                                             "type": "string",
-                                            "description": "A CSS text decoration to be applied to the node's body text."
+                                            "description": "A CSS text decoration to be applied to the node's body text.",
+                                            "maxLength": 100
                                           },
                                           "bodyTextVerticalAlign": {
                                             "type": "string",
-                                            "description": "A CSS vertical alignment to be applied to the node's body text."
+                                            "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                            "maxLength": 50
                                           },
                                           "width": {
                                             "type": "number",
-                                            "description": "The width of the node's body or the width of an edge's line."
+                                            "description": "The width of the node's body or the width of an edge's line.",
+                                            "minimum": 0
                                           },
                                           "height": {
                                             "type": "number",
-                                            "description": "The height of the node's body"
+                                            "description": "The height of the node's body",
+                                            "minimum": 0
                                           },
                                           "backgroundImage": {
                                             "type": "string",
-                                            "description": "The URL that points to the image to show in the node."
+                                            "format": "uri",
+                                            "description": "The URL that points to the image to show in the node.",
+                                            "maxLength": 2048
                                           },
                                           "backgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "backgroundBlacken": {
                                             "type": "number",
@@ -21520,35 +21790,59 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "backgroundPositionX": {
                                             "type": "string",
-                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundPositionY": {
                                             "type": "string",
-                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetX": {
                                             "type": "string",
-                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundOffsetY": {
                                             "type": "string",
-                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                            "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                            "maxLength": 50
                                           },
                                           "backgroundFit": {
                                             "type": "string",
-                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                            "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                            "enum": [
+                                              "none",
+                                              "contain",
+                                              "cover"
+                                            ]
                                           },
                                           "backgroundClip": {
                                             "type": "string",
-                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                            "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                            "enum": [
+                                              "none",
+                                              "node",
+                                              "node-border"
+                                            ]
                                           },
                                           "backgroundWidthRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "backgroundHeightRelativeTo": {
                                             "type": "string",
-                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                            "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                            "enum": [
+                                              "none",
+                                              "inner",
+                                              "outer"
+                                            ]
                                           },
                                           "borderWidth": {
                                             "type": "number",
@@ -21567,7 +21861,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "borderColor": {
                                             "type": "string",
-                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "borderOpacity": {
                                             "type": "number",
@@ -21609,23 +21904,28 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "activeBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "activeBgOpacity": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "activeBgSize": {
                                             "type": "string",
-                                            "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                            "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                            "maxLength": 50
                                           },
                                           "selectionBoxColor": {
                                             "type": "string",
-                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "selectionBoxBorderWidth": {
                                             "type": "number",
-                                            "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                            "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                            "minimum": 0
                                           },
                                           "selectionBoxOpacity": {
                                             "type": "number",
@@ -21635,7 +21935,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "outsideTextureBgColor": {
                                             "type": "string",
-                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "outsideTextureBgOpacity": {
                                             "type": "number",
@@ -21645,11 +21946,13 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "shapePolygonPoints": {
                                             "type": "string",
-                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                            "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                            "maxLength": 2000
                                           },
                                           "menuBackgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           },
                                           "menuBackgroundOpacity": {
                                             "type": "number",
@@ -21659,7 +21962,8 @@ const DesignSchema: Record<string, unknown> = {
                                           },
                                           "menuForgroundColor": {
                                             "type": "string",
-                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                            "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                            "maxLength": 100
                                           }
                                         }
                                       }
@@ -22017,7 +22321,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "genealogy": {
                                         "x-order": 1,
                                         "type": "string",
-                                        "description": "Genealogy represents the various representational states of the component."
+                                        "description": "Genealogy represents the various representational states of the component.",
+                                        "maxLength": 1000
                                       },
                                       "isAnnotation": {
                                         "x-order": 2,
@@ -22043,7 +22348,8 @@ const DesignSchema: Record<string, unknown> = {
                                       "configurationUISchema": {
                                         "x-order": 6,
                                         "type": "string",
-                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                        "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                        "maxLength": 20000
                                       }
                                     },
                                     "x-oapi-codegen-extra-tags": {
@@ -24662,6 +24968,9 @@ const DesignSchema: Record<string, unknown> = {
     },
     "/api/pattern/import": {
       "post": {
+        "tags": [
+          "designs"
+        ],
         "summary": "Import Design",
         "operationId": "importDesign",
         "requestBody": {
@@ -25134,6 +25443,7 @@ const DesignSchema: Record<string, unknown> = {
                                             },
                                             "resolvedRefFieldPath": {
                                               "type": "array",
+                                              "description": "Fully resolved field path targeted by the alias.",
                                               "items": {
                                                 "type": "string"
                                               }
@@ -26628,26 +26938,37 @@ const DesignSchema: Record<string, unknown> = {
                                                     "x": {
                                                       "type": "number",
                                                       "description": "The x-coordinate of the node.",
+                                                      "minimum": -1000000,
+                                                      "maximum": 1000000,
                                                       "x-go-type": "float64"
                                                     },
                                                     "y": {
                                                       "type": "number",
                                                       "description": "The y-coordinate of the node.",
+                                                      "minimum": -1000000,
+                                                      "maximum": 1000000,
                                                       "x-go-type": "float64"
                                                     }
                                                   }
                                                 },
                                                 "bodyText": {
                                                   "type": "string",
-                                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                                  "maxLength": 500
                                                 },
                                                 "bodyTextWrap": {
                                                   "type": "string",
-                                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "wrap",
+                                                    "ellipsis"
+                                                  ]
                                                 },
                                                 "bodyTextMaxWidth": {
                                                   "type": "string",
-                                                  "description": "The maximum width for wrapping text in the node."
+                                                  "description": "The maximum width for wrapping text in the node.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextOpacity": {
                                                   "type": "number",
@@ -26657,47 +26978,59 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "bodyTextBackgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextFontSize": {
                                                   "type": "number",
-                                                  "description": "The size of the node's body text."
+                                                  "description": "The size of the node's body text.",
+                                                  "minimum": 0
                                                 },
                                                 "bodyTextColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextFontWeight": {
                                                   "type": "string",
-                                                  "description": "A CSS font weight to be applied to the node's body text."
+                                                  "description": "A CSS font weight to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextHorizontalAlign": {
                                                   "type": "string",
-                                                  "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                                  "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "bodyTextDecoration": {
                                                   "type": "string",
-                                                  "description": "A CSS text decoration to be applied to the node's body text."
+                                                  "description": "A CSS text decoration to be applied to the node's body text.",
+                                                  "maxLength": 100
                                                 },
                                                 "bodyTextVerticalAlign": {
                                                   "type": "string",
-                                                  "description": "A CSS vertical alignment to be applied to the node's body text."
+                                                  "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                                  "maxLength": 50
                                                 },
                                                 "width": {
                                                   "type": "number",
-                                                  "description": "The width of the node's body or the width of an edge's line."
+                                                  "description": "The width of the node's body or the width of an edge's line.",
+                                                  "minimum": 0
                                                 },
                                                 "height": {
                                                   "type": "number",
-                                                  "description": "The height of the node's body"
+                                                  "description": "The height of the node's body",
+                                                  "minimum": 0
                                                 },
                                                 "backgroundImage": {
                                                   "type": "string",
-                                                  "description": "The URL that points to the image to show in the node."
+                                                  "format": "uri",
+                                                  "description": "The URL that points to the image to show in the node.",
+                                                  "maxLength": 2048
                                                 },
                                                 "backgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "backgroundBlacken": {
                                                   "type": "number",
@@ -26713,35 +27046,59 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "backgroundPositionX": {
                                                   "type": "string",
-                                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundPositionY": {
                                                   "type": "string",
-                                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundOffsetX": {
                                                   "type": "string",
-                                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundOffsetY": {
                                                   "type": "string",
-                                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                                  "maxLength": 50
                                                 },
                                                 "backgroundFit": {
                                                   "type": "string",
-                                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "contain",
+                                                    "cover"
+                                                  ]
                                                 },
                                                 "backgroundClip": {
                                                   "type": "string",
-                                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "node",
+                                                    "node-border"
+                                                  ]
                                                 },
                                                 "backgroundWidthRelativeTo": {
                                                   "type": "string",
-                                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "inner",
+                                                    "outer"
+                                                  ]
                                                 },
                                                 "backgroundHeightRelativeTo": {
                                                   "type": "string",
-                                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                                  "enum": [
+                                                    "none",
+                                                    "inner",
+                                                    "outer"
+                                                  ]
                                                 },
                                                 "borderWidth": {
                                                   "type": "number",
@@ -26760,7 +27117,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "borderColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "borderOpacity": {
                                                   "type": "number",
@@ -26802,23 +27160,28 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "activeBgColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "activeBgOpacity": {
                                                   "type": "string",
-                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                                  "maxLength": 50
                                                 },
                                                 "activeBgSize": {
                                                   "type": "string",
-                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                                  "maxLength": 50
                                                 },
                                                 "selectionBoxColor": {
                                                   "type": "string",
-                                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "selectionBoxBorderWidth": {
                                                   "type": "number",
-                                                  "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                                  "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                                  "minimum": 0
                                                 },
                                                 "selectionBoxOpacity": {
                                                   "type": "number",
@@ -26828,7 +27191,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "outsideTextureBgColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "outsideTextureBgOpacity": {
                                                   "type": "number",
@@ -26838,11 +27202,13 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "shapePolygonPoints": {
                                                   "type": "string",
-                                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                                  "maxLength": 2000
                                                 },
                                                 "menuBackgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 },
                                                 "menuBackgroundOpacity": {
                                                   "type": "number",
@@ -26852,7 +27218,8 @@ const DesignSchema: Record<string, unknown> = {
                                                 },
                                                 "menuForgroundColor": {
                                                   "type": "string",
-                                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                                  "maxLength": 100
                                                 }
                                               }
                                             }
@@ -27210,7 +27577,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "genealogy": {
                                               "x-order": 1,
                                               "type": "string",
-                                              "description": "Genealogy represents the various representational states of the component."
+                                              "description": "Genealogy represents the various representational states of the component.",
+                                              "maxLength": 1000
                                             },
                                             "isAnnotation": {
                                               "x-order": 2,
@@ -27236,7 +27604,8 @@ const DesignSchema: Record<string, unknown> = {
                                             "configurationUISchema": {
                                               "x-order": 6,
                                               "type": "string",
-                                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                              "maxLength": 20000
                                             }
                                           },
                                           "x-oapi-codegen-extra-tags": {
@@ -29951,7 +30320,7 @@ const DesignSchema: Record<string, unknown> = {
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Request approved",
             "content": {
               "application/json": {
@@ -30020,7 +30389,7 @@ const DesignSchema: Record<string, unknown> = {
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Request denied",
             "content": {
               "application/json": {
@@ -31083,6 +31452,7 @@ const DesignSchema: Record<string, unknown> = {
                         },
                         "resolvedRefFieldPath": {
                           "type": "array",
+                          "description": "Fully resolved field path targeted by the alias.",
                           "items": {
                             "type": "string"
                           }
@@ -32577,26 +32947,37 @@ const DesignSchema: Record<string, unknown> = {
                                 "x": {
                                   "type": "number",
                                   "description": "The x-coordinate of the node.",
+                                  "minimum": -1000000,
+                                  "maximum": 1000000,
                                   "x-go-type": "float64"
                                 },
                                 "y": {
                                   "type": "number",
                                   "description": "The y-coordinate of the node.",
+                                  "minimum": -1000000,
+                                  "maximum": 1000000,
                                   "x-go-type": "float64"
                                 }
                               }
                             },
                             "bodyText": {
                               "type": "string",
-                              "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                              "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                              "maxLength": 500
                             },
                             "bodyTextWrap": {
                               "type": "string",
-                              "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                              "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                              "enum": [
+                                "none",
+                                "wrap",
+                                "ellipsis"
+                              ]
                             },
                             "bodyTextMaxWidth": {
                               "type": "string",
-                              "description": "The maximum width for wrapping text in the node."
+                              "description": "The maximum width for wrapping text in the node.",
+                              "maxLength": 50
                             },
                             "bodyTextOpacity": {
                               "type": "number",
@@ -32606,47 +32987,59 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "bodyTextBackgroundColor": {
                               "type": "string",
-                              "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "bodyTextFontSize": {
                               "type": "number",
-                              "description": "The size of the node's body text."
+                              "description": "The size of the node's body text.",
+                              "minimum": 0
                             },
                             "bodyTextColor": {
                               "type": "string",
-                              "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "bodyTextFontWeight": {
                               "type": "string",
-                              "description": "A CSS font weight to be applied to the node's body text."
+                              "description": "A CSS font weight to be applied to the node's body text.",
+                              "maxLength": 50
                             },
                             "bodyTextHorizontalAlign": {
                               "type": "string",
-                              "description": "A CSS horizontal alignment to be applied to the node's body text."
+                              "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                              "maxLength": 50
                             },
                             "bodyTextDecoration": {
                               "type": "string",
-                              "description": "A CSS text decoration to be applied to the node's body text."
+                              "description": "A CSS text decoration to be applied to the node's body text.",
+                              "maxLength": 100
                             },
                             "bodyTextVerticalAlign": {
                               "type": "string",
-                              "description": "A CSS vertical alignment to be applied to the node's body text."
+                              "description": "A CSS vertical alignment to be applied to the node's body text.",
+                              "maxLength": 50
                             },
                             "width": {
                               "type": "number",
-                              "description": "The width of the node's body or the width of an edge's line."
+                              "description": "The width of the node's body or the width of an edge's line.",
+                              "minimum": 0
                             },
                             "height": {
                               "type": "number",
-                              "description": "The height of the node's body"
+                              "description": "The height of the node's body",
+                              "minimum": 0
                             },
                             "backgroundImage": {
                               "type": "string",
-                              "description": "The URL that points to the image to show in the node."
+                              "format": "uri",
+                              "description": "The URL that points to the image to show in the node.",
+                              "maxLength": 2048
                             },
                             "backgroundColor": {
                               "type": "string",
-                              "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "backgroundBlacken": {
                               "type": "number",
@@ -32662,35 +33055,59 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "backgroundPositionX": {
                               "type": "string",
-                              "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                              "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                              "maxLength": 50
                             },
                             "backgroundPositionY": {
                               "type": "string",
-                              "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                              "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                              "maxLength": 50
                             },
                             "backgroundOffsetX": {
                               "type": "string",
-                              "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                              "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                              "maxLength": 50
                             },
                             "backgroundOffsetY": {
                               "type": "string",
-                              "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                              "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                              "maxLength": 50
                             },
                             "backgroundFit": {
                               "type": "string",
-                              "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                              "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                              "enum": [
+                                "none",
+                                "contain",
+                                "cover"
+                              ]
                             },
                             "backgroundClip": {
                               "type": "string",
-                              "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                              "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                              "enum": [
+                                "none",
+                                "node",
+                                "node-border"
+                              ]
                             },
                             "backgroundWidthRelativeTo": {
                               "type": "string",
-                              "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                              "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                              "enum": [
+                                "none",
+                                "inner",
+                                "outer"
+                              ]
                             },
                             "backgroundHeightRelativeTo": {
                               "type": "string",
-                              "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                              "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                              "enum": [
+                                "none",
+                                "inner",
+                                "outer"
+                              ]
                             },
                             "borderWidth": {
                               "type": "number",
@@ -32709,7 +33126,8 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "borderColor": {
                               "type": "string",
-                              "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "borderOpacity": {
                               "type": "number",
@@ -32751,23 +33169,28 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "activeBgColor": {
                               "type": "string",
-                              "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "activeBgOpacity": {
                               "type": "string",
-                              "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                              "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                              "maxLength": 50
                             },
                             "activeBgSize": {
                               "type": "string",
-                              "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                              "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                              "maxLength": 50
                             },
                             "selectionBoxColor": {
                               "type": "string",
-                              "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "selectionBoxBorderWidth": {
                               "type": "number",
-                              "description": "The size of the border on the selection box. Selector needs to be *core*"
+                              "description": "The size of the border on the selection box. Selector needs to be *core*",
+                              "minimum": 0
                             },
                             "selectionBoxOpacity": {
                               "type": "number",
@@ -32777,7 +33200,8 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "outsideTextureBgColor": {
                               "type": "string",
-                              "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "outsideTextureBgOpacity": {
                               "type": "number",
@@ -32787,11 +33211,13 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "shapePolygonPoints": {
                               "type": "string",
-                              "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                              "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                              "maxLength": 2000
                             },
                             "menuBackgroundColor": {
                               "type": "string",
-                              "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             },
                             "menuBackgroundOpacity": {
                               "type": "number",
@@ -32801,7 +33227,8 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "menuForgroundColor": {
                               "type": "string",
-                              "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                              "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                              "maxLength": 100
                             }
                           }
                         }
@@ -33159,7 +33586,8 @@ const DesignSchema: Record<string, unknown> = {
                         "genealogy": {
                           "x-order": 1,
                           "type": "string",
-                          "description": "Genealogy represents the various representational states of the component."
+                          "description": "Genealogy represents the various representational states of the component.",
+                          "maxLength": 1000
                         },
                         "isAnnotation": {
                           "x-order": 2,
@@ -33185,7 +33613,8 @@ const DesignSchema: Record<string, unknown> = {
                         "configurationUISchema": {
                           "x-order": 6,
                           "type": "string",
-                          "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                          "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                          "maxLength": 20000
                         }
                       },
                       "x-oapi-codegen-extra-tags": {
@@ -35796,6 +36225,7 @@ const DesignSchema: Record<string, unknown> = {
                             },
                             "resolvedRefFieldPath": {
                               "type": "array",
+                              "description": "Fully resolved field path targeted by the alias.",
                               "items": {
                                 "type": "string"
                               }
@@ -37290,26 +37720,37 @@ const DesignSchema: Record<string, unknown> = {
                                     "x": {
                                       "type": "number",
                                       "description": "The x-coordinate of the node.",
+                                      "minimum": -1000000,
+                                      "maximum": 1000000,
                                       "x-go-type": "float64"
                                     },
                                     "y": {
                                       "type": "number",
                                       "description": "The y-coordinate of the node.",
+                                      "minimum": -1000000,
+                                      "maximum": 1000000,
                                       "x-go-type": "float64"
                                     }
                                   }
                                 },
                                 "bodyText": {
                                   "type": "string",
-                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                  "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                  "maxLength": 500
                                 },
                                 "bodyTextWrap": {
                                   "type": "string",
-                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                  "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                  "enum": [
+                                    "none",
+                                    "wrap",
+                                    "ellipsis"
+                                  ]
                                 },
                                 "bodyTextMaxWidth": {
                                   "type": "string",
-                                  "description": "The maximum width for wrapping text in the node."
+                                  "description": "The maximum width for wrapping text in the node.",
+                                  "maxLength": 50
                                 },
                                 "bodyTextOpacity": {
                                   "type": "number",
@@ -37319,47 +37760,59 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "bodyTextBackgroundColor": {
                                   "type": "string",
-                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "bodyTextFontSize": {
                                   "type": "number",
-                                  "description": "The size of the node's body text."
+                                  "description": "The size of the node's body text.",
+                                  "minimum": 0
                                 },
                                 "bodyTextColor": {
                                   "type": "string",
-                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "bodyTextFontWeight": {
                                   "type": "string",
-                                  "description": "A CSS font weight to be applied to the node's body text."
+                                  "description": "A CSS font weight to be applied to the node's body text.",
+                                  "maxLength": 50
                                 },
                                 "bodyTextHorizontalAlign": {
                                   "type": "string",
-                                  "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                  "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                  "maxLength": 50
                                 },
                                 "bodyTextDecoration": {
                                   "type": "string",
-                                  "description": "A CSS text decoration to be applied to the node's body text."
+                                  "description": "A CSS text decoration to be applied to the node's body text.",
+                                  "maxLength": 100
                                 },
                                 "bodyTextVerticalAlign": {
                                   "type": "string",
-                                  "description": "A CSS vertical alignment to be applied to the node's body text."
+                                  "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                  "maxLength": 50
                                 },
                                 "width": {
                                   "type": "number",
-                                  "description": "The width of the node's body or the width of an edge's line."
+                                  "description": "The width of the node's body or the width of an edge's line.",
+                                  "minimum": 0
                                 },
                                 "height": {
                                   "type": "number",
-                                  "description": "The height of the node's body"
+                                  "description": "The height of the node's body",
+                                  "minimum": 0
                                 },
                                 "backgroundImage": {
                                   "type": "string",
-                                  "description": "The URL that points to the image to show in the node."
+                                  "format": "uri",
+                                  "description": "The URL that points to the image to show in the node.",
+                                  "maxLength": 2048
                                 },
                                 "backgroundColor": {
                                   "type": "string",
-                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "backgroundBlacken": {
                                   "type": "number",
@@ -37375,35 +37828,59 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "backgroundPositionX": {
                                   "type": "string",
-                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                  "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                  "maxLength": 50
                                 },
                                 "backgroundPositionY": {
                                   "type": "string",
-                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                  "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                  "maxLength": 50
                                 },
                                 "backgroundOffsetX": {
                                   "type": "string",
-                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                  "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                  "maxLength": 50
                                 },
                                 "backgroundOffsetY": {
                                   "type": "string",
-                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                  "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                  "maxLength": 50
                                 },
                                 "backgroundFit": {
                                   "type": "string",
-                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                  "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                  "enum": [
+                                    "none",
+                                    "contain",
+                                    "cover"
+                                  ]
                                 },
                                 "backgroundClip": {
                                   "type": "string",
-                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                  "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                  "enum": [
+                                    "none",
+                                    "node",
+                                    "node-border"
+                                  ]
                                 },
                                 "backgroundWidthRelativeTo": {
                                   "type": "string",
-                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                  "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                  "enum": [
+                                    "none",
+                                    "inner",
+                                    "outer"
+                                  ]
                                 },
                                 "backgroundHeightRelativeTo": {
                                   "type": "string",
-                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                  "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                  "enum": [
+                                    "none",
+                                    "inner",
+                                    "outer"
+                                  ]
                                 },
                                 "borderWidth": {
                                   "type": "number",
@@ -37422,7 +37899,8 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "borderColor": {
                                   "type": "string",
-                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "borderOpacity": {
                                   "type": "number",
@@ -37464,23 +37942,28 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "activeBgColor": {
                                   "type": "string",
-                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "activeBgOpacity": {
                                   "type": "string",
-                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                  "maxLength": 50
                                 },
                                 "activeBgSize": {
                                   "type": "string",
-                                  "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                  "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                  "maxLength": 50
                                 },
                                 "selectionBoxColor": {
                                   "type": "string",
-                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "selectionBoxBorderWidth": {
                                   "type": "number",
-                                  "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                  "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                  "minimum": 0
                                 },
                                 "selectionBoxOpacity": {
                                   "type": "number",
@@ -37490,7 +37973,8 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "outsideTextureBgColor": {
                                   "type": "string",
-                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "outsideTextureBgOpacity": {
                                   "type": "number",
@@ -37500,11 +37984,13 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "shapePolygonPoints": {
                                   "type": "string",
-                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                  "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                  "maxLength": 2000
                                 },
                                 "menuBackgroundColor": {
                                   "type": "string",
-                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 },
                                 "menuBackgroundOpacity": {
                                   "type": "number",
@@ -37514,7 +38000,8 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "menuForgroundColor": {
                                   "type": "string",
-                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                  "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                  "maxLength": 100
                                 }
                               }
                             }
@@ -37872,7 +38359,8 @@ const DesignSchema: Record<string, unknown> = {
                             "genealogy": {
                               "x-order": 1,
                               "type": "string",
-                              "description": "Genealogy represents the various representational states of the component."
+                              "description": "Genealogy represents the various representational states of the component.",
+                              "maxLength": 1000
                             },
                             "isAnnotation": {
                               "x-order": 2,
@@ -37898,7 +38386,8 @@ const DesignSchema: Record<string, unknown> = {
                             "configurationUISchema": {
                               "x-order": 6,
                               "type": "string",
-                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                              "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                              "maxLength": 20000
                             }
                           },
                           "x-oapi-codegen-extra-tags": {
@@ -40545,6 +41034,7 @@ const DesignSchema: Record<string, unknown> = {
                                   },
                                   "resolvedRefFieldPath": {
                                     "type": "array",
+                                    "description": "Fully resolved field path targeted by the alias.",
                                     "items": {
                                       "type": "string"
                                     }
@@ -42039,26 +42529,37 @@ const DesignSchema: Record<string, unknown> = {
                                           "x": {
                                             "type": "number",
                                             "description": "The x-coordinate of the node.",
+                                            "minimum": -1000000,
+                                            "maximum": 1000000,
                                             "x-go-type": "float64"
                                           },
                                           "y": {
                                             "type": "number",
                                             "description": "The y-coordinate of the node.",
+                                            "minimum": -1000000,
+                                            "maximum": 1000000,
                                             "x-go-type": "float64"
                                           }
                                         }
                                       },
                                       "bodyText": {
                                         "type": "string",
-                                        "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                        "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                        "maxLength": 500
                                       },
                                       "bodyTextWrap": {
                                         "type": "string",
-                                        "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                        "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                        "enum": [
+                                          "none",
+                                          "wrap",
+                                          "ellipsis"
+                                        ]
                                       },
                                       "bodyTextMaxWidth": {
                                         "type": "string",
-                                        "description": "The maximum width for wrapping text in the node."
+                                        "description": "The maximum width for wrapping text in the node.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextOpacity": {
                                         "type": "number",
@@ -42068,47 +42569,59 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "bodyTextBackgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextFontSize": {
                                         "type": "number",
-                                        "description": "The size of the node's body text."
+                                        "description": "The size of the node's body text.",
+                                        "minimum": 0
                                       },
                                       "bodyTextColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextFontWeight": {
                                         "type": "string",
-                                        "description": "A CSS font weight to be applied to the node's body text."
+                                        "description": "A CSS font weight to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextHorizontalAlign": {
                                         "type": "string",
-                                        "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                        "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextDecoration": {
                                         "type": "string",
-                                        "description": "A CSS text decoration to be applied to the node's body text."
+                                        "description": "A CSS text decoration to be applied to the node's body text.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextVerticalAlign": {
                                         "type": "string",
-                                        "description": "A CSS vertical alignment to be applied to the node's body text."
+                                        "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "width": {
                                         "type": "number",
-                                        "description": "The width of the node's body or the width of an edge's line."
+                                        "description": "The width of the node's body or the width of an edge's line.",
+                                        "minimum": 0
                                       },
                                       "height": {
                                         "type": "number",
-                                        "description": "The height of the node's body"
+                                        "description": "The height of the node's body",
+                                        "minimum": 0
                                       },
                                       "backgroundImage": {
                                         "type": "string",
-                                        "description": "The URL that points to the image to show in the node."
+                                        "format": "uri",
+                                        "description": "The URL that points to the image to show in the node.",
+                                        "maxLength": 2048
                                       },
                                       "backgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "backgroundBlacken": {
                                         "type": "number",
@@ -42124,35 +42637,59 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "backgroundPositionX": {
                                         "type": "string",
-                                        "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundPositionY": {
                                         "type": "string",
-                                        "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundOffsetX": {
                                         "type": "string",
-                                        "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundOffsetY": {
                                         "type": "string",
-                                        "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundFit": {
                                         "type": "string",
-                                        "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                        "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                        "enum": [
+                                          "none",
+                                          "contain",
+                                          "cover"
+                                        ]
                                       },
                                       "backgroundClip": {
                                         "type": "string",
-                                        "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                        "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                        "enum": [
+                                          "none",
+                                          "node",
+                                          "node-border"
+                                        ]
                                       },
                                       "backgroundWidthRelativeTo": {
                                         "type": "string",
-                                        "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                        "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                        "enum": [
+                                          "none",
+                                          "inner",
+                                          "outer"
+                                        ]
                                       },
                                       "backgroundHeightRelativeTo": {
                                         "type": "string",
-                                        "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                        "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                        "enum": [
+                                          "none",
+                                          "inner",
+                                          "outer"
+                                        ]
                                       },
                                       "borderWidth": {
                                         "type": "number",
@@ -42171,7 +42708,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "borderColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "borderOpacity": {
                                         "type": "number",
@@ -42213,23 +42751,28 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "activeBgColor": {
                                         "type": "string",
-                                        "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "activeBgOpacity": {
                                         "type": "string",
-                                        "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                        "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                        "maxLength": 50
                                       },
                                       "activeBgSize": {
                                         "type": "string",
-                                        "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                        "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                        "maxLength": 50
                                       },
                                       "selectionBoxColor": {
                                         "type": "string",
-                                        "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "selectionBoxBorderWidth": {
                                         "type": "number",
-                                        "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                        "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                        "minimum": 0
                                       },
                                       "selectionBoxOpacity": {
                                         "type": "number",
@@ -42239,7 +42782,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "outsideTextureBgColor": {
                                         "type": "string",
-                                        "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "outsideTextureBgOpacity": {
                                         "type": "number",
@@ -42249,11 +42793,13 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "shapePolygonPoints": {
                                         "type": "string",
-                                        "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                        "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                        "maxLength": 2000
                                       },
                                       "menuBackgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "menuBackgroundOpacity": {
                                         "type": "number",
@@ -42263,7 +42809,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "menuForgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       }
                                     }
                                   }
@@ -42621,7 +43168,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "genealogy": {
                                     "x-order": 1,
                                     "type": "string",
-                                    "description": "Genealogy represents the various representational states of the component."
+                                    "description": "Genealogy represents the various representational states of the component.",
+                                    "maxLength": 1000
                                   },
                                   "isAnnotation": {
                                     "x-order": 2,
@@ -42647,7 +43195,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "configurationUISchema": {
                                     "x-order": 6,
                                     "type": "string",
-                                    "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                    "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                    "maxLength": 20000
                                   }
                                 },
                                 "x-oapi-codegen-extra-tags": {
@@ -45328,6 +45877,7 @@ const DesignSchema: Record<string, unknown> = {
                                 },
                                 "resolvedRefFieldPath": {
                                   "type": "array",
+                                  "description": "Fully resolved field path targeted by the alias.",
                                   "items": {
                                     "type": "string"
                                   }
@@ -46822,26 +47372,37 @@ const DesignSchema: Record<string, unknown> = {
                                         "x": {
                                           "type": "number",
                                           "description": "The x-coordinate of the node.",
+                                          "minimum": -1000000,
+                                          "maximum": 1000000,
                                           "x-go-type": "float64"
                                         },
                                         "y": {
                                           "type": "number",
                                           "description": "The y-coordinate of the node.",
+                                          "minimum": -1000000,
+                                          "maximum": 1000000,
                                           "x-go-type": "float64"
                                         }
                                       }
                                     },
                                     "bodyText": {
                                       "type": "string",
-                                      "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                      "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                      "maxLength": 500
                                     },
                                     "bodyTextWrap": {
                                       "type": "string",
-                                      "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                      "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                      "enum": [
+                                        "none",
+                                        "wrap",
+                                        "ellipsis"
+                                      ]
                                     },
                                     "bodyTextMaxWidth": {
                                       "type": "string",
-                                      "description": "The maximum width for wrapping text in the node."
+                                      "description": "The maximum width for wrapping text in the node.",
+                                      "maxLength": 50
                                     },
                                     "bodyTextOpacity": {
                                       "type": "number",
@@ -46851,47 +47412,59 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "bodyTextBackgroundColor": {
                                       "type": "string",
-                                      "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "bodyTextFontSize": {
                                       "type": "number",
-                                      "description": "The size of the node's body text."
+                                      "description": "The size of the node's body text.",
+                                      "minimum": 0
                                     },
                                     "bodyTextColor": {
                                       "type": "string",
-                                      "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "bodyTextFontWeight": {
                                       "type": "string",
-                                      "description": "A CSS font weight to be applied to the node's body text."
+                                      "description": "A CSS font weight to be applied to the node's body text.",
+                                      "maxLength": 50
                                     },
                                     "bodyTextHorizontalAlign": {
                                       "type": "string",
-                                      "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                      "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                      "maxLength": 50
                                     },
                                     "bodyTextDecoration": {
                                       "type": "string",
-                                      "description": "A CSS text decoration to be applied to the node's body text."
+                                      "description": "A CSS text decoration to be applied to the node's body text.",
+                                      "maxLength": 100
                                     },
                                     "bodyTextVerticalAlign": {
                                       "type": "string",
-                                      "description": "A CSS vertical alignment to be applied to the node's body text."
+                                      "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                      "maxLength": 50
                                     },
                                     "width": {
                                       "type": "number",
-                                      "description": "The width of the node's body or the width of an edge's line."
+                                      "description": "The width of the node's body or the width of an edge's line.",
+                                      "minimum": 0
                                     },
                                     "height": {
                                       "type": "number",
-                                      "description": "The height of the node's body"
+                                      "description": "The height of the node's body",
+                                      "minimum": 0
                                     },
                                     "backgroundImage": {
                                       "type": "string",
-                                      "description": "The URL that points to the image to show in the node."
+                                      "format": "uri",
+                                      "description": "The URL that points to the image to show in the node.",
+                                      "maxLength": 2048
                                     },
                                     "backgroundColor": {
                                       "type": "string",
-                                      "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "backgroundBlacken": {
                                       "type": "number",
@@ -46907,35 +47480,59 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "backgroundPositionX": {
                                       "type": "string",
-                                      "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                      "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                      "maxLength": 50
                                     },
                                     "backgroundPositionY": {
                                       "type": "string",
-                                      "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                      "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                      "maxLength": 50
                                     },
                                     "backgroundOffsetX": {
                                       "type": "string",
-                                      "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                      "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                      "maxLength": 50
                                     },
                                     "backgroundOffsetY": {
                                       "type": "string",
-                                      "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                      "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                      "maxLength": 50
                                     },
                                     "backgroundFit": {
                                       "type": "string",
-                                      "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                      "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                      "enum": [
+                                        "none",
+                                        "contain",
+                                        "cover"
+                                      ]
                                     },
                                     "backgroundClip": {
                                       "type": "string",
-                                      "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                      "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                      "enum": [
+                                        "none",
+                                        "node",
+                                        "node-border"
+                                      ]
                                     },
                                     "backgroundWidthRelativeTo": {
                                       "type": "string",
-                                      "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                      "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                      "enum": [
+                                        "none",
+                                        "inner",
+                                        "outer"
+                                      ]
                                     },
                                     "backgroundHeightRelativeTo": {
                                       "type": "string",
-                                      "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                      "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                      "enum": [
+                                        "none",
+                                        "inner",
+                                        "outer"
+                                      ]
                                     },
                                     "borderWidth": {
                                       "type": "number",
@@ -46954,7 +47551,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "borderColor": {
                                       "type": "string",
-                                      "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "borderOpacity": {
                                       "type": "number",
@@ -46996,23 +47594,28 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "activeBgColor": {
                                       "type": "string",
-                                      "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "activeBgOpacity": {
                                       "type": "string",
-                                      "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                      "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                      "maxLength": 50
                                     },
                                     "activeBgSize": {
                                       "type": "string",
-                                      "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                      "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                      "maxLength": 50
                                     },
                                     "selectionBoxColor": {
                                       "type": "string",
-                                      "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "selectionBoxBorderWidth": {
                                       "type": "number",
-                                      "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                      "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                      "minimum": 0
                                     },
                                     "selectionBoxOpacity": {
                                       "type": "number",
@@ -47022,7 +47625,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "outsideTextureBgColor": {
                                       "type": "string",
-                                      "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "outsideTextureBgOpacity": {
                                       "type": "number",
@@ -47032,11 +47636,13 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "shapePolygonPoints": {
                                       "type": "string",
-                                      "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                      "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                      "maxLength": 2000
                                     },
                                     "menuBackgroundColor": {
                                       "type": "string",
-                                      "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     },
                                     "menuBackgroundOpacity": {
                                       "type": "number",
@@ -47046,7 +47652,8 @@ const DesignSchema: Record<string, unknown> = {
                                     },
                                     "menuForgroundColor": {
                                       "type": "string",
-                                      "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                      "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                      "maxLength": 100
                                     }
                                   }
                                 }
@@ -47404,7 +48011,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "genealogy": {
                                   "x-order": 1,
                                   "type": "string",
-                                  "description": "Genealogy represents the various representational states of the component."
+                                  "description": "Genealogy represents the various representational states of the component.",
+                                  "maxLength": 1000
                                 },
                                 "isAnnotation": {
                                   "x-order": 2,
@@ -47430,7 +48038,8 @@ const DesignSchema: Record<string, unknown> = {
                                 "configurationUISchema": {
                                   "x-order": 6,
                                   "type": "string",
-                                  "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                  "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                  "maxLength": 20000
                                 }
                               },
                               "x-oapi-codegen-extra-tags": {
@@ -50150,6 +50759,7 @@ const DesignSchema: Record<string, unknown> = {
                                   },
                                   "resolvedRefFieldPath": {
                                     "type": "array",
+                                    "description": "Fully resolved field path targeted by the alias.",
                                     "items": {
                                       "type": "string"
                                     }
@@ -51644,26 +52254,37 @@ const DesignSchema: Record<string, unknown> = {
                                           "x": {
                                             "type": "number",
                                             "description": "The x-coordinate of the node.",
+                                            "minimum": -1000000,
+                                            "maximum": 1000000,
                                             "x-go-type": "float64"
                                           },
                                           "y": {
                                             "type": "number",
                                             "description": "The y-coordinate of the node.",
+                                            "minimum": -1000000,
+                                            "maximum": 1000000,
                                             "x-go-type": "float64"
                                           }
                                         }
                                       },
                                       "bodyText": {
                                         "type": "string",
-                                        "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id"
+                                        "description": "The text to display for an element's body. Can give a path, e.g. data(id) will label with the elements id",
+                                        "maxLength": 500
                                       },
                                       "bodyTextWrap": {
                                         "type": "string",
-                                        "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'."
+                                        "description": "How to wrap the text in the node. Can be 'none', 'wrap', or 'ellipsis'.",
+                                        "enum": [
+                                          "none",
+                                          "wrap",
+                                          "ellipsis"
+                                        ]
                                       },
                                       "bodyTextMaxWidth": {
                                         "type": "string",
-                                        "description": "The maximum width for wrapping text in the node."
+                                        "description": "The maximum width for wrapping text in the node.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextOpacity": {
                                         "type": "number",
@@ -51673,47 +52294,59 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "bodyTextBackgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body text background. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextFontSize": {
                                         "type": "number",
-                                        "description": "The size of the node's body text."
+                                        "description": "The size of the node's body text.",
+                                        "minimum": 0
                                       },
                                       "bodyTextColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body text. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextFontWeight": {
                                         "type": "string",
-                                        "description": "A CSS font weight to be applied to the node's body text."
+                                        "description": "A CSS font weight to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextHorizontalAlign": {
                                         "type": "string",
-                                        "description": "A CSS horizontal alignment to be applied to the node's body text."
+                                        "description": "A CSS horizontal alignment to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "bodyTextDecoration": {
                                         "type": "string",
-                                        "description": "A CSS text decoration to be applied to the node's body text."
+                                        "description": "A CSS text decoration to be applied to the node's body text.",
+                                        "maxLength": 100
                                       },
                                       "bodyTextVerticalAlign": {
                                         "type": "string",
-                                        "description": "A CSS vertical alignment to be applied to the node's body text."
+                                        "description": "A CSS vertical alignment to be applied to the node's body text.",
+                                        "maxLength": 50
                                       },
                                       "width": {
                                         "type": "number",
-                                        "description": "The width of the node's body or the width of an edge's line."
+                                        "description": "The width of the node's body or the width of an edge's line.",
+                                        "minimum": 0
                                       },
                                       "height": {
                                         "type": "number",
-                                        "description": "The height of the node's body"
+                                        "description": "The height of the node's body",
+                                        "minimum": 0
                                       },
                                       "backgroundImage": {
                                         "type": "string",
-                                        "description": "The URL that points to the image to show in the node."
+                                        "format": "uri",
+                                        "description": "The URL that points to the image to show in the node.",
+                                        "maxLength": 2048
                                       },
                                       "backgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's body. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "backgroundBlacken": {
                                         "type": "number",
@@ -51729,35 +52362,59 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "backgroundPositionX": {
                                         "type": "string",
-                                        "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The x position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundPositionY": {
                                         "type": "string",
-                                        "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The y position of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundOffsetX": {
                                         "type": "string",
-                                        "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The x offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundOffsetY": {
                                         "type": "string",
-                                        "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)"
+                                        "description": "The y offset of the background image, measured in percent (e.g. 50%) or pixels (e.g. 10px)",
+                                        "maxLength": 50
                                       },
                                       "backgroundFit": {
                                         "type": "string",
-                                        "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'."
+                                        "description": "How the background image is fit to the node. Can be 'none', 'contain', or 'cover'.",
+                                        "enum": [
+                                          "none",
+                                          "contain",
+                                          "cover"
+                                        ]
                                       },
                                       "backgroundClip": {
                                         "type": "string",
-                                        "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'."
+                                        "description": "How the background image is clipped to the node. Can be 'none', 'node', or 'node-border'.",
+                                        "enum": [
+                                          "none",
+                                          "node",
+                                          "node-border"
+                                        ]
                                       },
                                       "backgroundWidthRelativeTo": {
                                         "type": "string",
-                                        "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'."
+                                        "description": "How the background image's width is determined. Can be 'none', 'inner', or 'outer'.",
+                                        "enum": [
+                                          "none",
+                                          "inner",
+                                          "outer"
+                                        ]
                                       },
                                       "backgroundHeightRelativeTo": {
                                         "type": "string",
-                                        "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'."
+                                        "description": "How the background image's height is determined. Can be 'none', 'inner', or 'outer'.",
+                                        "enum": [
+                                          "none",
+                                          "inner",
+                                          "outer"
+                                        ]
                                       },
                                       "borderWidth": {
                                         "type": "number",
@@ -51776,7 +52433,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "borderColor": {
                                         "type": "string",
-                                        "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the node's border. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "borderOpacity": {
                                         "type": "number",
@@ -51818,23 +52476,28 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "activeBgColor": {
                                         "type": "string",
-                                        "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the indicator shown when the background is grabbed by the user. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "activeBgOpacity": {
                                         "type": "string",
-                                        "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                        "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                        "maxLength": 50
                                       },
                                       "activeBgSize": {
                                         "type": "string",
-                                        "description": "The opacity of the active background indicator. Selector needs to be *core*."
+                                        "description": "The opacity of the active background indicator. Selector needs to be *core*.",
+                                        "maxLength": 50
                                       },
                                       "selectionBoxColor": {
                                         "type": "string",
-                                        "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The background colour of the selection box used for drag selection. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "selectionBoxBorderWidth": {
                                         "type": "number",
-                                        "description": "The size of the border on the selection box. Selector needs to be *core*"
+                                        "description": "The size of the border on the selection box. Selector needs to be *core*",
+                                        "minimum": 0
                                       },
                                       "selectionBoxOpacity": {
                                         "type": "number",
@@ -51844,7 +52507,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "outsideTextureBgColor": {
                                         "type": "string",
-                                        "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the area outside the viewport texture when initOptions.textureOnViewport === true. Selector needs to be *core*. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "outsideTextureBgOpacity": {
                                         "type": "number",
@@ -51854,11 +52518,13 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "shapePolygonPoints": {
                                         "type": "string",
-                                        "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )"
+                                        "description": "An array (or a space-separated string) of numbers ranging on [-1, 1], representing alternating x and y values (i.e. x1 y1 x2 y2, x3 y3 ...). This represents the points in the polygon for the node's shape. The bounding box of the node is given by (-1, -1), (1, -1), (1, 1), (-1, 1). The node's position is the origin (0, 0 )",
+                                        "maxLength": 2000
                                       },
                                       "menuBackgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the background of the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       },
                                       "menuBackgroundOpacity": {
                                         "type": "number",
@@ -51868,7 +52534,8 @@ const DesignSchema: Record<string, unknown> = {
                                       },
                                       "menuForgroundColor": {
                                         "type": "string",
-                                        "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g."
+                                        "description": "The colour of the text or icons in the component menu. Colours may be specified by name (e.g. red), hex (e.g.",
+                                        "maxLength": 100
                                       }
                                     }
                                   }
@@ -52226,7 +52893,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "genealogy": {
                                     "x-order": 1,
                                     "type": "string",
-                                    "description": "Genealogy represents the various representational states of the component."
+                                    "description": "Genealogy represents the various representational states of the component.",
+                                    "maxLength": 1000
                                   },
                                   "isAnnotation": {
                                     "x-order": 2,
@@ -52252,7 +52920,8 @@ const DesignSchema: Record<string, unknown> = {
                                   "configurationUISchema": {
                                     "x-order": 6,
                                     "type": "string",
-                                    "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ ."
+                                    "description": "Defines the UI schema for rendering the component's configuration. For more details, visit: https://rjsf-team.github.io/react-jsonschema-form/docs/api-reference/uiSchema/ .",
+                                    "maxLength": 20000
                                   }
                                 },
                                 "x-oapi-codegen-extra-tags": {

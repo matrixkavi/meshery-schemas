@@ -180,7 +180,7 @@ const UserSchema: Record<string, unknown> = {
                               "db": "user_id",
                               "json": "user_id"
                             },
-                            "format": "uuid"
+                            "x-id-format": "external"
                           },
                           "provider": {
                             "type": "string",
@@ -317,12 +317,12 @@ const UserSchema: Record<string, unknown> = {
                                 "properties": {
                                   "grafanaURL": {
                                     "type": "string",
-                                    "description": "The grafana u r l of the grafana.",
+                                    "description": "Grafana URL for the user configuration.",
                                     "maxLength": 500
                                   },
                                   "grafanaAPIKey": {
                                     "type": "string",
-                                    "description": "The grafana a p i key of the grafana.",
+                                    "description": "Grafana API key for the user configuration.",
                                     "maxLength": 500
                                   },
                                   "selectedBoardsConfigs": {
@@ -340,18 +340,18 @@ const UserSchema: Record<string, unknown> = {
                                             "type": "object",
                                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                           },
-                                          "description": "The panels of the selectedgrafanaconfig."
+                                          "description": "Panels selected for the Grafana board configuration."
                                         },
                                         "templateVars": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
                                           },
-                                          "description": "The template vars of the selectedgrafanaconfig."
+                                          "description": "Template variables applied to the selected Grafana board configuration."
                                         }
                                       }
                                     },
-                                    "description": "The selected boards configs of the grafana."
+                                    "description": "Selected Grafana board configurations for the user."
                                   }
                                 }
                               },
@@ -379,14 +379,14 @@ const UserSchema: Record<string, unknown> = {
                                             "type": "object",
                                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                           },
-                                          "description": "The panels of the selectedgrafanaconfig."
+                                          "description": "Panels selected for the Grafana board configuration."
                                         },
                                         "templateVars": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
                                           },
-                                          "description": "The template vars of the selectedgrafanaconfig."
+                                          "description": "Template variables applied to the selected Grafana board configuration."
                                         }
                                       }
                                     },
@@ -589,6 +589,7 @@ const UserSchema: Record<string, unknown> = {
                             "properties": {
                               "teams_with_roles": {
                                 "type": "array",
+                                "description": "Team memberships for the user with their assigned roles.",
                                 "items": {
                                   "type": "object"
                                 },
@@ -599,6 +600,8 @@ const UserSchema: Record<string, unknown> = {
                               },
                               "total_count": {
                                 "type": "integer",
+                                "description": "Total number of team memberships returned for the user.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "total_count",
                                   "json": "total_count"
@@ -616,6 +619,7 @@ const UserSchema: Record<string, unknown> = {
                             "properties": {
                               "organizations_with_roles": {
                                 "type": "array",
+                                "description": "Organization memberships for the user with their assigned roles.",
                                 "items": {
                                   "type": "object"
                                 },
@@ -626,6 +630,8 @@ const UserSchema: Record<string, unknown> = {
                               },
                               "total_count": {
                                 "type": "integer",
+                                "description": "Total number of organization memberships returned for the user.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "total_count",
                                   "json": "total_count"
@@ -802,7 +808,7 @@ const UserSchema: Record<string, unknown> = {
                               "db": "user_id",
                               "json": "user_id"
                             },
-                            "format": "uuid"
+                            "x-id-format": "external"
                           },
                           "provider": {
                             "type": "string",
@@ -939,12 +945,12 @@ const UserSchema: Record<string, unknown> = {
                                 "properties": {
                                   "grafanaURL": {
                                     "type": "string",
-                                    "description": "The grafana u r l of the grafana.",
+                                    "description": "Grafana URL for the user configuration.",
                                     "maxLength": 500
                                   },
                                   "grafanaAPIKey": {
                                     "type": "string",
-                                    "description": "The grafana a p i key of the grafana.",
+                                    "description": "Grafana API key for the user configuration.",
                                     "maxLength": 500
                                   },
                                   "selectedBoardsConfigs": {
@@ -962,18 +968,18 @@ const UserSchema: Record<string, unknown> = {
                                             "type": "object",
                                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                           },
-                                          "description": "The panels of the selectedgrafanaconfig."
+                                          "description": "Panels selected for the Grafana board configuration."
                                         },
                                         "templateVars": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
                                           },
-                                          "description": "The template vars of the selectedgrafanaconfig."
+                                          "description": "Template variables applied to the selected Grafana board configuration."
                                         }
                                       }
                                     },
-                                    "description": "The selected boards configs of the grafana."
+                                    "description": "Selected Grafana board configurations for the user."
                                   }
                                 }
                               },
@@ -1001,14 +1007,14 @@ const UserSchema: Record<string, unknown> = {
                                             "type": "object",
                                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                           },
-                                          "description": "The panels of the selectedgrafanaconfig."
+                                          "description": "Panels selected for the Grafana board configuration."
                                         },
                                         "templateVars": {
                                           "type": "array",
                                           "items": {
                                             "type": "string"
                                           },
-                                          "description": "The template vars of the selectedgrafanaconfig."
+                                          "description": "Template variables applied to the selected Grafana board configuration."
                                         }
                                       }
                                     },
@@ -1211,6 +1217,7 @@ const UserSchema: Record<string, unknown> = {
                             "properties": {
                               "teams_with_roles": {
                                 "type": "array",
+                                "description": "Team memberships for the user with their assigned roles.",
                                 "items": {
                                   "type": "object"
                                 },
@@ -1221,6 +1228,8 @@ const UserSchema: Record<string, unknown> = {
                               },
                               "total_count": {
                                 "type": "integer",
+                                "description": "Total number of team memberships returned for the user.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "total_count",
                                   "json": "total_count"
@@ -1238,6 +1247,7 @@ const UserSchema: Record<string, unknown> = {
                             "properties": {
                               "organizations_with_roles": {
                                 "type": "array",
+                                "description": "Organization memberships for the user with their assigned roles.",
                                 "items": {
                                   "type": "object"
                                 },
@@ -1248,6 +1258,8 @@ const UserSchema: Record<string, unknown> = {
                               },
                               "total_count": {
                                 "type": "integer",
+                                "description": "Total number of organization memberships returned for the user.",
+                                "minimum": 0,
                                 "x-oapi-codegen-extra-tags": {
                                   "db": "total_count",
                                   "json": "total_count"
@@ -1366,7 +1378,7 @@ const UserSchema: Record<string, unknown> = {
                         "db": "user_id",
                         "json": "user_id"
                       },
-                      "format": "uuid"
+                      "x-id-format": "external"
                     },
                     "provider": {
                       "type": "string",
@@ -1503,12 +1515,12 @@ const UserSchema: Record<string, unknown> = {
                           "properties": {
                             "grafanaURL": {
                               "type": "string",
-                              "description": "The grafana u r l of the grafana.",
+                              "description": "Grafana URL for the user configuration.",
                               "maxLength": 500
                             },
                             "grafanaAPIKey": {
                               "type": "string",
-                              "description": "The grafana a p i key of the grafana.",
+                              "description": "Grafana API key for the user configuration.",
                               "maxLength": 500
                             },
                             "selectedBoardsConfigs": {
@@ -1526,18 +1538,18 @@ const UserSchema: Record<string, unknown> = {
                                       "type": "object",
                                       "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                     },
-                                    "description": "The panels of the selectedgrafanaconfig."
+                                    "description": "Panels selected for the Grafana board configuration."
                                   },
                                   "templateVars": {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
                                     },
-                                    "description": "The template vars of the selectedgrafanaconfig."
+                                    "description": "Template variables applied to the selected Grafana board configuration."
                                   }
                                 }
                               },
-                              "description": "The selected boards configs of the grafana."
+                              "description": "Selected Grafana board configurations for the user."
                             }
                           }
                         },
@@ -1565,14 +1577,14 @@ const UserSchema: Record<string, unknown> = {
                                       "type": "object",
                                       "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                     },
-                                    "description": "The panels of the selectedgrafanaconfig."
+                                    "description": "Panels selected for the Grafana board configuration."
                                   },
                                   "templateVars": {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
                                     },
-                                    "description": "The template vars of the selectedgrafanaconfig."
+                                    "description": "Template variables applied to the selected Grafana board configuration."
                                   }
                                 }
                               },
@@ -1775,6 +1787,7 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "teams_with_roles": {
                           "type": "array",
+                          "description": "Team memberships for the user with their assigned roles.",
                           "items": {
                             "type": "object"
                           },
@@ -1785,6 +1798,8 @@ const UserSchema: Record<string, unknown> = {
                         },
                         "total_count": {
                           "type": "integer",
+                          "description": "Total number of team memberships returned for the user.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "total_count",
                             "json": "total_count"
@@ -1802,6 +1817,7 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "organizations_with_roles": {
                           "type": "array",
+                          "description": "Organization memberships for the user with their assigned roles.",
                           "items": {
                             "type": "object"
                           },
@@ -1812,6 +1828,8 @@ const UserSchema: Record<string, unknown> = {
                         },
                         "total_count": {
                           "type": "integer",
+                          "description": "Total number of organization memberships returned for the user.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "total_count",
                             "json": "total_count"
@@ -1919,7 +1937,7 @@ const UserSchema: Record<string, unknown> = {
                         "db": "user_id",
                         "json": "user_id"
                       },
-                      "format": "uuid"
+                      "x-id-format": "external"
                     },
                     "provider": {
                       "type": "string",
@@ -2056,12 +2074,12 @@ const UserSchema: Record<string, unknown> = {
                           "properties": {
                             "grafanaURL": {
                               "type": "string",
-                              "description": "The grafana u r l of the grafana.",
+                              "description": "Grafana URL for the user configuration.",
                               "maxLength": 500
                             },
                             "grafanaAPIKey": {
                               "type": "string",
-                              "description": "The grafana a p i key of the grafana.",
+                              "description": "Grafana API key for the user configuration.",
                               "maxLength": 500
                             },
                             "selectedBoardsConfigs": {
@@ -2079,18 +2097,18 @@ const UserSchema: Record<string, unknown> = {
                                       "type": "object",
                                       "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                     },
-                                    "description": "The panels of the selectedgrafanaconfig."
+                                    "description": "Panels selected for the Grafana board configuration."
                                   },
                                   "templateVars": {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
                                     },
-                                    "description": "The template vars of the selectedgrafanaconfig."
+                                    "description": "Template variables applied to the selected Grafana board configuration."
                                   }
                                 }
                               },
-                              "description": "The selected boards configs of the grafana."
+                              "description": "Selected Grafana board configurations for the user."
                             }
                           }
                         },
@@ -2118,14 +2136,14 @@ const UserSchema: Record<string, unknown> = {
                                       "type": "object",
                                       "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                     },
-                                    "description": "The panels of the selectedgrafanaconfig."
+                                    "description": "Panels selected for the Grafana board configuration."
                                   },
                                   "templateVars": {
                                     "type": "array",
                                     "items": {
                                       "type": "string"
                                     },
-                                    "description": "The template vars of the selectedgrafanaconfig."
+                                    "description": "Template variables applied to the selected Grafana board configuration."
                                   }
                                 }
                               },
@@ -2328,6 +2346,7 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "teams_with_roles": {
                           "type": "array",
+                          "description": "Team memberships for the user with their assigned roles.",
                           "items": {
                             "type": "object"
                           },
@@ -2338,6 +2357,8 @@ const UserSchema: Record<string, unknown> = {
                         },
                         "total_count": {
                           "type": "integer",
+                          "description": "Total number of team memberships returned for the user.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "total_count",
                             "json": "total_count"
@@ -2355,6 +2376,7 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "organizations_with_roles": {
                           "type": "array",
+                          "description": "Organization memberships for the user with their assigned roles.",
                           "items": {
                             "type": "object"
                           },
@@ -2365,6 +2387,8 @@ const UserSchema: Record<string, unknown> = {
                         },
                         "total_count": {
                           "type": "integer",
+                          "description": "Total number of organization memberships returned for the user.",
+                          "minimum": 0,
                           "x-oapi-codegen-extra-tags": {
                             "db": "total_count",
                             "json": "total_count"
@@ -2589,7 +2613,7 @@ const UserSchema: Record<string, unknown> = {
               "db": "user_id",
               "json": "user_id"
             },
-            "format": "uuid"
+            "x-id-format": "external"
           },
           "provider": {
             "type": "string",
@@ -2726,12 +2750,12 @@ const UserSchema: Record<string, unknown> = {
                 "properties": {
                   "grafanaURL": {
                     "type": "string",
-                    "description": "The grafana u r l of the grafana.",
+                    "description": "Grafana URL for the user configuration.",
                     "maxLength": 500
                   },
                   "grafanaAPIKey": {
                     "type": "string",
-                    "description": "The grafana a p i key of the grafana.",
+                    "description": "Grafana API key for the user configuration.",
                     "maxLength": 500
                   },
                   "selectedBoardsConfigs": {
@@ -2749,18 +2773,18 @@ const UserSchema: Record<string, unknown> = {
                             "type": "object",
                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                           },
-                          "description": "The panels of the selectedgrafanaconfig."
+                          "description": "Panels selected for the Grafana board configuration."
                         },
                         "templateVars": {
                           "type": "array",
                           "items": {
                             "type": "string"
                           },
-                          "description": "The template vars of the selectedgrafanaconfig."
+                          "description": "Template variables applied to the selected Grafana board configuration."
                         }
                       }
                     },
-                    "description": "The selected boards configs of the grafana."
+                    "description": "Selected Grafana board configurations for the user."
                   }
                 }
               },
@@ -2788,14 +2812,14 @@ const UserSchema: Record<string, unknown> = {
                             "type": "object",
                             "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                           },
-                          "description": "The panels of the selectedgrafanaconfig."
+                          "description": "Panels selected for the Grafana board configuration."
                         },
                         "templateVars": {
                           "type": "array",
                           "items": {
                             "type": "string"
                           },
-                          "description": "The template vars of the selectedgrafanaconfig."
+                          "description": "Template variables applied to the selected Grafana board configuration."
                         }
                       }
                     },
@@ -2998,6 +3022,7 @@ const UserSchema: Record<string, unknown> = {
             "properties": {
               "teams_with_roles": {
                 "type": "array",
+                "description": "Team memberships for the user with their assigned roles.",
                 "items": {
                   "type": "object"
                 },
@@ -3008,6 +3033,8 @@ const UserSchema: Record<string, unknown> = {
               },
               "total_count": {
                 "type": "integer",
+                "description": "Total number of team memberships returned for the user.",
+                "minimum": 0,
                 "x-oapi-codegen-extra-tags": {
                   "db": "total_count",
                   "json": "total_count"
@@ -3025,6 +3052,7 @@ const UserSchema: Record<string, unknown> = {
             "properties": {
               "organizations_with_roles": {
                 "type": "array",
+                "description": "Organization memberships for the user with their assigned roles.",
                 "items": {
                   "type": "object"
                 },
@@ -3035,6 +3063,8 @@ const UserSchema: Record<string, unknown> = {
               },
               "total_count": {
                 "type": "integer",
+                "description": "Total number of organization memberships returned for the user.",
+                "minimum": 0,
                 "x-oapi-codegen-extra-tags": {
                   "db": "total_count",
                   "json": "total_count"
@@ -3105,7 +3135,7 @@ const UserSchema: Record<string, unknown> = {
                     "db": "user_id",
                     "json": "user_id"
                   },
-                  "format": "uuid"
+                  "x-id-format": "external"
                 },
                 "provider": {
                   "type": "string",
@@ -3242,12 +3272,12 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "grafanaURL": {
                           "type": "string",
-                          "description": "The grafana u r l of the grafana.",
+                          "description": "Grafana URL for the user configuration.",
                           "maxLength": 500
                         },
                         "grafanaAPIKey": {
                           "type": "string",
-                          "description": "The grafana a p i key of the grafana.",
+                          "description": "Grafana API key for the user configuration.",
                           "maxLength": 500
                         },
                         "selectedBoardsConfigs": {
@@ -3265,18 +3295,18 @@ const UserSchema: Record<string, unknown> = {
                                   "type": "object",
                                   "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                 },
-                                "description": "The panels of the selectedgrafanaconfig."
+                                "description": "Panels selected for the Grafana board configuration."
                               },
                               "templateVars": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
                                 },
-                                "description": "The template vars of the selectedgrafanaconfig."
+                                "description": "Template variables applied to the selected Grafana board configuration."
                               }
                             }
                           },
-                          "description": "The selected boards configs of the grafana."
+                          "description": "Selected Grafana board configurations for the user."
                         }
                       }
                     },
@@ -3304,14 +3334,14 @@ const UserSchema: Record<string, unknown> = {
                                   "type": "object",
                                   "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                 },
-                                "description": "The panels of the selectedgrafanaconfig."
+                                "description": "Panels selected for the Grafana board configuration."
                               },
                               "templateVars": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
                                 },
-                                "description": "The template vars of the selectedgrafanaconfig."
+                                "description": "Template variables applied to the selected Grafana board configuration."
                               }
                             }
                           },
@@ -3514,6 +3544,7 @@ const UserSchema: Record<string, unknown> = {
                   "properties": {
                     "teams_with_roles": {
                       "type": "array",
+                      "description": "Team memberships for the user with their assigned roles.",
                       "items": {
                         "type": "object"
                       },
@@ -3524,6 +3555,8 @@ const UserSchema: Record<string, unknown> = {
                     },
                     "total_count": {
                       "type": "integer",
+                      "description": "Total number of team memberships returned for the user.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "total_count",
                         "json": "total_count"
@@ -3541,6 +3574,7 @@ const UserSchema: Record<string, unknown> = {
                   "properties": {
                     "organizations_with_roles": {
                       "type": "array",
+                      "description": "Organization memberships for the user with their assigned roles.",
                       "items": {
                         "type": "object"
                       },
@@ -3551,6 +3585,8 @@ const UserSchema: Record<string, unknown> = {
                     },
                     "total_count": {
                       "type": "integer",
+                      "description": "Total number of organization memberships returned for the user.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "total_count",
                         "json": "total_count"
@@ -3625,7 +3661,7 @@ const UserSchema: Record<string, unknown> = {
                     "db": "user_id",
                     "json": "user_id"
                   },
-                  "format": "uuid"
+                  "x-id-format": "external"
                 },
                 "provider": {
                   "type": "string",
@@ -3762,12 +3798,12 @@ const UserSchema: Record<string, unknown> = {
                       "properties": {
                         "grafanaURL": {
                           "type": "string",
-                          "description": "The grafana u r l of the grafana.",
+                          "description": "Grafana URL for the user configuration.",
                           "maxLength": 500
                         },
                         "grafanaAPIKey": {
                           "type": "string",
-                          "description": "The grafana a p i key of the grafana.",
+                          "description": "Grafana API key for the user configuration.",
                           "maxLength": 500
                         },
                         "selectedBoardsConfigs": {
@@ -3785,18 +3821,18 @@ const UserSchema: Record<string, unknown> = {
                                   "type": "object",
                                   "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                 },
-                                "description": "The panels of the selectedgrafanaconfig."
+                                "description": "Panels selected for the Grafana board configuration."
                               },
                               "templateVars": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
                                 },
-                                "description": "The template vars of the selectedgrafanaconfig."
+                                "description": "Template variables applied to the selected Grafana board configuration."
                               }
                             }
                           },
-                          "description": "The selected boards configs of the grafana."
+                          "description": "Selected Grafana board configurations for the user."
                         }
                       }
                     },
@@ -3824,14 +3860,14 @@ const UserSchema: Record<string, unknown> = {
                                   "type": "object",
                                   "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                                 },
-                                "description": "The panels of the selectedgrafanaconfig."
+                                "description": "Panels selected for the Grafana board configuration."
                               },
                               "templateVars": {
                                 "type": "array",
                                 "items": {
                                   "type": "string"
                                 },
-                                "description": "The template vars of the selectedgrafanaconfig."
+                                "description": "Template variables applied to the selected Grafana board configuration."
                               }
                             }
                           },
@@ -4034,6 +4070,7 @@ const UserSchema: Record<string, unknown> = {
                   "properties": {
                     "teams_with_roles": {
                       "type": "array",
+                      "description": "Team memberships for the user with their assigned roles.",
                       "items": {
                         "type": "object"
                       },
@@ -4044,6 +4081,8 @@ const UserSchema: Record<string, unknown> = {
                     },
                     "total_count": {
                       "type": "integer",
+                      "description": "Total number of team memberships returned for the user.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "total_count",
                         "json": "total_count"
@@ -4061,6 +4100,7 @@ const UserSchema: Record<string, unknown> = {
                   "properties": {
                     "organizations_with_roles": {
                       "type": "array",
+                      "description": "Organization memberships for the user with their assigned roles.",
                       "items": {
                         "type": "object"
                       },
@@ -4071,6 +4111,8 @@ const UserSchema: Record<string, unknown> = {
                     },
                     "total_count": {
                       "type": "integer",
+                      "description": "Total number of organization memberships returned for the user.",
+                      "minimum": 0,
                       "x-oapi-codegen-extra-tags": {
                         "db": "total_count",
                         "json": "total_count"
@@ -4114,12 +4156,12 @@ const UserSchema: Record<string, unknown> = {
             "properties": {
               "grafanaURL": {
                 "type": "string",
-                "description": "The grafana u r l of the grafana.",
+                "description": "Grafana URL for the user configuration.",
                 "maxLength": 500
               },
               "grafanaAPIKey": {
                 "type": "string",
-                "description": "The grafana a p i key of the grafana.",
+                "description": "Grafana API key for the user configuration.",
                 "maxLength": 500
               },
               "selectedBoardsConfigs": {
@@ -4137,18 +4179,18 @@ const UserSchema: Record<string, unknown> = {
                         "type": "object",
                         "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                       },
-                      "description": "The panels of the selectedgrafanaconfig."
+                      "description": "Panels selected for the Grafana board configuration."
                     },
                     "templateVars": {
                       "type": "array",
                       "items": {
                         "type": "string"
                       },
-                      "description": "The template vars of the selectedgrafanaconfig."
+                      "description": "Template variables applied to the selected Grafana board configuration."
                     }
                   }
                 },
-                "description": "The selected boards configs of the grafana."
+                "description": "Selected Grafana board configurations for the user."
               }
             }
           },
@@ -4176,14 +4218,14 @@ const UserSchema: Record<string, unknown> = {
                         "type": "object",
                         "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                       },
-                      "description": "The panels of the selectedgrafanaconfig."
+                      "description": "Panels selected for the Grafana board configuration."
                     },
                     "templateVars": {
                       "type": "array",
                       "items": {
                         "type": "string"
                       },
-                      "description": "The template vars of the selectedgrafanaconfig."
+                      "description": "Template variables applied to the selected Grafana board configuration."
                     }
                   }
                 },
@@ -4269,12 +4311,12 @@ const UserSchema: Record<string, unknown> = {
         "properties": {
           "grafanaURL": {
             "type": "string",
-            "description": "The grafana u r l of the grafana.",
+            "description": "Grafana URL for the user configuration.",
             "maxLength": 500
           },
           "grafanaAPIKey": {
             "type": "string",
-            "description": "The grafana a p i key of the grafana.",
+            "description": "Grafana API key for the user configuration.",
             "maxLength": 500
           },
           "selectedBoardsConfigs": {
@@ -4292,18 +4334,18 @@ const UserSchema: Record<string, unknown> = {
                     "type": "object",
                     "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                   },
-                  "description": "The panels of the selectedgrafanaconfig."
+                  "description": "Panels selected for the Grafana board configuration."
                 },
                 "templateVars": {
                   "type": "array",
                   "items": {
                     "type": "string"
                   },
-                  "description": "The template vars of the selectedgrafanaconfig."
+                  "description": "Template variables applied to the selected Grafana board configuration."
                 }
               }
             },
-            "description": "The selected boards configs of the grafana."
+            "description": "Selected Grafana board configurations for the user."
           }
         }
       },
@@ -4320,14 +4362,14 @@ const UserSchema: Record<string, unknown> = {
               "type": "object",
               "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
             },
-            "description": "The panels of the selectedgrafanaconfig."
+            "description": "Panels selected for the Grafana board configuration."
           },
           "templateVars": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "The template vars of the selectedgrafanaconfig."
+            "description": "Template variables applied to the selected Grafana board configuration."
           }
         }
       },
@@ -4362,14 +4404,14 @@ const UserSchema: Record<string, unknown> = {
                     "type": "object",
                     "description": "Grafana panel structure imported from github.com/grafana-tools/sdk"
                   },
-                  "description": "The panels of the selectedgrafanaconfig."
+                  "description": "Panels selected for the Grafana board configuration."
                 },
                 "templateVars": {
                   "type": "array",
                   "items": {
                     "type": "string"
                   },
-                  "description": "The template vars of the selectedgrafanaconfig."
+                  "description": "Template variables applied to the selected Grafana board configuration."
                 }
               }
             },

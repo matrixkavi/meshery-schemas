@@ -76,13 +76,13 @@ type Adapter = map[string]interface{}
 
 // Grafana defines model for Grafana.
 type Grafana struct {
-	// GrafanaAPIKey The grafana a p i key of the grafana.
+	// GrafanaAPIKey Grafana API key for the user configuration.
 	GrafanaAPIKey *string `json:"grafanaAPIKey,omitempty" yaml:"grafanaAPIKey,omitempty"`
 
-	// GrafanaURL The grafana u r l of the grafana.
+	// GrafanaURL Grafana URL for the user configuration.
 	GrafanaURL *string `json:"grafanaURL,omitempty" yaml:"grafanaURL,omitempty"`
 
-	// SelectedBoardsConfigs The selected boards configs of the grafana.
+	// SelectedBoardsConfigs Selected Grafana board configurations for the user.
 	SelectedBoardsConfigs *[]SelectedGrafanaConfig `json:"selectedBoardsConfigs,omitempty" yaml:"selectedBoardsConfigs,omitempty"`
 }
 
@@ -154,10 +154,10 @@ type SelectedGrafanaConfig struct {
 	// Board Placeholder for GrafanaBoard definition (define fields as needed)
 	Board *GrafanaBoard `json:"board,omitempty" yaml:"board,omitempty"`
 
-	// Panels The panels of the selectedgrafanaconfig.
+	// Panels Panels selected for the Grafana board configuration.
 	Panels *[]Panel `json:"panels,omitempty" yaml:"panels,omitempty"`
 
-	// TemplateVars The template vars of the selectedgrafanaconfig.
+	// TemplateVars Template variables applied to the selected Grafana board configuration.
 	TemplateVars *[]string `json:"templateVars,omitempty" yaml:"templateVars,omitempty"`
 }
 
@@ -203,8 +203,11 @@ type User struct {
 
 	// Organizations Organizations the user belongs to with role information
 	Organizations *struct {
+		// OrganizationsWithRoles Organization memberships for the user with their assigned roles.
 		OrganizationsWithRoles *[]map[string]interface{} `db:"organizations_with_roles" json:"organizations_with_roles" yaml:"organizations_with_roles"`
-		TotalCount             *int                      `db:"total_count" json:"total_count" yaml:"total_count"`
+
+		// TotalCount Total number of organization memberships returned for the user.
+		TotalCount *int `db:"total_count" json:"total_count" yaml:"total_count"`
 	} `db:"organizations" json:"organizations" yaml:"organizations"`
 	Preferences *Preference `db:"preferences" json:"preferences" yaml:"preferences,omitempty"`
 
@@ -225,13 +228,16 @@ type User struct {
 
 	// Teams Teams the user belongs to with role information
 	Teams *struct {
+		// TeamsWithRoles Team memberships for the user with their assigned roles.
 		TeamsWithRoles *[]map[string]interface{} `db:"teams_with_roles" json:"teams_with_roles" yaml:"teams_with_roles"`
-		TotalCount     *int                      `db:"total_count" json:"total_count" yaml:"total_count"`
+
+		// TotalCount Total number of team memberships returned for the user.
+		TotalCount *int `db:"total_count" json:"total_count" yaml:"total_count"`
 	} `db:"teams" json:"teams" yaml:"teams"`
 	UpdatedAt core.Time `db:"updated_at" json:"updated_at" yaml:"updated_at"`
 
 	// UserId User identifier (username or external ID)
-	UserId openapi_types.UUID `db:"user_id" json:"user_id" yaml:"user_id"`
+	UserId string `db:"user_id" json:"user_id" yaml:"user_id"`
 }
 
 // UserRoleNames defines model for User.RoleNames.

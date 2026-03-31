@@ -24,9 +24,18 @@ const ModelSchema: Record<string, unknown> = {
       "jwt": []
     }
   ],
+  "tags": [
+    {
+      "name": "Models",
+      "description": "Operations related to mesh models"
+    }
+  ],
   "paths": {
     "/api/meshmodels/register": {
       "post": {
+        "tags": [
+          "Models"
+        ],
         "summary": "Register mesh models",
         "operationId": "registerMeshmodels",
         "requestBody": {
@@ -53,7 +62,8 @@ const ModelSchema: Record<string, unknown> = {
                         "properties": {
                           "fileName": {
                             "type": "string",
-                            "description": "Name of the file being uploaded."
+                            "description": "Name of the file being uploaded.",
+                            "maxLength": 255
                           },
                           "modelFile": {
                             "type": "string",
@@ -209,6 +219,9 @@ const ModelSchema: Record<string, unknown> = {
       "get": {
         "x-internal": [
           "cloud"
+        ],
+        "tags": [
+          "Models"
         ],
         "summary": "Get mesh model models",
         "operationId": "getMeshModelModels",
@@ -1551,7 +1564,8 @@ const ModelSchema: Record<string, unknown> = {
                 "properties": {
                   "fileName": {
                     "type": "string",
-                    "description": "Name of the file being uploaded."
+                    "description": "Name of the file being uploaded.",
+                    "maxLength": 255
                   },
                   "modelFile": {
                     "type": "string",
@@ -1677,7 +1691,8 @@ const ModelSchema: Record<string, unknown> = {
             "properties": {
               "fileName": {
                 "type": "string",
-                "description": "Name of the file being uploaded."
+                "description": "Name of the file being uploaded.",
+                "maxLength": 255
               },
               "modelFile": {
                 "type": "string",

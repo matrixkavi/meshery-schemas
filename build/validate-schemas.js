@@ -46,14 +46,15 @@
  *   Rule 33 — Pagination envelopes must use page, page_size, total_count.
  *   Rule 34 — Template file values must match schema property types.
  *   Rule 35 — x-go-type alias must match x-go-type-import.name, and import path must match alias.
- *   Rule 36 — Every schema property should have a `description` field.
- *   Rule 37 — String properties (without $ref or enum) should have at least one validation
- *              constraint: minLength, maxLength, pattern, or format.
- *   Rule 38 — Integer/number properties should have minimum and/or maximum bounds,
+ *   Rule 36 — Every operation must define at least one OpenAPI tag, and when document-root `tags:` are declared operation tags must reference one of those definitions.
+ *   Rule 37 — Every schema property should have a `description` field.
+ *   Rule 38 — String properties (without $ref or enum) should have at least one validation
+ *              constraint: minLength, maxLength, pattern, format, or const.
+ *   Rule 39 — Integer/number properties should have minimum and/or maximum bounds,
  *              or use const to pin a single allowed value.
- *   Rule 39 — String properties named *id/*Id must have format: uuid or $ref to a UUID schema.
+ *   Rule 40 — String properties named *id/*Id must have format: uuid or $ref to a UUID schema.
  *              Skips non-string types and properties annotated with `x-id-format: external`.
- *   Rule 40 — Page-size properties (page_size, pagesize) must have minimum: 1.
+ *   Rule 41 — Page-size properties (page_size, pagesize, pageSize) must have minimum: 1.
  *
  * USAGE:
  *   node build/validate-schemas.js          # exits 0 if no blocking violations found
@@ -81,6 +82,7 @@ const {
 } = require("./lib/consistency-policy");
 const { findNewNonLowercaseEnumValues } = require("./lib/enum-validation");
 const { detectPostCreate, isSingleResourceDelete } = require("./lib/response-code-semantics");
+const { findOperationTagIssues } = require("./lib/operation-tags");
 const { collectPropertyConstraintIssues } = require("./lib/property-constraint-validation");
 
 const ROOT = path.resolve(__dirname, "..");
@@ -2035,6 +2037,30 @@ function validateResponseCodeSemantics(filePath, doc) {
   }
 }
 
+// ─── Rule 36: every operation must have tags ──────────────────────────────────
+
+function validateOperationTags(filePath, doc) {
+  for (const issue of findOperationTagIssues(doc)) {
+    if (issue.type === "missing-tags") {
+      reportDesignAdvisory(
+        filePath,
+        `${issue.method.toUpperCase()} ${issue.routePath} — operation is missing \`tags\`. ` +
+          `Every operation must have at least one tag for consistent API documentation and client generation. ` +
+          `See AGENTS.md § "Checklist for Schema Changes".`,
+      );
+      continue;
+    }
+
+    if (issue.type === "undefined-tag") {
+      reportDesignAdvisory(
+        filePath,
+        `${issue.method.toUpperCase()} ${issue.routePath} — operation tag \`${issue.tagName}\` is not declared in the document-root \`tags:\` section. ` +
+          `Declare the tag at the top level or use one of the existing tag definitions so API docs and generated clients stay consistently grouped. ` +
+          `See AGENTS.md § "Checklist for Schema Changes".`,
+      );
+    }
+  }
+}
 // ─── Rule 29: detect duplicate schemas across constructs ──────────────────────
 
 /**
@@ -2214,14 +2240,7 @@ function validateResponseText(filePath, doc) {
   }
 }
 
-// ─── Rules 36–40: property-level validation constraints ─────────────────────
-
-function validatePropertyConstraints(filePath, doc) {
-  for (const issue of collectPropertyConstraintIssues(doc)) {
-    reportDesignAdvisory(filePath, issue);
-  }
-}
-
+// ─── Rules 37–41: property-level validation constraints ─────────────────────
 
 function validatePropertyConstraints(filePath, doc) {
   for (const issue of collectPropertyConstraintIssues(doc)) {
@@ -2293,7 +2312,7 @@ function walk(dir) {
             if (entityDoc.components?.schemas) {
               validateGoTypeImportConsistency(entityPath, entityDoc);
             }
-            // Rules 36–40: property-level validation constraints
+            // Rules 37–41: property-level validation constraints
             validatePropertyConstraints(entityPath, entityDoc);
           }
         }
@@ -2342,10 +2361,11 @@ function walk(dir) {
           validateDbBackedPropertyNames(apiYml, doc);
           validatePaginationEnvelopeFieldNames(apiYml, doc);
           validateResponseCodeSemantics(apiYml, doc);
+          validateOperationTags(apiYml, doc);
           collectSchemaFingerprints(apiYml, doc);
           validateResponseSchemaRefs(apiYml, doc);
           validateResponseText(apiYml, doc);
-          // Rules 36–39: property-level validation constraints
+          // Rules 37–41: property-level validation constraints
           validatePropertyConstraints(apiYml, doc);
         }
       }

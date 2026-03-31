@@ -1,14 +1,14 @@
 import { mesheryBaseApi as api } from "./api";
 export const addTagTypes = [
   "Environment_environments",
-  "Evaluation_other",
+  "Evaluation_Evaluation",
   "Key_users",
-  "Model_other",
-  "Organization_other",
+  "Model_Models",
+  "Organization_Organizations",
   "Team_teams",
   "User_users",
   "Connection_API_Connections",
-  "Design_other",
+  "Design_designs",
   "Events_events",
 ] as const;
 const injectedRtkApi = api
@@ -70,7 +70,7 @@ const injectedRtkApi = api
       }),
       postEvaluate: build.mutation<PostEvaluateApiResponse, PostEvaluateApiArg>({
         query: (queryArg) => ({ url: `/evaluate`, method: "POST", body: queryArg.body }),
-        invalidatesTags: ["Evaluation_other"],
+        invalidatesTags: ["Evaluation_Evaluation"],
       }),
       getUserKeys: build.query<GetUserKeysApiResponse, GetUserKeysApiArg>({
         query: (queryArg) => ({
@@ -84,7 +84,7 @@ const injectedRtkApi = api
       }),
       registerMeshmodels: build.mutation<RegisterMeshmodelsApiResponse, RegisterMeshmodelsApiArg>({
         query: (queryArg) => ({ url: `/api/meshmodels/register`, method: "POST", body: queryArg.body }),
-        invalidatesTags: ["Model_other"],
+        invalidatesTags: ["Model_Models"],
       }),
       getOrgs: build.query<GetOrgsApiResponse, GetOrgsApiArg>({
         query: (queryArg) => ({
@@ -97,11 +97,11 @@ const injectedRtkApi = api
             all: queryArg.all,
           },
         }),
-        providesTags: ["Organization_other"],
+        providesTags: ["Organization_Organizations"],
       }),
       createOrg: build.mutation<CreateOrgApiResponse, CreateOrgApiArg>({
         query: (queryArg) => ({ url: `/api/identity/orgs`, method: "POST", body: queryArg.body }),
-        invalidatesTags: ["Organization_other"],
+        invalidatesTags: ["Organization_Organizations"],
       }),
       getOrgByDomain: build.query<GetOrgByDomainApiResponse, GetOrgByDomainApiArg>({
         query: (queryArg) => ({
@@ -110,23 +110,23 @@ const injectedRtkApi = api
             domain: queryArg.domain,
           },
         }),
-        providesTags: ["Organization_other"],
+        providesTags: ["Organization_Organizations"],
       }),
       getOrg: build.query<GetOrgApiResponse, GetOrgApiArg>({
         query: (queryArg) => ({ url: `/api/identity/orgs/${queryArg.orgId}` }),
-        providesTags: ["Organization_other"],
+        providesTags: ["Organization_Organizations"],
       }),
       deleteOrg: build.mutation<DeleteOrgApiResponse, DeleteOrgApiArg>({
         query: (queryArg) => ({ url: `/api/identity/orgs/${queryArg.orgId}`, method: "DELETE" }),
-        invalidatesTags: ["Organization_other"],
+        invalidatesTags: ["Organization_Organizations"],
       }),
       handleUpdateOrg: build.mutation<HandleUpdateOrgApiResponse, HandleUpdateOrgApiArg>({
         query: (queryArg) => ({ url: `/api/identity/orgs/${queryArg.orgId}`, method: "PUT", body: queryArg.body }),
-        invalidatesTags: ["Organization_other"],
+        invalidatesTags: ["Organization_Organizations"],
       }),
       getOrgPreferences: build.query<GetOrgPreferencesApiResponse, GetOrgPreferencesApiArg>({
         query: (queryArg) => ({ url: `/api/identity/orgs/${queryArg.orgId}/preferences` }),
-        providesTags: ["Organization_other"],
+        providesTags: ["Organization_Organizations"],
       }),
       addTeamToOrg: build.mutation<AddTeamToOrgApiResponse, AddTeamToOrgApiArg>({
         query: (queryArg) => ({
@@ -134,7 +134,7 @@ const injectedRtkApi = api
           method: "POST",
           body: queryArg.body,
         }),
-        invalidatesTags: ["Organization_other"],
+        invalidatesTags: ["Organization_Organizations"],
       }),
       getTeamById: build.query<GetTeamByIdApiResponse, GetTeamByIdApiArg>({
         query: (queryArg) => ({ url: `/api/identity/orgs/${queryArg.orgId}/teams/${queryArg.teamId}` }),
@@ -160,18 +160,18 @@ const injectedRtkApi = api
           url: `/api/identity/orgs/${queryArg.orgId}/teams/${queryArg.teamId}/remove`,
           method: "POST",
         }),
-        invalidatesTags: ["Organization_other"],
+        invalidatesTags: ["Organization_Organizations"],
       }),
       addUserToOrg: build.mutation<AddUserToOrgApiResponse, AddUserToOrgApiArg>({
         query: (queryArg) => ({ url: `/api/identity/orgs/${queryArg.orgId}/users/${queryArg.userId}`, method: "POST" }),
-        invalidatesTags: ["Organization_other"],
+        invalidatesTags: ["Organization_Organizations"],
       }),
       deleteUserFromOrg: build.mutation<DeleteUserFromOrgApiResponse, DeleteUserFromOrgApiArg>({
         query: (queryArg) => ({
           url: `/api/identity/orgs/${queryArg.orgId}/users/${queryArg.userId}`,
           method: "DELETE",
         }),
-        invalidatesTags: ["Organization_other"],
+        invalidatesTags: ["Organization_Organizations"],
       }),
       getTeams: build.query<GetTeamsApiResponse, GetTeamsApiArg>({
         query: (queryArg) => ({
@@ -336,7 +336,7 @@ const injectedRtkApi = api
       }),
       importDesign: build.mutation<ImportDesignApiResponse, ImportDesignApiArg>({
         query: (queryArg) => ({ url: `/api/pattern/import`, method: "POST", body: queryArg.body }),
-        invalidatesTags: ["Design_other"],
+        invalidatesTags: ["Design_designs"],
       }),
       deleteEventsById: build.mutation<DeleteEventsByIdApiResponse, DeleteEventsByIdApiArg>({
         query: (queryArg) => ({ url: `/events/${queryArg.id}`, method: "DELETE" }),
@@ -3399,17 +3399,17 @@ export type GetUsersForOrgApiResponse = /** status 200 Paginated list of organiz
       /** The mesh adapters of the preference. */
       meshAdapters?: object[];
       grafana?: {
-        /** The grafana u r l of the grafana. */
+        /** Grafana URL for the user configuration. */
         grafanaURL?: string;
-        /** The grafana a p i key of the grafana. */
+        /** Grafana API key for the user configuration. */
         grafanaAPIKey?: string;
-        /** The selected boards configs of the grafana. */
+        /** Selected Grafana board configurations for the user. */
         selectedBoardsConfigs?: {
           /** Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: object;
-          /** The panels of the selectedgrafanaconfig. */
+          /** Panels selected for the Grafana board configuration. */
           panels?: object[];
-          /** The template vars of the selectedgrafanaconfig. */
+          /** Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
@@ -3420,9 +3420,9 @@ export type GetUsersForOrgApiResponse = /** status 200 Paginated list of organiz
         selectedPrometheusBoardsConfigs?: {
           /** Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: object;
-          /** The panels of the selectedgrafanaconfig. */
+          /** Panels selected for the Grafana board configuration. */
           panels?: object[];
-          /** The template vars of the selectedgrafanaconfig. */
+          /** Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
@@ -3493,12 +3493,16 @@ export type GetUsersForOrgApiResponse = /** status 200 Paginated list of organiz
     )[];
     /** Teams the user belongs to with role information */
     teams?: {
+      /** Team memberships for the user with their assigned roles. */
       teams_with_roles?: object[];
+      /** Total number of team memberships returned for the user. */
       total_count?: number;
     };
     /** Organizations the user belongs to with role information */
     organizations?: {
+      /** Organization memberships for the user with their assigned roles. */
       organizations_with_roles?: object[];
+      /** Total number of organization memberships returned for the user. */
       total_count?: number;
     };
   }[];
@@ -3559,17 +3563,17 @@ export type GetUsersApiResponse = /** status 200 Paginated list of public users 
       /** The mesh adapters of the preference. */
       meshAdapters?: object[];
       grafana?: {
-        /** The grafana u r l of the grafana. */
+        /** Grafana URL for the user configuration. */
         grafanaURL?: string;
-        /** The grafana a p i key of the grafana. */
+        /** Grafana API key for the user configuration. */
         grafanaAPIKey?: string;
-        /** The selected boards configs of the grafana. */
+        /** Selected Grafana board configurations for the user. */
         selectedBoardsConfigs?: {
           /** Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: object;
-          /** The panels of the selectedgrafanaconfig. */
+          /** Panels selected for the Grafana board configuration. */
           panels?: object[];
-          /** The template vars of the selectedgrafanaconfig. */
+          /** Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
@@ -3580,9 +3584,9 @@ export type GetUsersApiResponse = /** status 200 Paginated list of public users 
         selectedPrometheusBoardsConfigs?: {
           /** Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: object;
-          /** The panels of the selectedgrafanaconfig. */
+          /** Panels selected for the Grafana board configuration. */
           panels?: object[];
-          /** The template vars of the selectedgrafanaconfig. */
+          /** Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
@@ -3653,12 +3657,16 @@ export type GetUsersApiResponse = /** status 200 Paginated list of public users 
     )[];
     /** Teams the user belongs to with role information */
     teams?: {
+      /** Team memberships for the user with their assigned roles. */
       teams_with_roles?: object[];
+      /** Total number of team memberships returned for the user. */
       total_count?: number;
     };
     /** Organizations the user belongs to with role information */
     organizations?: {
+      /** Organization memberships for the user with their assigned roles. */
       organizations_with_roles?: object[];
+      /** Total number of organization memberships returned for the user. */
       total_count?: number;
     };
   }[];
@@ -3707,17 +3715,17 @@ export type GetUserProfileByIdApiResponse = /** status 200 User profile for the 
     /** The mesh adapters of the preference. */
     meshAdapters?: object[];
     grafana?: {
-      /** The grafana u r l of the grafana. */
+      /** Grafana URL for the user configuration. */
       grafanaURL?: string;
-      /** The grafana a p i key of the grafana. */
+      /** Grafana API key for the user configuration. */
       grafanaAPIKey?: string;
-      /** The selected boards configs of the grafana. */
+      /** Selected Grafana board configurations for the user. */
       selectedBoardsConfigs?: {
         /** Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: object;
-        /** The panels of the selectedgrafanaconfig. */
+        /** Panels selected for the Grafana board configuration. */
         panels?: object[];
-        /** The template vars of the selectedgrafanaconfig. */
+        /** Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
@@ -3728,9 +3736,9 @@ export type GetUserProfileByIdApiResponse = /** status 200 User profile for the 
       selectedPrometheusBoardsConfigs?: {
         /** Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: object;
-        /** The panels of the selectedgrafanaconfig. */
+        /** Panels selected for the Grafana board configuration. */
         panels?: object[];
-        /** The template vars of the selectedgrafanaconfig. */
+        /** Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
@@ -3801,12 +3809,16 @@ export type GetUserProfileByIdApiResponse = /** status 200 User profile for the 
   )[];
   /** Teams the user belongs to with role information */
   teams?: {
+    /** Team memberships for the user with their assigned roles. */
     teams_with_roles?: object[];
+    /** Total number of team memberships returned for the user. */
     total_count?: number;
   };
   /** Organizations the user belongs to with role information */
   organizations?: {
+    /** Organization memberships for the user with their assigned roles. */
     organizations_with_roles?: object[];
+    /** Total number of organization memberships returned for the user. */
     total_count?: number;
   };
 };
@@ -3846,17 +3858,17 @@ export type GetUserApiResponse = /** status 200 Current user profile and role co
     /** The mesh adapters of the preference. */
     meshAdapters?: object[];
     grafana?: {
-      /** The grafana u r l of the grafana. */
+      /** Grafana URL for the user configuration. */
       grafanaURL?: string;
-      /** The grafana a p i key of the grafana. */
+      /** Grafana API key for the user configuration. */
       grafanaAPIKey?: string;
-      /** The selected boards configs of the grafana. */
+      /** Selected Grafana board configurations for the user. */
       selectedBoardsConfigs?: {
         /** Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: object;
-        /** The panels of the selectedgrafanaconfig. */
+        /** Panels selected for the Grafana board configuration. */
         panels?: object[];
-        /** The template vars of the selectedgrafanaconfig. */
+        /** Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
@@ -3867,9 +3879,9 @@ export type GetUserApiResponse = /** status 200 Current user profile and role co
       selectedPrometheusBoardsConfigs?: {
         /** Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: object;
-        /** The panels of the selectedgrafanaconfig. */
+        /** Panels selected for the Grafana board configuration. */
         panels?: object[];
-        /** The template vars of the selectedgrafanaconfig. */
+        /** Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
@@ -3940,12 +3952,16 @@ export type GetUserApiResponse = /** status 200 Current user profile and role co
   )[];
   /** Teams the user belongs to with role information */
   teams?: {
+    /** Team memberships for the user with their assigned roles. */
     teams_with_roles?: object[];
+    /** Total number of team memberships returned for the user. */
     total_count?: number;
   };
   /** Organizations the user belongs to with role information */
   organizations?: {
+    /** Organization memberships for the user with their assigned roles. */
     organizations_with_roles?: object[];
+    /** Total number of organization memberships returned for the user. */
     total_count?: number;
   };
 };
@@ -4117,7 +4133,7 @@ export type RegisterConnectionApiArg = {
     /** Connection type */
     type: string;
     /** Connection sub-type */
-    subType: string;
+    sub_type: string;
     /** Credential secret data */
     credentialSecret?: object;
     /** Connection metadata */
@@ -4259,7 +4275,7 @@ export type UpdateConnectionApiArg = {
     /** Connection type */
     type: string;
     /** Connection sub-type */
-    subType: string;
+    sub_type: string;
     /** Credential secret data */
     credentialSecret?: object;
     /** Connection metadata */

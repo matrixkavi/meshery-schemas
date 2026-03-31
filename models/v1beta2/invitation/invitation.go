@@ -58,8 +58,8 @@ type Invitation struct {
 	// Name Name of the invitation, which can be used to identify the invitation, required and cant be empty string,
 	Name string `json:"name" yaml:"name"`
 
-	// OrgId ID of the organization to which the user is invited
-	OrgId openapi_types.UUID `db:"org_id" json:"org_id" yaml:"org_id"`
+	// OrgId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
+	OrgId core.Uuid `db:"org_id" json:"org_id" yaml:"org_id"`
 
 	// OwnerId A Universally Unique Identifier used to uniquely identify entities in Meshery. The UUID core definition is used across different schemas.
 	OwnerId core.Uuid `db:"owner_id" json:"owner_id" yaml:"owner_id"`

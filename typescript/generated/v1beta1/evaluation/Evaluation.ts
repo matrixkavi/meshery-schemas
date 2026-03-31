@@ -6207,10 +6207,17 @@ export interface components {
       op?: "update_component";
       /** @description The value of the updatecomponentop. */
       value?: {
+        /**
+         * Format: uuid
+         * @description Identifier of the component to update.
+         */
         id: string;
+        /** @description Path to the field being updated on the component. */
         path: string[];
+        /** @description New value to write at the specified component path. */
         value: unknown;
         /**
+         * @description Strategy to use when applying the component update value.
          * @default replace
          * @enum {string}
          */
@@ -6225,10 +6232,17 @@ export interface components {
       op?: "update_component_configuration";
       /** @description The value of the updatecomponentconfigurationop. */
       value?: {
+        /**
+         * Format: uuid
+         * @description Identifier of the component whose configuration will be updated.
+         */
         id: string;
+        /** @description Path to the configuration field being updated. */
         path: string[];
+        /** @description New configuration value to write at the specified path. */
         value: unknown;
         /**
+         * @description Strategy to use when applying the configuration update value.
          * @default replace
          * @enum {string}
          */
@@ -6243,6 +6257,10 @@ export interface components {
       op?: "delete_component";
       /** @description The value of the deletecomponentop. */
       value?: {
+        /**
+         * Format: uuid
+         * @description Identifier of the component to delete.
+         */
         id: string;
       };
     };
@@ -6265,8 +6283,14 @@ export interface components {
       op?: "update_relationship";
       /** @description The value of the updaterelationshipop. */
       value?: {
+        /**
+         * Format: uuid
+         * @description Identifier of the relationship to update.
+         */
         id: string;
+        /** @description Path to the field being updated on the relationship. */
         path: string[];
+        /** @description New value to write at the specified relationship path. */
         value: unknown;
       };
     };
@@ -6278,6 +6302,10 @@ export interface components {
       op?: "delete_relationship";
       /** @description The value of the deleterelationshipop. */
       value?: {
+        /**
+         * Format: uuid
+         * @description Identifier of the relationship to delete.
+         */
         id: string;
       };
     };

@@ -29,10 +29,7 @@ export interface components {
        * @description Unique identifier for the user
        */
       id: string;
-      /**
-       * Format: uuid
-       * @description User identifier (username or external ID)
-       */
+      /** @description User identifier (username or external ID) */
       user_id: string;
       /**
        * @description Authentication provider (e.g., Layer5 Cloud, Twitter, Facebook, Github)
@@ -77,17 +74,17 @@ export interface components {
         /** @description The mesh adapters of the preference. */
         meshAdapters?: { [key: string]: unknown }[];
         grafana?: {
-          /** @description The grafana u r l of the grafana. */
+          /** @description Grafana URL for the user configuration. */
           grafanaURL?: string;
-          /** @description The grafana a p i key of the grafana. */
+          /** @description Grafana API key for the user configuration. */
           grafanaAPIKey?: string;
-          /** @description The selected boards configs of the grafana. */
+          /** @description Selected Grafana board configurations for the user. */
           selectedBoardsConfigs?: {
             /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
             board?: { [key: string]: unknown };
-            /** @description The panels of the selectedgrafanaconfig. */
+            /** @description Panels selected for the Grafana board configuration. */
             panels?: { [key: string]: unknown }[];
-            /** @description The template vars of the selectedgrafanaconfig. */
+            /** @description Template variables applied to the selected Grafana board configuration. */
             templateVars?: string[];
           }[];
         };
@@ -98,9 +95,9 @@ export interface components {
           selectedPrometheusBoardsConfigs?: {
             /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
             board?: { [key: string]: unknown };
-            /** @description The panels of the selectedgrafanaconfig. */
+            /** @description Panels selected for the Grafana board configuration. */
             panels?: { [key: string]: unknown }[];
-            /** @description The template vars of the selectedgrafanaconfig. */
+            /** @description Template variables applied to the selected Grafana board configuration. */
             templateVars?: string[];
           }[];
         };
@@ -196,12 +193,16 @@ export interface components {
       )[];
       /** @description Teams the user belongs to with role information */
       teams?: {
+        /** @description Team memberships for the user with their assigned roles. */
         teams_with_roles?: { [key: string]: unknown }[];
+        /** @description Total number of team memberships returned for the user. */
         total_count?: number;
       };
       /** @description Organizations the user belongs to with role information */
       organizations?: {
+        /** @description Organization memberships for the user with their assigned roles. */
         organizations_with_roles?: { [key: string]: unknown }[];
+        /** @description Total number of organization memberships returned for the user. */
         total_count?: number;
       };
     };
@@ -220,10 +221,7 @@ export interface components {
          * @description Unique identifier for the user
          */
         id: string;
-        /**
-         * Format: uuid
-         * @description User identifier (username or external ID)
-         */
+        /** @description User identifier (username or external ID) */
         user_id: string;
         /**
          * @description Authentication provider (e.g., Layer5 Cloud, Twitter, Facebook, Github)
@@ -268,17 +266,17 @@ export interface components {
           /** @description The mesh adapters of the preference. */
           meshAdapters?: { [key: string]: unknown }[];
           grafana?: {
-            /** @description The grafana u r l of the grafana. */
+            /** @description Grafana URL for the user configuration. */
             grafanaURL?: string;
-            /** @description The grafana a p i key of the grafana. */
+            /** @description Grafana API key for the user configuration. */
             grafanaAPIKey?: string;
-            /** @description The selected boards configs of the grafana. */
+            /** @description Selected Grafana board configurations for the user. */
             selectedBoardsConfigs?: {
               /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
               board?: { [key: string]: unknown };
-              /** @description The panels of the selectedgrafanaconfig. */
+              /** @description Panels selected for the Grafana board configuration. */
               panels?: { [key: string]: unknown }[];
-              /** @description The template vars of the selectedgrafanaconfig. */
+              /** @description Template variables applied to the selected Grafana board configuration. */
               templateVars?: string[];
             }[];
           };
@@ -289,9 +287,9 @@ export interface components {
             selectedPrometheusBoardsConfigs?: {
               /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
               board?: { [key: string]: unknown };
-              /** @description The panels of the selectedgrafanaconfig. */
+              /** @description Panels selected for the Grafana board configuration. */
               panels?: { [key: string]: unknown }[];
-              /** @description The template vars of the selectedgrafanaconfig. */
+              /** @description Template variables applied to the selected Grafana board configuration. */
               templateVars?: string[];
             }[];
           };
@@ -387,12 +385,16 @@ export interface components {
         )[];
         /** @description Teams the user belongs to with role information */
         teams?: {
+          /** @description Team memberships for the user with their assigned roles. */
           teams_with_roles?: { [key: string]: unknown }[];
+          /** @description Total number of team memberships returned for the user. */
           total_count?: number;
         };
         /** @description Organizations the user belongs to with role information */
         organizations?: {
+          /** @description Organization memberships for the user with their assigned roles. */
           organizations_with_roles?: { [key: string]: unknown }[];
+          /** @description Total number of organization memberships returned for the user. */
           total_count?: number;
         };
       }[];
@@ -412,10 +414,7 @@ export interface components {
          * @description Unique identifier for the user
          */
         id: string;
-        /**
-         * Format: uuid
-         * @description User identifier (username or external ID)
-         */
+        /** @description User identifier (username or external ID) */
         user_id: string;
         /**
          * @description Authentication provider (e.g., Layer5 Cloud, Twitter, Facebook, Github)
@@ -460,17 +459,17 @@ export interface components {
           /** @description The mesh adapters of the preference. */
           meshAdapters?: { [key: string]: unknown }[];
           grafana?: {
-            /** @description The grafana u r l of the grafana. */
+            /** @description Grafana URL for the user configuration. */
             grafanaURL?: string;
-            /** @description The grafana a p i key of the grafana. */
+            /** @description Grafana API key for the user configuration. */
             grafanaAPIKey?: string;
-            /** @description The selected boards configs of the grafana. */
+            /** @description Selected Grafana board configurations for the user. */
             selectedBoardsConfigs?: {
               /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
               board?: { [key: string]: unknown };
-              /** @description The panels of the selectedgrafanaconfig. */
+              /** @description Panels selected for the Grafana board configuration. */
               panels?: { [key: string]: unknown }[];
-              /** @description The template vars of the selectedgrafanaconfig. */
+              /** @description Template variables applied to the selected Grafana board configuration. */
               templateVars?: string[];
             }[];
           };
@@ -481,9 +480,9 @@ export interface components {
             selectedPrometheusBoardsConfigs?: {
               /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
               board?: { [key: string]: unknown };
-              /** @description The panels of the selectedgrafanaconfig. */
+              /** @description Panels selected for the Grafana board configuration. */
               panels?: { [key: string]: unknown }[];
-              /** @description The template vars of the selectedgrafanaconfig. */
+              /** @description Template variables applied to the selected Grafana board configuration. */
               templateVars?: string[];
             }[];
           };
@@ -579,12 +578,16 @@ export interface components {
         )[];
         /** @description Teams the user belongs to with role information */
         teams?: {
+          /** @description Team memberships for the user with their assigned roles. */
           teams_with_roles?: { [key: string]: unknown }[];
+          /** @description Total number of team memberships returned for the user. */
           total_count?: number;
         };
         /** @description Organizations the user belongs to with role information */
         organizations?: {
+          /** @description Organization memberships for the user with their assigned roles. */
           organizations_with_roles?: { [key: string]: unknown }[];
+          /** @description Total number of organization memberships returned for the user. */
           total_count?: number;
         };
       }[];
@@ -593,17 +596,17 @@ export interface components {
       /** @description The mesh adapters of the preference. */
       meshAdapters?: { [key: string]: unknown }[];
       grafana?: {
-        /** @description The grafana u r l of the grafana. */
+        /** @description Grafana URL for the user configuration. */
         grafanaURL?: string;
-        /** @description The grafana a p i key of the grafana. */
+        /** @description Grafana API key for the user configuration. */
         grafanaAPIKey?: string;
-        /** @description The selected boards configs of the grafana. */
+        /** @description Selected Grafana board configurations for the user. */
         selectedBoardsConfigs?: {
           /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: { [key: string]: unknown };
-          /** @description The panels of the selectedgrafanaconfig. */
+          /** @description Panels selected for the Grafana board configuration. */
           panels?: { [key: string]: unknown }[];
-          /** @description The template vars of the selectedgrafanaconfig. */
+          /** @description Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
@@ -614,9 +617,9 @@ export interface components {
         selectedPrometheusBoardsConfigs?: {
           /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
           board?: { [key: string]: unknown };
-          /** @description The panels of the selectedgrafanaconfig. */
+          /** @description Panels selected for the Grafana board configuration. */
           panels?: { [key: string]: unknown }[];
-          /** @description The template vars of the selectedgrafanaconfig. */
+          /** @description Template variables applied to the selected Grafana board configuration. */
           templateVars?: string[];
         }[];
       };
@@ -656,26 +659,26 @@ export interface components {
     /** @description Placeholder for Adapter struct definition. */
     Adapter: { [key: string]: unknown };
     Grafana: {
-      /** @description The grafana u r l of the grafana. */
+      /** @description Grafana URL for the user configuration. */
       grafanaURL?: string;
-      /** @description The grafana a p i key of the grafana. */
+      /** @description Grafana API key for the user configuration. */
       grafanaAPIKey?: string;
-      /** @description The selected boards configs of the grafana. */
+      /** @description Selected Grafana board configurations for the user. */
       selectedBoardsConfigs?: {
         /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: { [key: string]: unknown };
-        /** @description The panels of the selectedgrafanaconfig. */
+        /** @description Panels selected for the Grafana board configuration. */
         panels?: { [key: string]: unknown }[];
-        /** @description The template vars of the selectedgrafanaconfig. */
+        /** @description Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
     SelectedGrafanaConfig: {
       /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
       board?: { [key: string]: unknown };
-      /** @description The panels of the selectedgrafanaconfig. */
+      /** @description Panels selected for the Grafana board configuration. */
       panels?: { [key: string]: unknown }[];
-      /** @description The template vars of the selectedgrafanaconfig. */
+      /** @description Template variables applied to the selected Grafana board configuration. */
       templateVars?: string[];
     };
     /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
@@ -689,9 +692,9 @@ export interface components {
       selectedPrometheusBoardsConfigs?: {
         /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
         board?: { [key: string]: unknown };
-        /** @description The panels of the selectedgrafanaconfig. */
+        /** @description Panels selected for the Grafana board configuration. */
         panels?: { [key: string]: unknown }[];
-        /** @description The template vars of the selectedgrafanaconfig. */
+        /** @description Template variables applied to the selected Grafana board configuration. */
         templateVars?: string[];
       }[];
     };
@@ -803,10 +806,7 @@ export interface operations {
                * @description Unique identifier for the user
                */
               id: string;
-              /**
-               * Format: uuid
-               * @description User identifier (username or external ID)
-               */
+              /** @description User identifier (username or external ID) */
               user_id: string;
               /**
                * @description Authentication provider (e.g., Layer5 Cloud, Twitter, Facebook, Github)
@@ -851,17 +851,17 @@ export interface operations {
                 /** @description The mesh adapters of the preference. */
                 meshAdapters?: { [key: string]: unknown }[];
                 grafana?: {
-                  /** @description The grafana u r l of the grafana. */
+                  /** @description Grafana URL for the user configuration. */
                   grafanaURL?: string;
-                  /** @description The grafana a p i key of the grafana. */
+                  /** @description Grafana API key for the user configuration. */
                   grafanaAPIKey?: string;
-                  /** @description The selected boards configs of the grafana. */
+                  /** @description Selected Grafana board configurations for the user. */
                   selectedBoardsConfigs?: {
                     /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
                     board?: { [key: string]: unknown };
-                    /** @description The panels of the selectedgrafanaconfig. */
+                    /** @description Panels selected for the Grafana board configuration. */
                     panels?: { [key: string]: unknown }[];
-                    /** @description The template vars of the selectedgrafanaconfig. */
+                    /** @description Template variables applied to the selected Grafana board configuration. */
                     templateVars?: string[];
                   }[];
                 };
@@ -872,9 +872,9 @@ export interface operations {
                   selectedPrometheusBoardsConfigs?: {
                     /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
                     board?: { [key: string]: unknown };
-                    /** @description The panels of the selectedgrafanaconfig. */
+                    /** @description Panels selected for the Grafana board configuration. */
                     panels?: { [key: string]: unknown }[];
-                    /** @description The template vars of the selectedgrafanaconfig. */
+                    /** @description Template variables applied to the selected Grafana board configuration. */
                     templateVars?: string[];
                   }[];
                 };
@@ -970,12 +970,16 @@ export interface operations {
               )[];
               /** @description Teams the user belongs to with role information */
               teams?: {
+                /** @description Team memberships for the user with their assigned roles. */
                 teams_with_roles?: { [key: string]: unknown }[];
+                /** @description Total number of team memberships returned for the user. */
                 total_count?: number;
               };
               /** @description Organizations the user belongs to with role information */
               organizations?: {
+                /** @description Organization memberships for the user with their assigned roles. */
                 organizations_with_roles?: { [key: string]: unknown }[];
+                /** @description Total number of organization memberships returned for the user. */
                 total_count?: number;
               };
             }[];
@@ -1042,10 +1046,7 @@ export interface operations {
                * @description Unique identifier for the user
                */
               id: string;
-              /**
-               * Format: uuid
-               * @description User identifier (username or external ID)
-               */
+              /** @description User identifier (username or external ID) */
               user_id: string;
               /**
                * @description Authentication provider (e.g., Layer5 Cloud, Twitter, Facebook, Github)
@@ -1090,17 +1091,17 @@ export interface operations {
                 /** @description The mesh adapters of the preference. */
                 meshAdapters?: { [key: string]: unknown }[];
                 grafana?: {
-                  /** @description The grafana u r l of the grafana. */
+                  /** @description Grafana URL for the user configuration. */
                   grafanaURL?: string;
-                  /** @description The grafana a p i key of the grafana. */
+                  /** @description Grafana API key for the user configuration. */
                   grafanaAPIKey?: string;
-                  /** @description The selected boards configs of the grafana. */
+                  /** @description Selected Grafana board configurations for the user. */
                   selectedBoardsConfigs?: {
                     /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
                     board?: { [key: string]: unknown };
-                    /** @description The panels of the selectedgrafanaconfig. */
+                    /** @description Panels selected for the Grafana board configuration. */
                     panels?: { [key: string]: unknown }[];
-                    /** @description The template vars of the selectedgrafanaconfig. */
+                    /** @description Template variables applied to the selected Grafana board configuration. */
                     templateVars?: string[];
                   }[];
                 };
@@ -1111,9 +1112,9 @@ export interface operations {
                   selectedPrometheusBoardsConfigs?: {
                     /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
                     board?: { [key: string]: unknown };
-                    /** @description The panels of the selectedgrafanaconfig. */
+                    /** @description Panels selected for the Grafana board configuration. */
                     panels?: { [key: string]: unknown }[];
-                    /** @description The template vars of the selectedgrafanaconfig. */
+                    /** @description Template variables applied to the selected Grafana board configuration. */
                     templateVars?: string[];
                   }[];
                 };
@@ -1209,12 +1210,16 @@ export interface operations {
               )[];
               /** @description Teams the user belongs to with role information */
               teams?: {
+                /** @description Team memberships for the user with their assigned roles. */
                 teams_with_roles?: { [key: string]: unknown }[];
+                /** @description Total number of team memberships returned for the user. */
                 total_count?: number;
               };
               /** @description Organizations the user belongs to with role information */
               organizations?: {
+                /** @description Organization memberships for the user with their assigned roles. */
                 organizations_with_roles?: { [key: string]: unknown }[];
+                /** @description Total number of organization memberships returned for the user. */
                 total_count?: number;
               };
             }[];
@@ -1258,10 +1263,7 @@ export interface operations {
              * @description Unique identifier for the user
              */
             id: string;
-            /**
-             * Format: uuid
-             * @description User identifier (username or external ID)
-             */
+            /** @description User identifier (username or external ID) */
             user_id: string;
             /**
              * @description Authentication provider (e.g., Layer5 Cloud, Twitter, Facebook, Github)
@@ -1306,17 +1308,17 @@ export interface operations {
               /** @description The mesh adapters of the preference. */
               meshAdapters?: { [key: string]: unknown }[];
               grafana?: {
-                /** @description The grafana u r l of the grafana. */
+                /** @description Grafana URL for the user configuration. */
                 grafanaURL?: string;
-                /** @description The grafana a p i key of the grafana. */
+                /** @description Grafana API key for the user configuration. */
                 grafanaAPIKey?: string;
-                /** @description The selected boards configs of the grafana. */
+                /** @description Selected Grafana board configurations for the user. */
                 selectedBoardsConfigs?: {
                   /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
                   board?: { [key: string]: unknown };
-                  /** @description The panels of the selectedgrafanaconfig. */
+                  /** @description Panels selected for the Grafana board configuration. */
                   panels?: { [key: string]: unknown }[];
-                  /** @description The template vars of the selectedgrafanaconfig. */
+                  /** @description Template variables applied to the selected Grafana board configuration. */
                   templateVars?: string[];
                 }[];
               };
@@ -1327,9 +1329,9 @@ export interface operations {
                 selectedPrometheusBoardsConfigs?: {
                   /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
                   board?: { [key: string]: unknown };
-                  /** @description The panels of the selectedgrafanaconfig. */
+                  /** @description Panels selected for the Grafana board configuration. */
                   panels?: { [key: string]: unknown }[];
-                  /** @description The template vars of the selectedgrafanaconfig. */
+                  /** @description Template variables applied to the selected Grafana board configuration. */
                   templateVars?: string[];
                 }[];
               };
@@ -1425,12 +1427,16 @@ export interface operations {
             )[];
             /** @description Teams the user belongs to with role information */
             teams?: {
+              /** @description Team memberships for the user with their assigned roles. */
               teams_with_roles?: { [key: string]: unknown }[];
+              /** @description Total number of team memberships returned for the user. */
               total_count?: number;
             };
             /** @description Organizations the user belongs to with role information */
             organizations?: {
+              /** @description Organization memberships for the user with their assigned roles. */
               organizations_with_roles?: { [key: string]: unknown }[];
+              /** @description Total number of organization memberships returned for the user. */
               total_count?: number;
             };
           };
@@ -1473,10 +1479,7 @@ export interface operations {
              * @description Unique identifier for the user
              */
             id: string;
-            /**
-             * Format: uuid
-             * @description User identifier (username or external ID)
-             */
+            /** @description User identifier (username or external ID) */
             user_id: string;
             /**
              * @description Authentication provider (e.g., Layer5 Cloud, Twitter, Facebook, Github)
@@ -1521,17 +1524,17 @@ export interface operations {
               /** @description The mesh adapters of the preference. */
               meshAdapters?: { [key: string]: unknown }[];
               grafana?: {
-                /** @description The grafana u r l of the grafana. */
+                /** @description Grafana URL for the user configuration. */
                 grafanaURL?: string;
-                /** @description The grafana a p i key of the grafana. */
+                /** @description Grafana API key for the user configuration. */
                 grafanaAPIKey?: string;
-                /** @description The selected boards configs of the grafana. */
+                /** @description Selected Grafana board configurations for the user. */
                 selectedBoardsConfigs?: {
                   /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
                   board?: { [key: string]: unknown };
-                  /** @description The panels of the selectedgrafanaconfig. */
+                  /** @description Panels selected for the Grafana board configuration. */
                   panels?: { [key: string]: unknown }[];
-                  /** @description The template vars of the selectedgrafanaconfig. */
+                  /** @description Template variables applied to the selected Grafana board configuration. */
                   templateVars?: string[];
                 }[];
               };
@@ -1542,9 +1545,9 @@ export interface operations {
                 selectedPrometheusBoardsConfigs?: {
                   /** @description Placeholder for GrafanaBoard definition (define fields as needed) */
                   board?: { [key: string]: unknown };
-                  /** @description The panels of the selectedgrafanaconfig. */
+                  /** @description Panels selected for the Grafana board configuration. */
                   panels?: { [key: string]: unknown }[];
-                  /** @description The template vars of the selectedgrafanaconfig. */
+                  /** @description Template variables applied to the selected Grafana board configuration. */
                   templateVars?: string[];
                 }[];
               };
@@ -1640,12 +1643,16 @@ export interface operations {
             )[];
             /** @description Teams the user belongs to with role information */
             teams?: {
+              /** @description Team memberships for the user with their assigned roles. */
               teams_with_roles?: { [key: string]: unknown }[];
+              /** @description Total number of team memberships returned for the user. */
               total_count?: number;
             };
             /** @description Organizations the user belongs to with role information */
             organizations?: {
+              /** @description Organization memberships for the user with their assigned roles. */
               organizations_with_roles?: { [key: string]: unknown }[];
+              /** @description Total number of organization memberships returned for the user. */
               total_count?: number;
             };
           };

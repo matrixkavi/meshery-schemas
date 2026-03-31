@@ -7,6 +7,7 @@ import (
 	"time"
 
 	patternv1beta1 "github.com/meshery/schemas/models/v1beta1/pattern"
+	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 // Defines values for ActionOp.
@@ -233,7 +234,8 @@ type DeleteComponentOp struct {
 
 	// Value The value of the deletecomponentop.
 	Value *struct {
-		Id string `json:"id" yaml:"id"`
+		// Id Identifier of the component to delete.
+		Id openapi_types.UUID `json:"id" yaml:"id"`
 	} `json:"value,omitempty" yaml:"value,omitempty"`
 }
 
@@ -247,7 +249,8 @@ type DeleteRelationshipOp struct {
 
 	// Value The value of the deleterelationshipop.
 	Value *struct {
-		Id string `json:"id" yaml:"id"`
+		// Id Identifier of the relationship to delete.
+		Id openapi_types.UUID `json:"id" yaml:"id"`
 	} `json:"value,omitempty" yaml:"value,omitempty"`
 }
 
@@ -297,17 +300,24 @@ type UpdateComponentConfigurationOp struct {
 
 	// Value The value of the updatecomponentconfigurationop.
 	Value *struct {
-		Id    string                                   `json:"id" yaml:"id"`
-		Mode  *UpdateComponentConfigurationOpValueMode `json:"mode,omitempty" yaml:"mode,omitempty"`
-		Path  []string                                 `json:"path" yaml:"path"`
-		Value interface{}                              `json:"value" yaml:"value"`
+		// Id Identifier of the component whose configuration will be updated.
+		Id openapi_types.UUID `json:"id" yaml:"id"`
+
+		// Mode Strategy to use when applying the configuration update value.
+		Mode *UpdateComponentConfigurationOpValueMode `json:"mode,omitempty" yaml:"mode,omitempty"`
+
+		// Path Path to the configuration field being updated.
+		Path []string `json:"path" yaml:"path"`
+
+		// Value New configuration value to write at the specified path.
+		Value interface{} `json:"value" yaml:"value"`
 	} `json:"value,omitempty" yaml:"value,omitempty"`
 }
 
 // UpdateComponentConfigurationOpOp The op of the updatecomponentconfigurationop.
 type UpdateComponentConfigurationOpOp string
 
-// UpdateComponentConfigurationOpValueMode defines model for UpdateComponentConfigurationOp.Value.Mode.
+// UpdateComponentConfigurationOpValueMode Strategy to use when applying the configuration update value.
 type UpdateComponentConfigurationOpValueMode string
 
 // UpdateComponentOp defines model for UpdateComponentOp.
@@ -317,17 +327,24 @@ type UpdateComponentOp struct {
 
 	// Value The value of the updatecomponentop.
 	Value *struct {
-		Id    string                      `json:"id" yaml:"id"`
-		Mode  *UpdateComponentOpValueMode `json:"mode,omitempty" yaml:"mode,omitempty"`
-		Path  []string                    `json:"path" yaml:"path"`
-		Value interface{}                 `json:"value" yaml:"value"`
+		// Id Identifier of the component to update.
+		Id openapi_types.UUID `json:"id" yaml:"id"`
+
+		// Mode Strategy to use when applying the component update value.
+		Mode *UpdateComponentOpValueMode `json:"mode,omitempty" yaml:"mode,omitempty"`
+
+		// Path Path to the field being updated on the component.
+		Path []string `json:"path" yaml:"path"`
+
+		// Value New value to write at the specified component path.
+		Value interface{} `json:"value" yaml:"value"`
 	} `json:"value,omitempty" yaml:"value,omitempty"`
 }
 
 // UpdateComponentOpOp The op of the updatecomponentop.
 type UpdateComponentOpOp string
 
-// UpdateComponentOpValueMode defines model for UpdateComponentOp.Value.Mode.
+// UpdateComponentOpValueMode Strategy to use when applying the component update value.
 type UpdateComponentOpValueMode string
 
 // UpdateRelationshipOp defines model for UpdateRelationshipOp.
@@ -337,8 +354,13 @@ type UpdateRelationshipOp struct {
 
 	// Value The value of the updaterelationshipop.
 	Value *struct {
-		Id    string      `json:"id" yaml:"id"`
-		Path  []string    `json:"path" yaml:"path"`
+		// Id Identifier of the relationship to update.
+		Id openapi_types.UUID `json:"id" yaml:"id"`
+
+		// Path Path to the field being updated on the relationship.
+		Path []string `json:"path" yaml:"path"`
+
+		// Value New value to write at the specified relationship path.
 		Value interface{} `json:"value" yaml:"value"`
 	} `json:"value,omitempty" yaml:"value,omitempty"`
 }

@@ -133,14 +133,17 @@ const InvitationSchema: Record<string, unknown> = {
                       "description": "The emails of the invitation."
                     },
                     "org_id": {
-                      "type": "string",
                       "description": "ID of the organization to which the user is invited",
                       "x-oapi-codegen-extra-tags": {
                         "db": "org_id",
                         "json": "org_id"
                       },
-                      "maxLength": 500,
-                      "format": "uuid"
+                      "type": "string",
+                      "format": "uuid",
+                      "x-go-type": "uuid.UUID",
+                      "x-go-type-import": {
+                        "path": "github.com/gofrs/uuid"
+                      }
                     },
                     "expires_at": {
                       "type": "string",
@@ -584,14 +587,17 @@ const InvitationSchema: Record<string, unknown> = {
                       "description": "The emails of the invitation."
                     },
                     "org_id": {
-                      "type": "string",
                       "description": "ID of the organization to which the user is invited",
                       "x-oapi-codegen-extra-tags": {
                         "db": "org_id",
                         "json": "org_id"
                       },
-                      "maxLength": 500,
-                      "format": "uuid"
+                      "type": "string",
+                      "format": "uuid",
+                      "x-go-type": "uuid.UUID",
+                      "x-go-type-import": {
+                        "path": "github.com/gofrs/uuid"
+                      }
                     },
                     "expires_at": {
                       "type": "string",
@@ -834,14 +840,17 @@ const InvitationSchema: Record<string, unknown> = {
                             "description": "The emails of the invitation."
                           },
                           "org_id": {
-                            "type": "string",
                             "description": "ID of the organization to which the user is invited",
                             "x-oapi-codegen-extra-tags": {
                               "db": "org_id",
                               "json": "org_id"
                             },
-                            "maxLength": 500,
-                            "format": "uuid"
+                            "type": "string",
+                            "format": "uuid",
+                            "x-go-type": "uuid.UUID",
+                            "x-go-type-import": {
+                              "path": "github.com/gofrs/uuid"
+                            }
                           },
                           "expires_at": {
                             "type": "string",
@@ -1214,14 +1223,17 @@ const InvitationSchema: Record<string, unknown> = {
                       "description": "The emails of the invitation."
                     },
                     "org_id": {
-                      "type": "string",
                       "description": "ID of the organization to which the user is invited",
                       "x-oapi-codegen-extra-tags": {
                         "db": "org_id",
                         "json": "org_id"
                       },
-                      "maxLength": 500,
-                      "format": "uuid"
+                      "type": "string",
+                      "format": "uuid",
+                      "x-go-type": "uuid.UUID",
+                      "x-go-type-import": {
+                        "path": "github.com/gofrs/uuid"
+                      }
                     },
                     "expires_at": {
                       "type": "string",
@@ -1456,14 +1468,17 @@ const InvitationSchema: Record<string, unknown> = {
                       "description": "The emails of the invitation."
                     },
                     "org_id": {
-                      "type": "string",
                       "description": "ID of the organization to which the user is invited",
                       "x-oapi-codegen-extra-tags": {
                         "db": "org_id",
                         "json": "org_id"
                       },
-                      "maxLength": 500,
-                      "format": "uuid"
+                      "type": "string",
+                      "format": "uuid",
+                      "x-go-type": "uuid.UUID",
+                      "x-go-type-import": {
+                        "path": "github.com/gofrs/uuid"
+                      }
                     },
                     "expires_at": {
                       "type": "string",
@@ -2194,14 +2209,17 @@ const InvitationSchema: Record<string, unknown> = {
                   "description": "The emails of the invitation."
                 },
                 "org_id": {
-                  "type": "string",
                   "description": "ID of the organization to which the user is invited",
                   "x-oapi-codegen-extra-tags": {
                     "db": "org_id",
                     "json": "org_id"
                   },
-                  "maxLength": 500,
-                  "format": "uuid"
+                  "type": "string",
+                  "format": "uuid",
+                  "x-go-type": "uuid.UUID",
+                  "x-go-type-import": {
+                    "path": "github.com/gofrs/uuid"
+                  }
                 },
                 "expires_at": {
                   "type": "string",
@@ -2559,14 +2577,17 @@ const InvitationSchema: Record<string, unknown> = {
             "description": "The emails of the invitation."
           },
           "org_id": {
-            "type": "string",
             "description": "ID of the organization to which the user is invited",
             "x-oapi-codegen-extra-tags": {
               "db": "org_id",
               "json": "org_id"
             },
-            "maxLength": 500,
-            "format": "uuid"
+            "type": "string",
+            "format": "uuid",
+            "x-go-type": "uuid.UUID",
+            "x-go-type-import": {
+              "path": "github.com/gofrs/uuid"
+            }
           },
           "expires_at": {
             "type": "string",
