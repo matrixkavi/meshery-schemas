@@ -421,11 +421,11 @@ components:
           description: Connection type
           x-oapi-codegen-extra-tags:
             json: "type"
-        sub_type:
+        subType:
           type: string
           description: Connection sub-type
           x-oapi-codegen-extra-tags:
-            json: "sub_type"
+            json: "subType"
         credentialSecret:
           type: object
           description: Credential secret data
