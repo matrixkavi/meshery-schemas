@@ -317,6 +317,7 @@ These patterns are deliberate. Do not suggest changes during code review:
 3. **`x-enum-casing-exempt: true`** — Enums with this annotation contain published values that will never be lowercased (e.g., `PlanName`, `FeatureName`). Do not suggest lowercasing.
 4. **`page_size` / `total_count`** — Pagination envelope fields use snake_case as a published API contract, not because they are database-backed. Do not suggest `pageSize`/`totalCount`.
 5. **Deprecated v1beta1 constructs** — Files with `x-deprecated: true` are kept for backward compatibility. Known casing violations are fixed in v1beta2. Do not flag issues in deprecated constructs.
+6. **Same field name, different casing across constructs** — A property like `subType` may be camelCase in one construct (not DB-backed) and `sub_type` in another (DB-backed with `db: "sub_type"`). Both are correct. Casing is determined per-property by whether it maps to a database column in that specific construct, not by what other constructs use.
 
 ## Common Mistakes to Avoid
 

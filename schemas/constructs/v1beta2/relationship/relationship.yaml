@@ -633,6 +633,8 @@ components:
             json: "type"
             gorm: "column:type"
 
+        # camelCase: not DB-backed in this construct (no db: or gorm: tag).
+        # Connection.sub_type is snake_case because it IS DB-backed there.
         subType:
           description: Most granular unit of relationship classification. The combination of Kind, Type and SubType together uniquely identify a Relationship.
           type: string

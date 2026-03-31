@@ -252,10 +252,21 @@ function hasScreamingIdToken(s) {
 /**
  * Detects common suffixes that are incorrectly all-lowercase in a camelCase name.
  * e.g. "workspaceid" should be "workspaceId", "pageurl" should be "pageUrl".
+ *
+ * Known safe words excluded: valid, grid, hybrid, liquid, solid, acid, vivid,
+ * timid, rapid, humid, lucid, fluid, etc. The approach requires a known
+ * compound-word prefix pattern rather than matching all words ending in "id".
  */
-const LOWERCASE_SUFFIX_PATTERN = /(?<=[a-z])(id|ids|url|uri)$/;
+const KNOWN_LOWERCASE_SUFFIX_VIOLATIONS = new Set([
+  "userid", "orgid", "teamid", "workspaceid", "modelid", "designid",
+  "connectionid", "environmentid", "credentialid", "subscriptionid",
+  "invitationid", "tokenid", "eventid", "keyid", "roleid", "badgeid",
+  "planid", "schemaid", "registrantid", "componentid", "categoryid",
+  "pageurl", "avatarurl", "snapshoturl", "callbackurl", "redirecturl",
+]);
 function hasLowercaseSuffix(s) {
-  return LOWERCASE_SUFFIX_PATTERN.test(s);
+  // Only match the exact all-lowercase form — "orgid" not "orgId"
+  return KNOWN_LOWERCASE_SUFFIX_VIOLATIONS.has(s);
 }
 
 /**
@@ -299,7 +310,7 @@ function getDbTagValue(definition) {
 function getGormColumnValue(definition) {
   const gormTag = getExtraTags(definition)?.gorm;
   if (typeof gormTag !== "string") return null;
-  const match = gormTag.match(/column:([a-z_][a-z0-9_]*)/);
+  const match = gormTag.match(/column\s*:\s*([a-z_][a-z0-9_]*)/);
   return match ? match[1] : null;
 }
 
@@ -333,10 +344,16 @@ function getCamelCaseIssues(name, { allowDbMirrored = false, definition = null }
     issues.push('uses "ID" token (must be "Id")');
   }
   if (hasLowercaseSuffix(name)) {
-    const match = name.match(LOWERCASE_SUFFIX_PATTERN);
-    const suffix = match[0];
-    const corrected = name.slice(0, -suffix.length) + suffix.charAt(0).toUpperCase() + suffix.slice(1);
-    issues.push(`has all-lowercase suffix "${suffix}" (must be "${corrected}")`);
+    // Derive the correct camelCase form from the known violation
+    const suffixes = ["ids", "id", "url", "uri"];
+    const lc = name.toLowerCase();
+    for (const suffix of suffixes) {
+      if (lc.endsWith(suffix)) {
+        const corrected = name.slice(0, -suffix.length) + suffix.charAt(0).toUpperCase() + suffix.slice(1);
+        issues.push(`has all-lowercase suffix "${suffix}" (must be "${corrected}")`);
+        break;
+      }
+    }
   }
   if (/^[0-9]/.test(name)) {
     issues.push("starts with a digit");
@@ -2123,12 +2140,12 @@ function walk(dir) {
           }
           if (entityDoc) {
             validateEntityCompleteness(entityPath, entityDoc);
-            // Entity files like relationship.yaml may have components.schemas
-            // with DB-backed properties that validateEntitySchema skips
-            // (because root type is not "object"). Run Rule 32 explicitly.
-            if (entityDoc.components?.schemas) {
-              validateDbBackedPropertyNames(entityPath, entityDoc);
-            }
+            // Entity files may use different root structures (plain JSON
+            // Schema with type: "object", or OpenAPI with components.schemas).
+            // Run DB-backed property name checks on all entity files regardless
+            // of structure, since validateEntitySchema only reaches Rule 32
+            // for plain JSON Schema entities.
+            validateDbBackedPropertyNames(entityPath, entityDoc);
           }
         }
       }

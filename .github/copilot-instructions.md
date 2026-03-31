@@ -32,9 +32,13 @@ Files with `x-deprecated: true` in their `info` section are intentionally kept f
 
 Some entity schemas (e.g., `AcademyCurricula`) list `deleted_at`/`deletedAt` as required. This is intentional — server-generated fields that are always present in API responses belong in `required` per AGENTS.md, even when the value is null for non-deleted resources.
 
+### 8. Same field name, different casing across constructs
+
+A property with the same semantic name may use different casing in different constructs, depending on whether it maps to a database column in that specific construct. For example: `Connection.sub_type` is snake_case (DB-backed with `db: "sub_type"`), while `RelationshipDefinition.subType` is camelCase (not DB-backed — no `db:` or `gorm:` tag). Both are correct. Do not flag one as inconsistent with the other.
+
 ## Schema Validation Rules
 
-This repository enforces 33 schema validation rules via `build/validate-schemas.js`. For full details, see:
+This repository enforces 34 schema validation rules via `build/validate-schemas.js`. For full details, see:
 - `AGENTS.md` — casing rules, HTTP design principles, dual-schema pattern
 - `specs/casing-rules.md` — definitive casing reference with ORM implications
 - `build/validate-schemas.js` — rule implementations (header comments document each rule)
