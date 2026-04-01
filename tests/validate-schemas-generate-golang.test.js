@@ -5,7 +5,7 @@ const path = require("node:path");
 const config = require("../build/lib/config");
 const { buildImportMappings, loadYamlFile } = require("../build/generate-golang");
 
-const projectRoot = "/home/runner/work/schemas/schemas";
+const projectRoot = config.getProjectRoot();
 
 function getSchemaPackage(version, dirName) {
   const pkg = config
